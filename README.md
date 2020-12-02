@@ -4,6 +4,6 @@
 
 ---
 
-# Raxos Database
+# Raxos Foundation
 
-Repository the Database library of [Raxos](https://github.com/basmilius/raxos).
+Repository for the foundation classes of [Raxos](https://github.com/basmilius/raxos).
