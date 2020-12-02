@@ -1,0 +1,27 @@
+{
+    "name": "raxos/foundation",
+    "description": "Base stuff for all Raxos libraries.",
+    "license": "mit",
+    "minimum-stability": "stable",
+    "type": "library",
+    "version": "dev-master",
+    "authors": [
+        {
+            "name": "Bas Milius",
+            "email": "bas@mili.us"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Raxos\\Foundation\\": "src/Raxos/Foundation"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.0"
+        }
+    },
+    "require": {
+        "jetbrains/phpstorm-attributes": "^1.0"
+    }
+}
