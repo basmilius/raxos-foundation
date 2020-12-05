@@ -16,7 +16,7 @@ use ReflectionMethod;
 trait Emitter
 {
 
-    private array $listeners;
+    private static array $listeners;
 
     /**
      * Adds the given listener class.
@@ -26,7 +26,7 @@ trait Emitter
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function listen(object $obj): void
+    public static function listen(object $obj): void
     {
         $class = new ReflectionClass($obj);
         $methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
@@ -37,7 +37,7 @@ trait Emitter
             /** @var On $on */
             $on = $attributes[0]->newInstance();
 
-            $this->listeners[$on->getEventName()][] = [$obj, $method->getName()];
+            self::$listeners[$on->getEventName()][] = [$obj, $method->getName()];
         }
     }
 
@@ -52,7 +52,7 @@ trait Emitter
      */
     protected final function emit(string $eventName, mixed ...$arguments): void
     {
-        $listeners = $this->listeners[$eventName] ?? [];
+        $listeners = self::$listeners[$eventName] ?? [];
 
         foreach ($listeners as $listener) {
             call_user_func($listener, $this, ...$arguments);
