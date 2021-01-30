@@ -18,6 +18,27 @@ final class ArrayUtil
 {
 
     /**
+     * Finds the index of the first array element that matches the predicate.
+     *
+     * @param array $arr
+     * @param callable $predicate
+     *
+     * @return string|int|null
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public static function findIndex(array $arr, callable $predicate): string|int|null
+    {
+        foreach ($arr as $index => $elm) {
+            if ($predicate($elm)) {
+                return $index;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns TRUE if the given array is associative.
      *
      * @param array $arr
