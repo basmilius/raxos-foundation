@@ -12,7 +12,9 @@ use function array_intersect_key;
 use function array_key_first;
 use function array_keys;
 use function array_reverse;
+use function array_values;
 use function count;
+use function is_array;
 use function is_null;
 use function iterator_to_array;
 
@@ -101,6 +103,57 @@ final class ArrayUtil
     public static function isSequential(array $arr): bool
     {
         return count(array_filter(array_keys($arr), 'is_int')) === count($arr);
+    }
+
+    /**
+     * Flattens the given array.
+     *
+     * @param array $arr
+     * @param int $depth
+     *
+     * @return array
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public static function flatten(array $arr, int $depth = 25): array
+    {
+        $result = [];
+
+        foreach ($arr as $item) {
+            if (!is_array($item)) {
+                $result[] = $item;
+            } else {
+                $values = $depth === 1 ? array_values($item) : self::flatten($item, --$depth);
+
+                foreach ($values as $value) {
+                    $result[] = $value;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Groups a multidimensional array by key.
+     *
+     * @param array $arr
+     * @param float|int|string $key
+     *
+     * @return array
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public static function groupBy(array $arr, float|int|string $key): array
+    {
+        $result = [];
+
+        foreach ($arr as $item) {
+            $result[$item[$key]] ??= [];
+            $result[$item[$key]][] = $item;
+        }
+
+        return array_values($result);
     }
 
     /**
