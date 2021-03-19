@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
+use function array_key_exists;
+
 /**
  * Class Singleton
  *
@@ -42,7 +44,7 @@ final class Singleton
      */
     public static function has(string $class): bool
     {
-        return isset(self::$instances[$class]);
+        return array_key_exists($class, self::$instances);
     }
 
     /**
