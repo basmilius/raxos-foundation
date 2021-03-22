@@ -44,7 +44,7 @@ final class Singleton
      */
     public static function has(string $class): bool
     {
-        return array_key_exists($class, self::$instances);
+        return isset(self::$instances[$class]);
     }
 
     /**
