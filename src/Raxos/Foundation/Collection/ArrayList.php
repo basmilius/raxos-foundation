@@ -324,10 +324,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
             $result[$predicate($item)][] = $item;
         }
 
-        /** @psalm-var static<static<T>> $result */
-        $result = new static(array_values($result));
-
-        return $result;
+        return new static(array_values($result));
     }
 
     /**

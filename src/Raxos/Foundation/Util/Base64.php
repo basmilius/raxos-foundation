@@ -65,9 +65,8 @@ class Base64
         $data = str_split($data);
         $data = array_map(fn(string $char) => chr(ord($char) - $amount), $data);
         $data = implode('', $data);
-        $data = self::decode($data);
 
-        return $data;
+        return self::decode($data);
     }
 
     /**
@@ -85,9 +84,8 @@ class Base64
         $data = self::encode($data);
         $data = str_split($data);
         $data = array_map(fn(string $char) => chr(ord($char) + $amount), $data);
-        $data = implode('', $data);
 
-        return $data;
+        return implode('', $data);
     }
 
     /**

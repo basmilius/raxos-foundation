@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
-use function array_key_exists;
-
 /**
  * Class Singleton
  *

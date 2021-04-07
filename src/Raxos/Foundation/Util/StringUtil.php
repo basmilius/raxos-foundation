@@ -60,11 +60,12 @@ final class StringUtil
         if ('N;' === $data)
             return true;
 
-        if (!preg_match('/^([adObis]):/', $data, $badions))
+        if (!preg_match('/^([adOCbis]):/', $data, $badions))
             return false;
 
         switch ($badions[1]) {
             case 'a' :
+            case 'C' :
             case 'O' :
             case 's' :
                 if (preg_match("/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data)) {
