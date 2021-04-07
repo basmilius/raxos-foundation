@@ -11,6 +11,7 @@ use function implode;
 use function join;
 use function mb_strtolower;
 use function mb_substr;
+use function preg_match;
 use function preg_match_all;
 use function preg_replace;
 use function preg_split;
@@ -41,6 +42,46 @@ final class StringUtil
     public static function commaCommaAnd(array $strings): string
     {
         return preg_replace('/(.*),/', '$1 &', implode(', ', $strings));
+    }
+
+    /**
+     * Returns TRUE if the given string is serialized data.
+     *
+     * @param string $data
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public static function isSerialized(string $data): bool
+    {
+        $data = trim($data);
+
+        if ('N;' === $data)
+            return true;
+
+        if (!preg_match('/^([adObis]):/', $data, $badions))
+            return false;
+
+        switch ($badions[1]) {
+            case 'a' :
+            case 'O' :
+            case 's' :
+                if (preg_match("/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data)) {
+                    return true;
+                }
+                break;
+
+            case 'b' :
+            case 'i' :
+            case 'd' :
+                if (preg_match("/^{$badions[1]}:[0-9.E-]+;\$/", $data)) {
+                    return true;
+                }
+                break;
+        }
+
+        return false;
     }
 
     /**
