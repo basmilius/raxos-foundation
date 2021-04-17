@@ -16,6 +16,7 @@ class CollectionException extends RaxosException
 {
 
     public const ERR_NON_COLLECTION = 1;
-    public const ERR_INVALID_TYPE = 2;
+    public const ERR_INVALID_KEY = 2;
+    public const ERR_INVALID_TYPE = 4;
 
 }
