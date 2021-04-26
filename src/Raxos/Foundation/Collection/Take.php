@@ -48,7 +48,7 @@ final class Take
                     throw new CollectionException(sprintf('Key "%s" does not exist.', $entry), CollectionException::ERR_INVALID_KEY);
                 }
 
-                $result[$key] = self::schema($object[$key], $keys);
+                $result[$key] = $object[$key] === null ? null : self::schema($object[$key], $keys);
             } else {
                 throw new CollectionException(sprintf('Key "%s" is invalid.', $entry), CollectionException::ERR_INVALID_KEY);
             }
