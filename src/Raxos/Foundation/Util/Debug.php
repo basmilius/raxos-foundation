@@ -7,6 +7,9 @@ use JetBrains\PhpStorm\NoReturn;
 use Raxos\Foundation\Environment;
 use function count;
 use function headers_list;
+use function memory_get_peak_usage;
+use function memory_get_usage;
+use function sprintf;
 use function str_contains;
 use function strtolower;
 
@@ -74,6 +77,21 @@ final class Debug
     {
         self::rawPrint('print_r', ...$data);
         die(1);
+    }
+
+    /**
+     * Returns the ram usage as an array of strings.
+     *
+     * @return array
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public static function ramUsage(): array
+    {
+        return [
+            sprintf('RAM Usage: %.5f MiB', memory_get_usage() / 1024 / 1024),
+            sprintf('RAM Peak:  %.5f MiB', memory_get_peak_usage() / 1024 / 1024)
+        ];
     }
 
     /**
