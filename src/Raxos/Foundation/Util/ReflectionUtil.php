@@ -45,6 +45,10 @@ final class ReflectionUtil
                 $types[] = $t->getName();
             }
 
+            if ($type->allowsNull()) {
+                $types[] = 'null';
+            }
+
             return $types;
         }
 
