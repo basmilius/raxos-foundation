@@ -5,6 +5,7 @@ namespace Raxos\Foundation\Error;
 
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use Throwable;
 
@@ -28,6 +29,7 @@ abstract class RaxosException extends Exception implements JsonSerializable
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public function __construct(string $message, int $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
@@ -42,6 +44,7 @@ abstract class RaxosException extends Exception implements JsonSerializable
         'error' => 'int',
         'error_description' => 'string'
     ])]
+    #[Pure]
     public function jsonSerialize(): array
     {
         return [
