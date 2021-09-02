@@ -39,9 +39,9 @@ use const STR_PAD_RIGHT;
 /**
  * Class TwoFactorAuth
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Security\TwoFactor
- * @since 2.0.0
+ * @since 1.0.0
  */
 class TwoFactorAuth
 {
@@ -59,8 +59,8 @@ class TwoFactorAuth
      *
      * @throws TwoFactorAuthException
      *
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
      */
     public function __construct(
         protected ?string $issuer = null,
@@ -89,8 +89,8 @@ class TwoFactorAuth
      * @param int $bits
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
      *
      * @noinspection PhpDocMissingThrowsInspection
      * @noinspection PhpUnhandledExceptionInspection
@@ -116,8 +116,8 @@ class TwoFactorAuth
      *
      * @return string
      * @throws TwoFactorAuthException
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
      */
     public function generateCode(string $secret, ?int $time = null): string
     {
@@ -140,8 +140,8 @@ class TwoFactorAuth
      * @param string $label
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
      */
     public function generateQrData(string $secret, string $label): string
     {
@@ -164,8 +164,8 @@ class TwoFactorAuth
      *
      * @return bool
      * @throws TwoFactorAuthException
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
      */
     public function verifyCode(string $secret, string $code, int $discrepancy = 1): bool
     {
@@ -188,8 +188,8 @@ class TwoFactorAuth
      *
      * @return string
      * @throws TwoFactorAuthException
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
      */
     private function base32Decode(string $value): string
     {
@@ -224,8 +224,8 @@ class TwoFactorAuth
      * Gets the current unix timestamp.
      *
      * @return int
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
      */
     private function getTime(): int
     {
@@ -238,8 +238,8 @@ class TwoFactorAuth
      * @param int $time
      *
      * @return int
-     * @author Bas Milius <bas@glybe.nl>
-     * @since 2.0.0
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
      */
     private function getTimeSlice(int $time = 0): int
     {

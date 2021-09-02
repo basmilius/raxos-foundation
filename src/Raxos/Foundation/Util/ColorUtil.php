@@ -23,9 +23,9 @@ use const STR_PAD_LEFT;
 /**
  * Class ColorUtil
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Util
- * @since 2.0.0
+ * @since 1.0.0
  */
 final class ColorUtil
 {

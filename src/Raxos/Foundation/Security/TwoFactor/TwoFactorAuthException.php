@@ -8,9 +8,9 @@ use Raxos\Foundation\Error\RaxosException;
 /**
  * Class TwoFactorAuthException
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Security\TwoFactor
- * @since 2.0.0
+ * @since 1.0.0
  */
 class TwoFactorAuthException extends RaxosException
 {
