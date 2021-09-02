@@ -298,7 +298,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function first(?callable $predicate = null, $default = null): mixed
+    public function first(?callable $predicate = null, mixed $default = null): mixed
     {
         if ($predicate === null) {
             return count($this->items) > 0 ? ArrayUtil::first($this->items) : $default;
@@ -376,7 +376,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function last(?callable $predicate = null, $default = null)
+    public function last(?callable $predicate = null, mixed $default = null)
     {
         if ($predicate === null) {
             return count($this->items) > 0 ? ArrayUtil::last($this->items) : $default;
@@ -771,6 +771,8 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @see ArrayList::of()
+     *
+     * @noinspection PhpDocRedundantThrowsInspection
      */
     protected static function validateItem(mixed $item): void
     {

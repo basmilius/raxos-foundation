@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Access;
 
+use Exception;
+
 /**
  * Trait ArrayAccessible
  *
@@ -34,6 +36,7 @@ trait ArrayAccessible
      * @param mixed $offset
      *
      * @return mixed
+     * @throws Exception
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal

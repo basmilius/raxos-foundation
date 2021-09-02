@@ -27,6 +27,7 @@ final class Take
      * @param bool $isStrict
      *
      * @return array
+     * @throws CollectionException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
