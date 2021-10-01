@@ -39,7 +39,7 @@ abstract class RaxosException extends Exception implements JsonSerializable
      * @since 1.0.0
      */
     #[ArrayShape([
-        'error' => 'int',
+        'error' => 'string|int',
         'error_description' => 'string'
     ])]
     public function jsonSerialize(): array
