@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
+use ReflectionFunctionAbstract;
 use ReflectionNamedType;
+use ReflectionParameter;
 use ReflectionType;
 use ReflectionUnionType;
 
@@ -16,6 +18,27 @@ use ReflectionUnionType;
  */
 final class ReflectionUtil
 {
+
+    /**
+     * Gets the parameters of the given method or function reflection instance
+     * as an associative array.
+     *
+     * @param ReflectionFunctionAbstract $ref
+     *
+     * @return ReflectionParameter[]
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    public static function getParameters(ReflectionFunctionAbstract $ref): array
+    {
+        $parameters = [];
+
+        foreach ($ref->getParameters() as $parameter) {
+            $parameters[$parameter->getName()] = $parameter;
+        }
+
+        return $parameters;
+    }
 
     /**
      * Gets all the types as an array.

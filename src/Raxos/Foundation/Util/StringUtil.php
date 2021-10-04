@@ -5,8 +5,10 @@ namespace Raxos\Foundation\Util;
 
 use function array_map;
 use function array_pop;
+use function array_rand;
 use function count;
 use function explode;
+use function floor;
 use function implode;
 use function join;
 use function mb_strtolower;
@@ -15,7 +17,14 @@ use function preg_match;
 use function preg_match_all;
 use function preg_replace;
 use function preg_split;
+use function round;
+use function sqrt;
+use function str_contains;
+use function str_shuffle;
+use function str_split;
+use function strlen;
 use function strtolower;
+use function substr;
 use function transliterator_transliterate;
 use function trim;
 
@@ -28,6 +37,10 @@ use function trim;
  */
 final class StringUtil
 {
+
+    private const FORMAT_BYTES_FACTOR = 1024;
+    private const FORMAT_BYTES_IEC = ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi'];
+    private const FORMAT_BYTES_SI = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
 
     /**
      * Glues the strings together with commas and replaces the last one with
@@ -42,6 +55,33 @@ final class StringUtil
     public static function commaCommaAnd(array $strings): string
     {
         return preg_replace('/(.*),/', '$1 &', implode(', ', $strings));
+    }
+
+    /**
+     * Formats the given bytes or bits into a string representation.
+     *
+     * @param int $value
+     * @param int $decimals
+     * @param bool $siMode
+     * @param bool $bits
+     *
+     * @return string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public static function formatBytes(int $value, int $decimals = 2, bool $siMode = true, bool $bits = false): string
+    {
+        $suffixes = $siMode ? self::FORMAT_BYTES_SI : self::FORMAT_BYTES_IEC;
+
+        if ($bits) {
+            $value *= 8;
+        }
+
+        for ($i = 0, $length = count($suffixes); $i < $length - 1 && $value >= self::FORMAT_BYTES_FACTOR; ++$i) {
+            $value /= self::FORMAT_BYTES_FACTOR;
+        }
+
+        return round($value, $decimals) . ' ' . $suffixes[$i] . ($bits ? 'b' : 'B');
     }
 
     /**
@@ -103,6 +143,68 @@ final class StringUtil
         $after = mb_substr($str, $start + ($length ?? 0));
 
         return $before . $replacement . $after;
+    }
+
+    /**
+     * Generates a random string based on the given options.
+     *
+     * @param int $length
+     * @param bool $dashes
+     * @param string $sets
+     *
+     * @return string
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 2.0.0
+     */
+    public static function random(int $length = 9, bool $dashes = false, string $sets = 'luds'): string
+    {
+        $usedSets = [];
+
+        if (str_contains($sets, 'l')) {
+            $usedSets[] = 'abcdefghjkmnpqrstuvwxyz';
+        }
+
+        if (str_contains($sets, 'u')) {
+            $usedSets[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+        }
+
+        if (str_contains($sets, 'd')) {
+            $usedSets[] = '123456789';
+        }
+
+        if (str_contains($sets, 's')) {
+            $usedSets[] = '!@#$%&*?';
+        }
+
+        $all = '';
+        $str = '';
+
+        foreach ($usedSets as $set) {
+            $str .= $set[array_rand(str_split($set))];
+            $all .= $set;
+        }
+
+        $all = str_split($all);
+
+        for ($i = 0, $count = count($usedSets); $i < $length - $count; ++$i) {
+            $str .= $all[array_rand($all)];
+        }
+
+        $str = str_shuffle($str);
+
+        if (!$dashes) {
+            return $str;
+        }
+
+        $dashLength = (int)floor(sqrt($length));
+        $dashString = '';
+
+        while (strlen($str) > $dashLength) {
+            $dashString .= substr($str, 0, $dashLength) . '-';
+            $str = substr($str, $dashLength);
+        }
+
+        return $dashString . $str;
     }
 
     /**
