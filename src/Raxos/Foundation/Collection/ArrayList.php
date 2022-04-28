@@ -9,8 +9,8 @@ use Countable;
 use IteratorAggregate;
 use JsonSerializable;
 use Raxos\Database\Orm\Model;
+use Raxos\Foundation\PHP\MagicMethods\SerializableInterface;
 use Raxos\Foundation\Util\ArrayUtil;
-use Serializable;
 use Traversable;
 use function array_chunk;
 use function array_column;
@@ -35,9 +35,7 @@ use function is_callable;
 use function is_null;
 use function is_subclass_of;
 use function iterator_to_array;
-use function serialize;
 use function shuffle;
-use function unserialize;
 use function usort;
 
 /**
@@ -49,7 +47,7 @@ use function usort;
  * @package Raxos\Foundation\Collection
  * @since 1.0.0
  */
-class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
+class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate, JsonSerializable, SerializableInterface
 {
 
     protected array $items;
@@ -637,7 +635,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->items[$offset];
     }
@@ -705,22 +703,22 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 1.0.1
      */
-    public function serialize(): ?string
+    public function __serialize(): array
     {
-        return serialize($this->items);
+        return $this->items;
     }
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @author Bas Milius <bas@glybe.nl>
+     * @since 1.0.1
      */
-    public function unserialize(mixed $data): void
+    public function __unserialize(array $data): void
     {
-        $this->items = unserialize($data);
+        $this->items = $data;
     }
 
     /**
