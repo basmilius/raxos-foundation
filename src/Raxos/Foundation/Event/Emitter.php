@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Event;
 
+use BackedEnum;
 use ReflectionClass;
 use ReflectionMethod;
+use StringBackedEnum;
 
 /**
  * Trait Emitter
@@ -44,14 +46,18 @@ trait Emitter
     /**
      * Emits an event with the given arguments.
      *
-     * @param string $eventName
+     * @param StringBackedEnum|string $eventName
      * @param mixed ...$arguments
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected final function emit(string $eventName, mixed ...$arguments): void
+    protected final function emit(BackedEnum|string $eventName, mixed ...$arguments): void
     {
+        if ($eventName instanceof StringBackedEnum) {
+            $eventName = $eventName->value;
+        }
+
         $listeners = self::$listeners[$eventName] ?? [];
 
         foreach ($listeners as $listener) {

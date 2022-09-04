@@ -6,14 +6,11 @@ namespace Raxos\Foundation\Util;
 use Raxos\Foundation\Collection\Arrayable;
 use Raxos\Foundation\Collection\ArrayList;
 use Traversable;
-use function array_filter;
 use function array_flip;
 use function array_intersect_key;
 use function array_key_first;
-use function array_keys;
 use function array_reverse;
 use function array_values;
-use function count;
 use function is_array;
 use function is_null;
 use function iterator_to_array;
@@ -75,34 +72,6 @@ final class ArrayUtil
         }
 
         return null;
-    }
-
-    /**
-     * Returns TRUE if the given array is associative.
-     *
-     * @param array $arr
-     *
-     * @return bool
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public static function isAssociative(array $arr): bool
-    {
-        return count(array_filter(array_keys($arr), 'is_string')) === count($arr);
-    }
-
-    /**
-     * Returns TRUE if the given array is sequential.
-     *
-     * @param array $arr
-     *
-     * @return bool
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public static function isSequential(array $arr): bool
-    {
-        return count(array_filter(array_keys($arr), 'is_int')) === count($arr);
     }
 
     /**

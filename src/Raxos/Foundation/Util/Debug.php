@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
-use JetBrains\PhpStorm\NoReturn;
 use Raxos\Foundation\Environment;
 use function count;
 use function headers_list;
@@ -44,8 +43,7 @@ final class Debug
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    #[NoReturn]
-    public static function dumpDie(mixed ...$data): void
+    public static function dumpDie(mixed ...$data): never
     {
         self::rawPrint('var_dump', ...$data);
         die(1);
@@ -72,8 +70,7 @@ final class Debug
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    #[NoReturn]
-    public static function printDie(mixed ...$data): void
+    public static function printDie(mixed ...$data): never
     {
         self::rawPrint('print_r', ...$data);
         die(1);
@@ -102,8 +99,7 @@ final class Debug
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    #[NoReturn]
-    public static function runDie(callable $fn): void
+    public static function runDie(callable $fn): never
     {
         $fn();
 

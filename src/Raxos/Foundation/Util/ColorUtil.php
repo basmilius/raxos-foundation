@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
+use InvalidArgumentException;
 use function abs;
 use function array_map;
 use function array_shift;
@@ -188,7 +189,7 @@ final class ColorUtil
         $hex = ltrim($hex, '#');
 
         if (strlen($hex) === 8) { // RRGGBBAA
-            preg_match('#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})#i', $hex, $matches);
+            preg_match('#([\da-f]{2})([\da-f]{2})([\da-f]{2})([\da-f]{2})#i', $hex, $matches);
 
             array_shift($matches);
             $matches = array_map('hexdec', $matches);
@@ -199,7 +200,7 @@ final class ColorUtil
         }
 
         if (strlen($hex) === 6) { // RRGGBB
-            preg_match('#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})#i', $hex, $matches);
+            preg_match('#([\da-f]{2})([\da-f]{2})([\da-f]{2})#i', $hex, $matches);
 
             array_shift($matches);
             $matches = array_map('hexdec', $matches);
@@ -210,7 +211,7 @@ final class ColorUtil
         }
 
         if (strlen($hex) === 3) { // RGB
-            preg_match('#([0-9a-f])([0-9a-f])([0-9a-f])#i', $hex, $matches);
+            preg_match('#([\da-f])([\da-f])([\da-f])#i', $hex, $matches);
 
             array_shift($matches);
             $matches = array_map('hexdec', $matches);
@@ -338,7 +339,7 @@ final class ColorUtil
             str_pad(dechex($r), 2, '0', STR_PAD_LEFT) .
             str_pad(dechex($g), 2, '0', STR_PAD_LEFT) .
             str_pad(dechex($b), 2, '0', STR_PAD_LEFT) .
-            str_pad(dechex($a * 255), 2, '0', STR_PAD_LEFT);
+            str_pad(dechex((int)$a * 255), 2, '0', STR_PAD_LEFT);
     }
 
     /**

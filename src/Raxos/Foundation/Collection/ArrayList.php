@@ -50,8 +50,6 @@ use function usort;
 class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate, JsonSerializable, SerializableInterface
 {
 
-    protected array $items;
-
     /**
      * ArrayList constructor.
      *
@@ -60,9 +58,8 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function __construct(array $items = [])
+    public final function __construct(protected array $items = [])
     {
-        $this->items = $items;
     }
 
     /**

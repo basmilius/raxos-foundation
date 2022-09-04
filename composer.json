@@ -17,11 +17,15 @@
     },
     "config": {
         "platform": {
-            "php": "8.0"
+            "php": "8.1"
         }
     },
     "require": {
+        "ext-dom": "*",
+        "ext-intl": "*",
         "ext-json": "*",
+        "ext-mbstring" : "*",
+        "ext-openssl" : "*",
         "ext-simplexml": "*",
         "jetbrains/phpstorm-attributes": "^1.0"
     }

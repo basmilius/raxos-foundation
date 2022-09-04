@@ -85,7 +85,7 @@ class Jwt
         $payload = static::jsonDecode(Base64::decodeUrlSafe($payload64));
         $signature = Base64::decodeUrlSafe($signature64);
 
-        if ($header === null || $payload === null || $signature === null) {
+        if ($header === null || $payload === null || empty($signature)) {
             throw new JwtException('Invalid encoding of segment.', JwtException::ERR_UNEXPECTED_ARGUMENT);
         }
 

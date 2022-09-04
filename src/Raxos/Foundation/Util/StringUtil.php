@@ -108,7 +108,7 @@ final class StringUtil
             case 'C' :
             case 'O' :
             case 's' :
-                if (preg_match("/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data)) {
+                if (preg_match("/^{$badions[1]}:\d+:.*[;}]\$/s", $data)) {
                     return true;
                 }
                 break;
@@ -116,7 +116,7 @@ final class StringUtil
             case 'b' :
             case 'i' :
             case 'd' :
-                if (preg_match("/^{$badions[1]}:[0-9.E-]+;\$/", $data)) {
+                if (preg_match("/^{$badions[1]}:[\d.E-]+;\$/", $data)) {
                     return true;
                 }
                 break;
@@ -253,7 +253,7 @@ final class StringUtil
      */
     public static function toPascalCase(string $str): string
     {
-        preg_match_all('/([a-zA-Z0-9]+)/', $str, $matches);
+        preg_match_all('/([a-zA-Z\d]+)/', $str, $matches);
 
         return join(array_map('ucfirst', $matches[0]));
     }

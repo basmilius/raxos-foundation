@@ -46,7 +46,7 @@ final class Take
                 [$key, $keys] = $entry;
 
                 if ($isStrict && !isset($object[$key])) {
-                    throw new CollectionException(sprintf('Key "%s" does not exist.', $entry), CollectionException::ERR_INVALID_KEY);
+                    throw new CollectionException(sprintf('Key "%s" does not exist.', $key), CollectionException::ERR_INVALID_KEY);
                 }
 
                 $result[$key] = $object[$key] === null ? null : self::schema($object[$key], $keys);

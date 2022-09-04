@@ -28,20 +28,8 @@ abstract class IP implements JsonSerializable, Stringable
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(protected string $value)
+    public function __construct(public readonly string $value)
     {
-    }
-
-    /**
-     * Gets the IP value.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getValue(): string
-    {
-        return $this->value;
     }
 
     /**
