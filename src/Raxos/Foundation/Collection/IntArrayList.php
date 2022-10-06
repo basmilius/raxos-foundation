@@ -10,6 +10,8 @@ use function sprintf;
 /**
  * Class IntArrayList
  *
+ * @extends ArrayList<int, int>
+ *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection
  * @since 1.0.0

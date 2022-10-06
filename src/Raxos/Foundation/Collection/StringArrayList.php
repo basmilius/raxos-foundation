@@ -11,6 +11,8 @@ use function sprintf;
 /**
  * Class StringArrayList
  *
+ * @extends ArrayList<int, string>
+ *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection
  * @since 1.0.0

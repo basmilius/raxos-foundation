@@ -9,7 +9,7 @@ use Countable;
 use IteratorAggregate;
 use JsonSerializable;
 use Raxos\Database\Orm\Model;
-use Raxos\Foundation\PHP\MagicMethods\SerializableInterface;
+use Raxos\Foundation\PHP\MagicMethods\{DebugInfoInterface, SerializableInterface};
 use Raxos\Foundation\Util\ArrayUtil;
 use Traversable;
 use function array_chunk;
@@ -41,19 +41,22 @@ use function usort;
 /**
  * Class ArrayList
  *
- * @template T
+ * @template TKey of array-key
+ * @template TValue
+ * @template-implements ArrayAccess<TKey, TValue>
+ * @template-implements IteratorAggregate<TKey, TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection
  * @since 1.0.0
  */
-class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate, JsonSerializable, SerializableInterface
+class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface, IteratorAggregate, JsonSerializable, SerializableInterface
 {
 
     /**
      * ArrayList constructor.
      *
-     * @param array<int, T> $items
+     * @param array<TKey, TValue> $items
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
@@ -65,7 +68,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Adds the given item to the ArrayList.
      *
-     * @param T $item
+     * @param TValue $item
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
@@ -78,7 +81,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Returns all items in the ArrayList.
      *
-     * @return array<int, T>
+     * @return array<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -90,7 +93,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Returns TRUE if any of the items matches the given predicate.
      *
-     * @param callable(T):bool $predicate
+     * @param callable(TValue):bool $predicate
      *
      * @return bool
      * @author Bas Milius <bas@mili.us>
@@ -104,7 +107,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Appends the given item to the ArrayList.
      *
-     * @param T $item
+     * @param TValue $item
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
@@ -120,16 +123,16 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * If possible, converts the collection to another implementation.
      *
-     * @template Y of ArrayList
+     * @template TList of ArrayList
      *
-     * @param class-string<Y> $implementation
+     * @param class-string<TList> $implementation
      *
-     * @return Y
+     * @return TList<TKey, TValue>
      * @throws CollectionException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function as(string $implementation): static
+    public function as(string $implementation): mixed
     {
         if (!is_subclass_of($implementation, self::class)) {
             throw new CollectionException('The given implementation is not an array list.', CollectionException::ERR_NON_COLLECTION);
@@ -143,13 +146,12 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      *
      * @param int $size
      *
-     * @return static<static<T>>
+     * @return static<int, static<int, TValue>>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     public function chunk(int $size): static
     {
-        /** @psalm-var static<static<T>> $chunked */
         $chunked = new static;
         $chunks = array_chunk($this->items, $size);
 
@@ -191,7 +193,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      *
      * @param string ...$columns
      *
-     * @return static<mixed>
+     * @return static<TKey, mixed>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -209,7 +211,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Returns TRUE if the given value exists in the ArrayList.
      *
-     * @param T $value
+     * @param TValue $value
      *
      * @return bool
      * @author Bas Milius <bas@mili.us>
@@ -227,7 +229,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Copies the ArrayList with its items.
      *
-     * @return static<T>
+     * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -241,7 +243,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      *
      * @param ArrayList|Arrayable|Traversable|array $items
      *
-     * @return $this
+     * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -253,7 +255,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Runs the given predicate on all items in the ArrayList.
      *
-     * @param callable(T):void $predicate
+     * @param callable(TValue):void $predicate
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
@@ -271,7 +273,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Filters the ArrayList with the given predicate.
      *
-     * @param callable(T):bool $predicate
+     * @param callable(TValue):bool $predicate
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
@@ -287,9 +289,9 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * given. When nothing is found, this method returns the given default value.
      *
      * @param callable|null $predicate
-     * @param T|null $default
+     * @param TValue|null $default
      *
-     * @return T
+     * @return TValue|null
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -305,9 +307,9 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Groups all items of the ArrayList using the given predicate.
      *
-     * @param callable(T):(string|int|bool) $predicate
+     * @param callable(TValue):mixed $predicate
      *
-     * @return static<static<T>>
+     * @return static<mixed, static<int, TValue>>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -349,7 +351,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Returns all the keys of the ArrayList.
      *
-     * @return static<int>
+     * @return static<int, TKey>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -365,9 +367,9 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * given. When nothing is found, this method returns the given default value.
      *
      * @param callable|null $predicate
-     * @param T|null $default
+     * @param TValue|null $default
      *
-     * @return T|null
+     * @return TValue|null
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -383,11 +385,11 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Maps all the items in the ArrayList to the returned value of the given predicate.
      *
-     * @template Y
+     * @template TNewValue
      *
-     * @param callable(T):Y $predicate
+     * @param callable(TValue):TNewValue $predicate
      *
-     * @return static<Y>
+     * @return static<TKey, TNewValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -400,11 +402,11 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * Maps all the items in the ArrayList to the returned value of the given predicate, but
      * updates the current instance instead of creating a new one.
      *
-     * @template Y
+     * @template TNewValue
      *
-     * @param callable(T):Y $predicate
+     * @param callable(TValue):TNewValue $predicate
      *
-     * @return $this
+     * @return static<TKey, TNewValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -418,31 +420,31 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Merges the ArrayList with the given iterable.
      *
-     * @param ArrayList|Arrayable|Traversable|array $items
+     * @param self|Arrayable|iterable $items
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function merge(self|Arrayable|Traversable|array $items): static
+    public function merge(self|Arrayable|iterable $items): static
     {
         return new static(array_merge($this->items, ArrayUtil::ensureArray($items)));
     }
 
     /**
-     * Returns only the given keys of each items in the ArrayList. If an item
+     * Returns only the given keys of each item in the ArrayList. If an item
      * is not an accociative array, the item itself will be returned.
      *
-     * @param array<array-key, string> $keys
+     * @param array<TKey> $keys
      *
-     * @return static<T>
+     * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     public function only(array $keys): static
     {
         /**
-         * @param T $item
+         * @param TValue $item
          *
          * @return mixed
          *
@@ -467,7 +469,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Returns and removes the last item in the ArrayList.
      *
-     * @return T|null
+     * @return TValue|null
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -479,7 +481,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Prepends the given item to the ArrayList.
      *
-     * @param T $item
+     * @param TValue $item
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
@@ -495,7 +497,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Reverses the ArrayList.
      *
-     * @return $this
+     * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -507,9 +509,9 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Searches for the key of the given value.
      *
-     * @param T $value
+     * @param TValue $value
      *
-     * @return int|null
+     * @return TKey|null
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -521,7 +523,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Returns and removes the first element of the ArrayList.
      *
-     * @return T|null
+     * @return TValue|null
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -533,7 +535,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Shuffles the ArrayList.
      *
-     * @return static<T>
+     * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -552,7 +554,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      * @param int $offset
      * @param int|null $length
      *
-     * @return static<T>
+     * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -582,9 +584,9 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
      *
      * @param int $offset
      * @param int $length
-     * @param T ...$replacement
+     * @param TValue ...$replacement
      *
-     * @return static<T>
+     * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -596,7 +598,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Returns all unique values in the ArrayList.
      *
-     * @return static<T>
+     * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -608,7 +610,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Returns the values of the ArrayList.
      *
-     * @return static<T>
+     * @return static<int, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -659,7 +661,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
 
     /**
      * {@inheritdoc}
-     * @return array<T>
+     * @return array<TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -719,9 +721,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     }
 
     /**
-     * Returns debug info.
-     *
-     * @return array|null
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -733,11 +733,12 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, IteratorAggregate,
     /**
      * Creates a new ArrayList instance with the given items.
      *
-     * @template Y
+     * @template TKey
+     * @template TValue
      *
-     * @param iterable<Y> $items
+     * @param iterable<TKey, TValue> $items
      *
-     * @return static<Y>
+     * @return static<TKey, TValue>
      * @throws CollectionException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
