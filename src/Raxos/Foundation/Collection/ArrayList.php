@@ -433,7 +433,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
 
     /**
      * Returns only the given keys of each item in the ArrayList. If an item
-     * is not an accociative array, the item itself will be returned.
+     * is not an associative array, the item itself will be returned.
      *
      * @param array<TKey> $keys
      *

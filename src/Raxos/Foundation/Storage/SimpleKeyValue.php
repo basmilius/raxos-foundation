@@ -26,7 +26,6 @@ class SimpleKeyValue implements ArrayAccess, Countable, Iterator
     use ArrayAccessible;
     use GetSetAccessible;
 
-    private array $data;
     private int $position = 0;
 
     /**
@@ -37,9 +36,8 @@ class SimpleKeyValue implements ArrayAccess, Countable, Iterator
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(array $data = [])
+    public function __construct(private array $data = [])
     {
-        $this->data = $data;
     }
 
     /**

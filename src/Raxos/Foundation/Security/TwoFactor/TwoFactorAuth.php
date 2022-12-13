@@ -34,7 +34,6 @@ use function trim;
 use function unpack;
 use function vsprintf;
 use const STR_PAD_LEFT;
-use const STR_PAD_RIGHT;
 
 /**
  * Class TwoFactorAuth
@@ -214,7 +213,7 @@ class TwoFactorAuth
         $output = '';
 
         foreach (explode(' ', $blocks) as $block) {
-            $output .= chr(bindec(str_pad($block, 8, '0', STR_PAD_RIGHT)));
+            $output .= chr(bindec(str_pad($block, 8, '0')));
         }
 
         return $output;

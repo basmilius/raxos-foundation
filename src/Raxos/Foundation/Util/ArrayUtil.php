@@ -30,13 +30,13 @@ final class ArrayUtil
      *
      * @template T
      *
-     * @param ArrayList<T>|Arrayable<T>|Traversable<T>|array<T> $items
+     * @param iterable|Arrayable<T>|ArrayList<T> $items
      *
      * @return array<T>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function ensureArray(ArrayList|Arrayable|Traversable|array $items): array
+    public static function ensureArray(ArrayList|Arrayable|iterable $items): array
     {
         if ($items instanceof ArrayList) {
             return $items->all();

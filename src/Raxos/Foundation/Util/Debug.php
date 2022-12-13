@@ -32,7 +32,7 @@ final class Debug
      */
     public static function dump(mixed ...$data): void
     {
-        self::rawPrint('var_dump', ...$data);
+        self::rawPrint(var_dump(...), ...$data);
     }
 
     /**
@@ -45,7 +45,7 @@ final class Debug
      */
     public static function dumpDie(mixed ...$data): never
     {
-        self::rawPrint('var_dump', ...$data);
+        self::rawPrint(var_dump(...), ...$data);
         die(1);
     }
 
@@ -59,7 +59,7 @@ final class Debug
      */
     public static function print(mixed ...$data): void
     {
-        self::rawPrint('print_r', ...$data);
+        self::rawPrint(print_r(...), ...$data);
     }
 
     /**
@@ -72,7 +72,7 @@ final class Debug
      */
     public static function printDie(mixed ...$data): never
     {
-        self::rawPrint('print_r', ...$data);
+        self::rawPrint(print_r(...), ...$data);
         die(1);
     }
 
@@ -102,7 +102,6 @@ final class Debug
     public static function runDie(callable $fn): never
     {
         $fn();
-
         die;
     }
 

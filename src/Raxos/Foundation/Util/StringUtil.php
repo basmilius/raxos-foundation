@@ -44,7 +44,7 @@ final class StringUtil
 
     /**
      * Glues the strings together with commas and replaces the last one with
-     * an amperstand.
+     * an ampersand.
      *
      * @param string[] $strings
      *
@@ -92,6 +92,7 @@ final class StringUtil
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public static function isSerialized(string $data): bool
     {
@@ -155,6 +156,7 @@ final class StringUtil
      * @return string
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
+     * @noinspection SpellCheckingInspection
      */
     public static function random(int $length = 9, bool $dashes = false, string $sets = 'luds'): string
     {
@@ -215,6 +217,7 @@ final class StringUtil
      * @return string
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public static function slugify(string $str): string
     {
@@ -255,7 +258,7 @@ final class StringUtil
     {
         preg_match_all('/([a-zA-Z\d]+)/', $str, $matches);
 
-        return join(array_map('ucfirst', $matches[0]));
+        return join(array_map(ucfirst(...), $matches[0]));
     }
 
     /**

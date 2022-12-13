@@ -92,7 +92,7 @@ final class ColorUtil
     }
 
     /**
-     * Gets the luminance of a RGB value.
+     * Gets the luminance of an RGB value.
      *
      * @param int $r
      * @param int $g
@@ -188,33 +188,33 @@ final class ColorUtil
         $hex = trim($hex);
         $hex = ltrim($hex, '#');
 
-        if (strlen($hex) === 8) { // RRGGBBAA
+        if (strlen($hex) === 8) {
             preg_match('#([\da-f]{2})([\da-f]{2})([\da-f]{2})([\da-f]{2})#i', $hex, $matches);
 
             array_shift($matches);
-            $matches = array_map('hexdec', $matches);
+            $matches = array_map(hexdec(...), $matches);
 
             [$r, $g, $b, $a] = $matches;
 
             return [$r, $g, $b, $a / 255];
         }
 
-        if (strlen($hex) === 6) { // RRGGBB
+        if (strlen($hex) === 6) {
             preg_match('#([\da-f]{2})([\da-f]{2})([\da-f]{2})#i', $hex, $matches);
 
             array_shift($matches);
-            $matches = array_map('hexdec', $matches);
+            $matches = array_map(hexdec(...), $matches);
 
             [$r, $g, $b] = $matches;
 
             return [$r, $g, $b, 1];
         }
 
-        if (strlen($hex) === 3) { // RGB
+        if (strlen($hex) === 3) {
             preg_match('#([\da-f])([\da-f])([\da-f])#i', $hex, $matches);
 
             array_shift($matches);
-            $matches = array_map('hexdec', $matches);
+            $matches = array_map(hexdec(...), $matches);
 
             [$r, $g, $b] = $matches;
 
@@ -225,7 +225,7 @@ final class ColorUtil
     }
 
     /**
-     * Converts a HSL color to RGB.
+     * Converts an HSL color to RGB.
      *
      * @param float $h
      * @param float $s

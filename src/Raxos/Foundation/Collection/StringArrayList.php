@@ -22,7 +22,7 @@ class StringArrayList extends ArrayList
 
     /**
      * Glues the strings together with commas and replaces the last one with
-     * an amperstand.
+     * an ampersand.
      *
      * @return string
      * @author Bas Milius <bas@mili.us>
