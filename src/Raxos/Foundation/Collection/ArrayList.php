@@ -43,8 +43,9 @@ use function usort;
  *
  * @template TKey of array-key
  * @template TValue
- * @template-implements ArrayAccess<TKey, TValue>
- * @template-implements IteratorAggregate<TKey, TValue>
+ * @implements iterable<TKey, TValue>
+ * @implements ArrayAccess<TKey, TValue>
+ * @implements IteratorAggregate<TKey, TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection
@@ -661,7 +662,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
 
     /**
      * {@inheritdoc}
-     * @return array<TValue>
+     * @return array<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -733,12 +734,12 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     /**
      * Creates a new ArrayList instance with the given items.
      *
-     * @template TKey
-     * @template TValue
+     * @template TOfKey
+     * @template TOfValue
      *
-     * @param iterable<TKey, TValue> $items
+     * @param iterable<TOfKey, TOfValue> $items
      *
-     * @return static<TKey, TValue>
+     * @return static<TOfKey, TOfValue>
      * @throws CollectionException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
@@ -766,7 +767,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      * @throws CollectionException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @see ArrayList::of()
+     * @see          ArrayList::of()
      *
      * @noinspection PhpDocRedundantThrowsInspection
      */
