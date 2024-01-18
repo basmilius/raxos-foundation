@@ -38,9 +38,9 @@ use function trim;
 final class StringUtil
 {
 
-    private const FORMAT_BYTES_FACTOR = 1024;
-    private const FORMAT_BYTES_IEC = ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi'];
-    private const FORMAT_BYTES_SI = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+    private const int FORMAT_BYTES_FACTOR = 1024;
+    private const array FORMAT_BYTES_IEC = ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi'];
+    private const array FORMAT_BYTES_SI = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
 
     /**
      * Glues the strings together with commas and replaces the last one with

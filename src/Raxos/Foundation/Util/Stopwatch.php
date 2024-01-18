@@ -16,10 +16,10 @@ use function hrtime;
 final class Stopwatch
 {
 
-    public const NANOSECONDS = 1;
-    public const MICROSECONDS = 2;
-    public const MILLISECONDS = 4;
-    public const SECONDS = 8;
+    public const int NANOSECONDS = 1;
+    public const int MICROSECONDS = 2;
+    public const int MILLISECONDS = 4;
+    public const int SECONDS = 8;
 
     private static array $registry = [];
 

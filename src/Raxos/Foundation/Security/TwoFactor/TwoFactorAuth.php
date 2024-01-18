@@ -45,8 +45,8 @@ use const STR_PAD_LEFT;
 class TwoFactorAuth
 {
 
-    private const BASE32 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5', '6', '7', '='];
-    private const SUPPORTED_ALGORITHMS = ['sha1', 'sha256', 'sha512', 'md5'];
+    private const array BASE32 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5', '6', '7', '='];
+    private const array SUPPORTED_ALGORITHMS = ['sha1', 'sha256', 'sha512', 'md5'];
 
     /**
      * TwoFactorAuth constructor.

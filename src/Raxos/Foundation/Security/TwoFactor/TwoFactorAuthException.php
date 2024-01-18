@@ -15,7 +15,7 @@ use Raxos\Foundation\Error\RaxosException;
 class TwoFactorAuthException extends RaxosException
 {
 
-    public const ERR_INVALID_ARGUMENT = 1;
-    public const ERR_INVALID_BASE32 = 2;
+    public const int ERR_INVALID_ARGUMENT = 1;
+    public const int ERR_INVALID_BASE32 = 2;
 
 }
