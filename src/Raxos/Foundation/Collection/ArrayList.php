@@ -43,6 +43,7 @@ use function usort;
  *
  * @template TKey of array-key
  * @template TValue
+ * @extends array<TKey, TValue>
  * @implements iterable<TKey, TValue>
  * @implements ArrayAccess<TKey, TValue>
  * @implements IteratorAggregate<TKey, TValue>
