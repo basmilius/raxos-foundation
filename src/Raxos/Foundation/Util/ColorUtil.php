@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Util;
 
 use InvalidArgumentException;
+use JetBrains\PhpStorm\Pure;
 use function abs;
 use function array_map;
 use function array_shift;
@@ -13,7 +14,6 @@ use function fmod;
 use function ltrim;
 use function max;
 use function min;
-use function pow;
 use function preg_match;
 use function round;
 use function str_pad;
@@ -42,9 +42,10 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function blend(array $color1, array $color2, int $weight = 0): array
     {
-        $weight = MathUtil::clamp($weight, 0, 100);
+        $weight = (int)MathUtil::clamp($weight, 0, 100);
 
         $percentage = $weight / 100;
         $scaledWeight = $percentage * 2 - 1;
@@ -71,6 +72,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function shade(array $color, int $weight = 0): array
     {
         return self::blend([0, 0, 0], $color, $weight);
@@ -86,6 +88,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function tint(array $color, int $weight = 0): array
     {
         return self::blend([255, 255, 255], $color, $weight);
@@ -106,13 +109,13 @@ final class ColorUtil
     {
         $rgb = [$r, $g, $b];
 
-        array_walk($rgb, function (int &$value): void {
-            $value = $value / 255;
+        array_walk($rgb, static function (float|int &$value): void {
+            $value /= 255;
 
             if ($value < 0.03928) {
-                $value = $value / 12.92;
+                $value /= 12.92;
             } else {
-                $value = pow(($value + .055) / 1.055, 2.4);
+                $value = (($value + .055) / 1.055) ** 2.4;
             }
         });
 
@@ -132,6 +135,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function yiq(int $r, int $g, int $b): float
     {
         return (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
@@ -235,6 +239,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function hslToRgb(float $h, float $s, float $l): array
     {
         if ($s === 0.0) {
@@ -292,6 +297,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function intToRgb(int $color): array
     {
         $r = $color >> 16 & 0xFF;
@@ -310,6 +316,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function intToRgba(int $color): array
     {
         $a = $color >> 24 & 0xFF;
@@ -333,6 +340,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function rgbaToHex(int $r, int $g, int $b, float $a, bool $includeHashtag = false): string
     {
         return ($includeHashtag ? '#' : '') .
@@ -354,6 +362,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function rgbToHex(int $r, int $g, int $b, bool $includeHashtag = false): string
     {
         return ($includeHashtag ? '#' : '') .
@@ -373,6 +382,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function rgbToInt(int $r, int $g, int $b): int
     {
         return ($r << 16) | ($g << 8) | ($b << 0);
@@ -389,6 +399,7 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function rgbToHsl(int $r, int $g, int $b): array
     {
         $r /= 255;

@@ -32,6 +32,7 @@ final class MathUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function clamp(float|int $value, float|int $min, float|int $max): float|int
     {
         return max($min, min($max, $value));
@@ -47,6 +48,7 @@ final class MathUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function ceilStep(float|int $value, float|int $step = 1): float|int
     {
         return ceil($value / $step) * $step;
@@ -62,6 +64,7 @@ final class MathUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function floorStep(float|int $value, float|int $step = 1): float|int
     {
         return floor($value / $step) * $step;
@@ -77,6 +80,7 @@ final class MathUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function roundStep(float|int $value, float|int $step = 1): float|int
     {
         return round($value / $step) * $step;
@@ -96,8 +100,8 @@ final class MathUtil
     #[Pure]
     public static function greatestCommonDivisor(int $a, int $b): int
     {
-        $a = abs($a);
-        $b = abs($b);
+        $a = (int)abs($a);
+        $b = (int)abs($b);
 
         if ($a < $b) {
             [$b, $a] = [$a, $b];

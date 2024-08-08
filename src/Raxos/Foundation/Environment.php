@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Raxos\Foundation;
 
 use JetBrains\PhpStorm\Pure;
-use function php_sapi_name;
 
 /**
  * Class Environment
@@ -26,7 +25,7 @@ final class Environment
     #[Pure]
     public static function isBuiltInServer(): bool
     {
-        return php_sapi_name() === 'cli-server';
+        return PHP_SAPI === 'cli-server';
     }
 
     /**
@@ -39,7 +38,7 @@ final class Environment
     #[Pure]
     public static function isCommandLineInterface(): bool
     {
-        return php_sapi_name() === 'cli';
+        return PHP_SAPI === 'cli';
     }
 
 }

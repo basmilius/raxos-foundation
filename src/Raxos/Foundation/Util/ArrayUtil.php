@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
-use Raxos\Foundation\Collection\Arrayable;
-use Raxos\Foundation\Collection\ArrayList;
+use JetBrains\PhpStorm\Pure;
+use Raxos\Foundation\Collection\{Arrayable, ArrayList};
 use Traversable;
 use function array_flip;
 use function array_intersect_key;
@@ -63,6 +63,7 @@ final class ArrayUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function findIndex(array $arr, callable $predicate): string|int|null
     {
         foreach ($arr as $index => $elm) {
@@ -84,6 +85,7 @@ final class ArrayUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function flatten(array $arr, int $depth = 25): array
     {
         $result = [];
@@ -113,6 +115,7 @@ final class ArrayUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function groupBy(array $arr, float|int|string $key): array
     {
         $result = [];
@@ -135,6 +138,7 @@ final class ArrayUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function only(array $arr, array $keys): array
     {
         return array_intersect_key($arr, array_flip($keys));
@@ -154,6 +158,7 @@ final class ArrayUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function first(array $items, callable $predicate = null, mixed $defaultValue = null): mixed
     {
         if (is_null($predicate)) {
@@ -193,11 +198,64 @@ final class ArrayUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function last(array $items, callable $predicate = null, mixed $defaultValue = null): mixed
     {
         $items = array_reverse($items);
 
         return self::first($items, $predicate, $defaultValue);
+    }
+
+    /**
+     * Returns TRUE if every item of the given $iterable match
+     * the given predicate.
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param iterable<TKey, TValue> $iterable
+     * @param callable(TValue, TKey):bool $predicate
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    #[Pure]
+    public static function every(iterable $iterable, callable $predicate): bool
+    {
+        foreach ($iterable as $key => $value) {
+            if (!$predicate($value, $key)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns TRUE if some of the items in the given $iterable match
+     * the given predicate.
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param iterable<TKey, TValue> $iterable
+     * @param callable(TValue, TKey):bool $predicate
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    #[Pure]
+    public static function some(iterable $iterable, callable $predicate): bool
+    {
+        foreach ($iterable as $key => $value) {
+            if ($predicate($value, $key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

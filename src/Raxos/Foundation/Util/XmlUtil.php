@@ -77,11 +77,13 @@ final class XmlUtil
     {
         if (str_ends_with($name, 's')) {
             return substr($name, 0, -1);
-        } else if (str_ends_with($name, '_list')) {
-            return substr($name, 0, -5);
-        } else {
-            return 'item';
         }
+
+        if (str_ends_with($name, '_list')) {
+            return substr($name, 0, -5);
+        }
+
+        return 'item';
     }
 
 }

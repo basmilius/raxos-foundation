@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
+use JetBrains\PhpStorm\Pure;
 use function array_map;
 use function array_pop;
 use function array_rand;
@@ -10,7 +11,6 @@ use function count;
 use function explode;
 use function floor;
 use function implode;
-use function join;
 use function mb_strtolower;
 use function mb_substr;
 use function preg_match;
@@ -69,6 +69,7 @@ final class StringUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function formatBytes(int $value, int $decimals = 2, bool $siMode = true, bool $bits = false): string
     {
         $suffixes = $siMode ? self::FORMAT_BYTES_SI : self::FORMAT_BYTES_IEC;
@@ -92,17 +93,18 @@ final class StringUtil
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
     public static function isSerialized(string $data): bool
     {
         $data = trim($data);
 
-        if ('N;' === $data)
+        if ('N;' === $data) {
             return true;
+        }
 
-        if (!preg_match('/^([adOCbis]):/', $data, $badions))
+        if (!preg_match('/^([adOCbis]):/', $data, $badions)) {
             return false;
+        }
 
         switch ($badions[1]) {
             case 'a' :
@@ -156,7 +158,6 @@ final class StringUtil
      * @return string
      * @author Bas Milius <bas@glybe.nl>
      * @since 2.0.0
-     * @noinspection SpellCheckingInspection
      */
     public static function random(int $length = 9, bool $dashes = false, string $sets = 'luds'): string
     {
@@ -217,7 +218,6 @@ final class StringUtil
      * @return string
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
     public static function slugify(string $str): string
     {
@@ -240,6 +240,7 @@ final class StringUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function splitSentences(string $str): array
     {
         return preg_split('/(?<!\.\.\.)(?<!Dr\.)(?<=[.?!]|\.\)|\.")\s+(?=[a-zA-Z"(])/', $str);
@@ -258,7 +259,7 @@ final class StringUtil
     {
         preg_match_all('/([a-zA-Z\d]+)/', $str, $matches);
 
-        return join(array_map(ucfirst(...), $matches[0]));
+        return implode(array_map(ucfirst(...), $matches[0]));
     }
 
     /**
@@ -289,8 +290,8 @@ final class StringUtil
     public static function truncateText(string $text, int $wordCount = 20, string $ending = '&hellip;'): string
     {
         $excerpt = $text;
-        $excerpt = preg_replace("/<h2>.+?<\/h2>/i", "", $excerpt);
-        $excerpt = preg_replace("/<h3>.+?<\/h3>/i", "", $excerpt);
+        $excerpt = preg_replace("/<h2>.+?<\/h2>/is", "", $excerpt);
+        $excerpt = preg_replace("/<h3>.+?<\/h3>/is", "", $excerpt);
         $words = explode(' ', $excerpt, $wordCount + 1);
 
         if (count($words) > $wordCount) {

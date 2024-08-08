@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Security\Jwt;
 
+use JsonException;
 use Raxos\Foundation\Util\Base64;
 use function array_key_exists;
 use function array_shift;
@@ -26,6 +27,7 @@ use const JSON_ERROR_NONE;
 use const JSON_ERROR_STATE_MISMATCH;
 use const JSON_ERROR_SYNTAX;
 use const JSON_ERROR_UTF8;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Class Jwt
@@ -97,7 +99,7 @@ class Jwt
             throw new JwtException('Algorithm not supported.', JwtException::ERR_UNSUPPORTED);
         }
 
-        if (count($allowedAlgorithms) > 0 && !in_array($header['alg'], $allowedAlgorithms)) {
+        if (count($allowedAlgorithms) > 0 && !in_array($header['alg'], $allowedAlgorithms, true)) {
             throw new JwtException('Algorithm not allowed.', JwtException::ERR_UNEXPECTED_ARGUMENT);
         }
 
@@ -263,17 +265,21 @@ class Jwt
      */
     public static function jsonDecode(string $input): mixed
     {
-        $data = json_decode($input, true, 512, JSON_BIGINT_AS_STRING);
+        try {
+            $data = json_decode($input, true, 512, JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR);
 
-        if (($errorCode = json_last_error()) !== JSON_ERROR_NONE) {
-            self::onJSONError($errorCode);
+            if (($errorCode = json_last_error()) !== JSON_ERROR_NONE) {
+                self::onJSONError($errorCode);
+            }
+
+            if ($data === null && $input !== 'null') {
+                throw new JwtException('NULL result with non-NULL input.', JwtException::ERR_NULL_RESULT);
+            }
+
+            return $data;
+        } catch (JsonException $err) {
+            throw new JwtException($err->getMessage(), $err->getCode(), $err);
         }
-
-        if ($data === null && $input !== 'null') {
-            throw new JwtException('NULL result with non-NULL input.', JwtException::ERR_NULL_RESULT);
-        }
-
-        return $data;
     }
 
     /**
@@ -288,17 +294,21 @@ class Jwt
      */
     public static function jsonEncode(mixed $data): string
     {
-        $json = json_encode($data);
+        try {
+            $json = json_encode($data, JSON_THROW_ON_ERROR);
 
-        if (($errorCode = json_last_error()) !== JSON_ERROR_NONE) {
-            static::onJSONError($errorCode);
+            if (($errorCode = json_last_error()) !== JSON_ERROR_NONE) {
+                static::onJSONError($errorCode);
+            }
+
+            if ($json === 'null' && $data !== null) {
+                throw new JwtException('NULL result with non-NULL data.', JwtException::ERR_NULL_RESULT);
+            }
+
+            return $json;
+        } catch (JsonException $err) {
+            throw new JwtException($err->getMessage(), $err->getCode(), $err);
         }
-
-        if ($json === 'null' && $data !== null) {
-            throw new JwtException('NULL result with non-NULL data.', JwtException::ERR_NULL_RESULT);
-        }
-
-        return $json;
     }
 
     /**

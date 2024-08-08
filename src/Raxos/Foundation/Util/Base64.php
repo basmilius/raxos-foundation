@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
+use JetBrains\PhpStorm\Pure;
 use function array_map;
 use function base64_decode;
 use function base64_encode;
@@ -31,6 +32,7 @@ class Base64
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function decode(string $data): string
     {
         return base64_decode($data);
@@ -45,6 +47,7 @@ class Base64
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function encode(string $data): string
     {
         return base64_encode($data);
@@ -62,9 +65,9 @@ class Base64
      */
     public static function decodeShuffle(string $data, int $amount = 1): string
     {
-        $data = str_split($data);
-        $data = array_map(fn(string $char) => chr(ord($char) - $amount), $data);
-        $data = implode('', $data);
+        $parts = str_split($data);
+        $parts = array_map(static fn(string $char) => chr(ord($char) - $amount), $parts);
+        $data = implode('', $parts);
 
         return self::decode($data);
     }
@@ -82,8 +85,8 @@ class Base64
     public static function encodeShuffle(string $data, int $amount = 1): string
     {
         $data = self::encode($data);
-        $data = str_split($data);
-        $data = array_map(fn(string $char) => chr(ord($char) + $amount), $data);
+        $parts = str_split($data);
+        $data = array_map(static fn(string $char) => chr(ord($char) + $amount), $parts);
 
         return implode('', $data);
     }
@@ -97,6 +100,7 @@ class Base64
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function decodeUrlSafe(string $data): string
     {
         return self::decode(strtr($data, [
@@ -114,6 +118,7 @@ class Base64
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function encodeUrlSafe(string $data): string
     {
         return strtr(self::encode($data), [

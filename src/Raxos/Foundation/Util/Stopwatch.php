@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
-use JetBrains\PhpStorm\ExpectedValues;
+use JetBrains\PhpStorm\Pure;
 use function hrtime;
 
 /**
@@ -11,76 +11,148 @@ use function hrtime;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Util
- * @since 1.0.0
+ * @since 1.0.16
  */
 final class Stopwatch
 {
 
-    public const int NANOSECONDS = 1;
-    public const int MICROSECONDS = 2;
-    public const int MILLISECONDS = 4;
-    public const int SECONDS = 8;
-
-    private static array $registry = [];
+    private StopwatchState $state = StopwatchState::IDLE;
+    private float $startTime = 0.0;
+    private float $stopTime = 0.0;
 
     /**
-     * Measures the given function.
+     * Stopwatch constructor.
      *
-     * @param float|null $time
-     * @param callable|null $fn
-     * @param int $unit
+     * @param string $description
      *
-     * @return mixed
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.0.16
      */
-    public static function measure(float &$time = null, callable $fn = null, #[ExpectedValues(valuesFromClass: self::class)] int $unit = self::NANOSECONDS): mixed
+    public function __construct(
+        public readonly string $description = 'Stopwatch'
+    )
     {
-        self::start('measure');
+    }
+
+    /**
+     * Returns the running time in the given unit.
+     *
+     * @param StopwatchUnit $unit
+     *
+     * @return float|null
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    #[Pure]
+    public function as(StopwatchUnit $unit): ?float
+    {
+        if ($this->state !== StopwatchState::STOPPED) {
+            return null;
+        }
+
+        $time = $this->stopTime - $this->startTime;
+
+        return match ($unit) {
+            StopwatchUnit::NANOSECONDS => $time,
+            StopwatchUnit::MICROSECONDS => $time * 1e-3,
+            StopwatchUnit::MILLISECONDS => $time * 1e-6,
+            StopwatchUnit::SECONDS => $time * 1e-9
+        };
+    }
+
+    /**
+     * Formats the running time in the given unit.
+     *
+     * @param StopwatchUnit $unit
+     *
+     * @return string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    #[Pure]
+    public function format(StopwatchUnit $unit = StopwatchUnit::NANOSECONDS): string
+    {
+        $time = $this->as($unit);
+
+        if ($time === null) {
+            return '-';
+        }
+
+        return match ($unit) {
+            StopwatchUnit::NANOSECONDS => "{$time}ns",
+            StopwatchUnit::MICROSECONDS => "{$time}μs",
+            StopwatchUnit::MILLISECONDS => "{$time}ms",
+            StopwatchUnit::SECONDS => "{$time}s"
+        };
+    }
+
+    /**
+     * Runs the given function.
+     *
+     * @template TResult
+     *
+     * @param callable():TResult $fn
+     *
+     * @return TResult
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    public function run(callable $fn): mixed
+    {
+        $this->start();
         $result = $fn();
-        self::stop('measure', $time, $unit);
+        $this->stop();
 
         return $result;
     }
 
     /**
-     * Starts a stopwatch with the given id.
+     * Starts the stopwatch.
      *
-     * @param string $id
-     *
+     * @return void
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.0.16
      */
-    public static function start(string $id): void
+    public function start(): void
     {
-        self::$registry[$id] = hrtime(true);
+        $this->state = StopwatchState::RUNNING;
+        $this->startTime = hrtime(true);
     }
 
     /**
-     * Stops the stopwatch with the given id.
+     * Stops the stopwatch.
      *
-     * @param string $id
-     * @param float|null $time
-     * @param int $unit
-     *
+     * @return void
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.0.16
      */
-    public static function stop(string $id, float &$time = null, #[ExpectedValues(valuesFromClass: self::class)] int $unit = self::NANOSECONDS): void
+    public function stop(): void
     {
-        $startTime = self::$registry[$id] ?? 0.0;
-        $stopTime = hrtime(true);
-        $time = $stopTime - $startTime;
+        $this->state = StopwatchState::STOPPED;
+        $this->stopTime = hrtime(true);
+    }
 
-        if ($unit === self::NANOSECONDS) {
-            return;
-        }
+    /**
+     * Measures the given function.
+     *
+     * @template TResult
+     *
+     * @param float $runningTime
+     * @param callable():TResult $fn
+     * @param StopwatchUnit $unit
+     * @param string|null $description
+     *
+     * @return TResult
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    public static function measure(float &$runningTime, callable $fn, StopwatchUnit $unit, ?string $description = null): mixed
+    {
+        $stopwatch = new self($description);
+        $result = $stopwatch->run($fn);
+        $runningTime = $stopwatch->as($unit) ?? 0.0;
 
-        match ($unit) {
-            self::MICROSECONDS => $time *= 1e-3,
-            self::MILLISECONDS => $time *= 1e-6,
-            self::SECONDS => $time *= 1e-9
-        };
+        return $result;
     }
 
 }

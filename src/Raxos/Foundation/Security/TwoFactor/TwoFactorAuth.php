@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Security\TwoFactor;
 
 use JetBrains\PhpStorm\ExpectedValues;
+use Random\RandomException;
+use RuntimeException;
 use function array_search;
 use function bindec;
 use function ceil;
@@ -18,7 +20,6 @@ use function implode;
 use function in_array;
 use function ord;
 use function pack;
-use function pow;
 use function preg_match;
 use function preg_quote;
 use function random_bytes;
@@ -90,21 +91,22 @@ class TwoFactorAuth
      * @return string
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     *
-     * @noinspection PhpDocMissingThrowsInspection
-     * @noinspection PhpUnhandledExceptionInspection
      */
     public function createSecret(int $bits = 160): string
     {
-        $bytes = (int)ceil($bits / 5);
-        $random = random_bytes($bytes);
-        $secret = '';
+        try {
+            $bytes = (int)ceil($bits / 5);
+            $random = random_bytes($bytes);
+            $secret = '';
 
-        for ($i = 0; $i < $bytes; $i++) {
-            $secret .= self::BASE32[ord($random[$i]) & 31];
+            for ($i = 0; $i < $bytes; $i++) {
+                $secret .= self::BASE32[ord($random[$i]) & 31];
+            }
+
+            return $secret;
+        } catch (RandomException $err) {
+            throw new RuntimeException($err->getMessage(), $err->getCode(), $err);
         }
-
-        return $secret;
     }
 
     /**
@@ -120,7 +122,7 @@ class TwoFactorAuth
      */
     public function generateCode(string $secret, ?int $time = null): string
     {
-        $time ??= $this->getTime();
+        $time ??= time();
 
         $secretKey = $this->base32Decode($secret);
         $timestamp = "\0\0\0\0" . pack('N*', $this->getTimeSlice($time));
@@ -129,7 +131,7 @@ class TwoFactorAuth
         $value = unpack('N', $hashPart);
         $value = $value[1] & 0x7FFFFFFF;
 
-        return str_pad((string)($value % pow(10, $this->digits)), $this->digits, '0', STR_PAD_LEFT);
+        return str_pad((string)($value % (10 ** $this->digits)), $this->digits, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -168,7 +170,7 @@ class TwoFactorAuth
      */
     public function verifyCode(string $secret, string $code, int $discrepancy = 1): bool
     {
-        $timestamp = $this->getTime();
+        $timestamp = time();
         $timeSlice = 0;
 
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
@@ -204,7 +206,7 @@ class TwoFactorAuth
 
         foreach (str_split($value) as $character) {
             if ($character !== '=') {
-                $buffer .= str_pad(decbin(array_search($character, self::BASE32)), 5, '0', STR_PAD_LEFT);
+                $buffer .= str_pad(decbin(array_search($character, self::BASE32, true)), 5, '0', STR_PAD_LEFT);
             }
         }
 
@@ -217,18 +219,6 @@ class TwoFactorAuth
         }
 
         return $output;
-    }
-
-    /**
-     * Gets the current unix timestamp.
-     *
-     * @return int
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    private function getTime(): int
-    {
-        return time();
     }
 
     /**

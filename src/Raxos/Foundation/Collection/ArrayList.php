@@ -20,6 +20,7 @@ use function array_keys;
 use function array_map;
 use function array_merge;
 use function array_pop;
+use function array_reduce;
 use function array_reverse;
 use function array_search;
 use function array_shift;
@@ -45,6 +46,7 @@ use function usort;
  * @template TValue
  * @extends array<TKey, TValue>
  * @implements iterable<TKey, TValue>
+ * @implements Arrayable<TKey, TValue>
  * @implements ArrayAccess<TKey, TValue>
  * @implements IteratorAggregate<TKey, TValue>
  *
@@ -63,7 +65,9 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function __construct(protected array $items = [])
+    public final function __construct(
+        protected array $items = []
+    )
     {
     }
 
@@ -90,20 +94,6 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     public function all(): array
     {
         return $this->items;
-    }
-
-    /**
-     * Returns TRUE if any of the items matches the given predicate.
-     *
-     * @param callable(TValue):bool $predicate
-     *
-     * @return bool
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function any(callable $predicate): bool
-    {
-        return count(array_filter($this->items, $predicate)) > 0;
     }
 
     /**
@@ -148,7 +138,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      *
      * @param int $size
      *
-     * @return static<int, static<int, TValue>>
+     * @return static<int, static<TKey, TValue>>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -181,7 +171,9 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
             }
 
             if (is_array($item)) {
-                $result = array_merge($result, $item);
+                foreach ($item as $subItem) {
+                    $result[] = $subItem;
+                }
             } else {
                 $result[] = $item;
             }
@@ -213,7 +205,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     /**
      * Returns TRUE if the given value exists in the ArrayList.
      *
-     * @param TValue $value
+     * @param callable(TValue, TKey):bool|TValue $value
      *
      * @return bool
      * @author Bas Milius <bas@mili.us>
@@ -225,7 +217,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
             return !is_null($this->first($value));
         }
 
-        return in_array($value, $this->items);
+        return in_array($value, $this->items, true);
     }
 
     /**
@@ -290,7 +282,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      * Returns the first element of the ArrayList that matches the given predicate, if
      * given. When nothing is found, this method returns the given default value.
      *
-     * @param callable|null $predicate
+     * @param callable(TValue, TKey):bool|null $predicate
      * @param TValue|null $default
      *
      * @return TValue|null
@@ -309,9 +301,11 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     /**
      * Groups all items of the ArrayList using the given predicate.
      *
-     * @param callable(TValue):mixed $predicate
+     * @template TGroup of array-key
      *
-     * @return static<mixed, static<int, TValue>>
+     * @param callable(TValue):TGroup $predicate
+     *
+     * @return static<TGroup, static<TKey, TValue>>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -368,7 +362,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      * Returns the last element of the ArrayList that matches the given predicate, if
      * given. When nothing is found, this method returns the given default value.
      *
-     * @param callable|null $predicate
+     * @param callable(TValue, TKey):bool|null $predicate
      * @param TValue|null $default
      *
      * @return TValue|null
@@ -437,7 +431,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      * Returns only the given keys of each item in the ArrayList. If an item
      * is not an associative array, the item itself will be returned.
      *
-     * @param array<TKey> $keys
+     * @param array<array-key, TKey> $keys
      *
      * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
@@ -445,15 +439,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      */
     public function only(array $keys): static
     {
-        /**
-         * @param TValue $item
-         *
-         * @return mixed
-         *
-         * @psalm-suppress MissingClosureParamType
-         * @psalm-suppress MissingClosureReturnType
-         */
-        $predicate = static function (mixed $item) use ($keys) {
+        return $this->map(static function (mixed $item) use ($keys) {
             if (is_array($item)) {
                 return ArrayUtil::only($item, $keys);
             }
@@ -463,9 +449,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
             }
 
             return $item;
-        };
-
-        return $this->map($predicate);
+        });
     }
 
     /**
@@ -475,7 +459,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function pop()
+    public function pop(): mixed
     {
         return array_pop($this->items);
     }
@@ -497,6 +481,23 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     }
 
     /**
+     * Reduce the array list to a single value using the given predicate.
+     *
+     * @template TResult
+     *
+     * @param callable(TResult, TValue):TResult $predicate
+     * @param TResult|null $initial
+     *
+     * @return mixed
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    public function reduce(callable $predicate, mixed $initial = null): mixed
+    {
+        return array_reduce($this->items, $predicate, $initial);
+    }
+
+    /**
      * Reverses the ArrayList.
      *
      * @return static<TKey, TValue>
@@ -513,13 +514,13 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      *
      * @param TValue $value
      *
-     * @return TKey|null
+     * @return (TKey&string)|(TKey&int)|null
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function search(mixed $value): ?int
+    public function search(mixed $value): string|int|null
     {
-        return ($result = array_search($value, $this->items)) !== false ? $result : null;
+        return ($result = array_search($value, $this->items, true)) !== false ? $result : null;
     }
 
     /**
@@ -529,7 +530,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function shift()
+    public function shift(): mixed
     {
         return array_shift($this->items);
     }
@@ -568,7 +569,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     /**
      * Sorts the ArrayList.
      *
-     * @param callable $comparator
+     * @param callable(TValue, TValue):int $comparator
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
@@ -622,6 +623,36 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     }
 
     /**
+     * Returns TRUE if every item of the given $iterable match
+     * the given predicate.
+     *
+     * @param callable(TValue, TKey):bool $predicate
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    public function every(callable $predicate): bool
+    {
+        return ArrayUtil::every($this->items, $predicate);
+    }
+
+    /**
+     * Returns TRUE if some of the items in the given $iterable match
+     * the given predicate.
+     *
+     * @param callable(TValue, TKey):bool $predicate
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    public function some(callable $predicate): bool
+    {
+        return ArrayUtil::some($this->items, $predicate);
+    }
+
+    /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
@@ -663,7 +694,6 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
 
     /**
      * {@inheritdoc}
-     * @return array<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -768,7 +798,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      * @throws CollectionException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @see          ArrayList::of()
+     * @see ArrayList::of()
      *
      * @noinspection PhpDocRedundantThrowsInspection
      */
