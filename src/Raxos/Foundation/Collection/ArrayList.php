@@ -20,7 +20,6 @@ use function array_keys;
 use function array_map;
 use function array_merge;
 use function array_pop;
-use function array_push;
 use function array_reduce;
 use function array_reverse;
 use function array_search;
@@ -68,9 +67,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      */
     public final function __construct(
         protected array $items = []
-    )
-    {
-    }
+    ) {}
 
     /**
      * Adds the given item to the ArrayList.
@@ -780,7 +777,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     {
         if ($items instanceof self) {
             $items = $items->items;
-        } else if ($items instanceof Traversable) {
+        } elseif ($items instanceof Traversable) {
             $items = iterator_to_array($items, false);
         }
 
@@ -803,8 +800,6 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      *
      * @noinspection PhpDocRedundantThrowsInspection
      */
-    protected static function validateItem(mixed $item): void
-    {
-    }
+    protected static function validateItem(mixed $item): void {}
 
 }

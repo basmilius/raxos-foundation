@@ -51,9 +51,9 @@ final class XmlUtil
             if (is_array($value)) {
                 $item = $xml->addChild($key);
                 self::arrayToXml($value, $item, $key);
-            } else if (is_bool($value)) {
+            } elseif (is_bool($value)) {
                 $xml->addChild($key, $value ? '1' : '0');
-            } else if (is_string($value) && $value !== strip_tags($value)) {
+            } elseif (is_string($value) && $value !== strip_tags($value)) {
                 $xml->{$key} = null;
                 $node = dom_import_simplexml($xml->{$key});
                 $doc = $node->ownerDocument;

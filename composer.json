@@ -2,7 +2,8 @@
     "name": "raxos/foundation",
     "description": "Base stuff for all Raxos libraries.",
     "license": "mit",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable" : true,
     "type": "library",
     "authors": [
         {
@@ -17,9 +18,16 @@
     },
     "config": {
         "platform": {
-            "php": "8.1"
+            "php": "8.3"
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*",
+            "symlink": true
+        }
+    ],
     "require": {
         "ext-dom": "*",
         "ext-intl": "*",
@@ -27,6 +35,6 @@
         "ext-mbstring" : "*",
         "ext-openssl" : "*",
         "ext-simplexml": "*",
-        "jetbrains/phpstorm-attributes": "^1.0"
+        "jetbrains/phpstorm-attributes": "^1.1"
     }
 }

@@ -30,9 +30,7 @@ final class Stopwatch
      */
     public function __construct(
         public readonly string $description = 'Stopwatch'
-    )
-    {
-    }
+    ) {}
 
     /**
      * Returns the running time in the given unit.

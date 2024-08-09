@@ -9,7 +9,6 @@ use Traversable;
 use function array_flip;
 use function array_intersect_key;
 use function array_key_first;
-use function array_push;
 use function array_reverse;
 use function array_values;
 use function is_array;

@@ -259,23 +259,23 @@ final class ColorUtil
             $r = $chroma + $m;
             $g = $x + $m;
             $b = $m;
-        } else if ($h >= 1 && $h < 2) {
+        } elseif ($h >= 1 && $h < 2) {
             $r = $x + $m;
             $g = $chroma + $m;
             $b = $m;
-        } else if ($h >= 2 && $h < 3) {
+        } elseif ($h >= 2 && $h < 3) {
             $r = $m;
             $g = $chroma + $m;
             $b = $x + $m;
-        } else if ($h >= 3 && $h < 4) {
+        } elseif ($h >= 3 && $h < 4) {
             $r = $m;
             $g = $x + $m;
             $b = $chroma + $m;
-        } else if ($h >= 4 && $h < 5) {
+        } elseif ($h >= 4 && $h < 5) {
             $r = $x + $m;
             $g = $m;
             $b = $chroma + $m;
-        } else if ($h >= 5 && $h < 6) {
+        } elseif ($h >= 5 && $h < 6) {
             $r = $chroma + $m;
             $g = $m;
             $b = $x + $m;
@@ -424,9 +424,9 @@ final class ColorUtil
                 if ($h < 0) {
                     $h = (6 - fmod(abs($h), 6));
                 }
-            } else if ($max === $g) {
+            } elseif ($max === $g) {
                 $h = ($b - $r) / $chroma + 2;
-            } else if ($max === $b) {
+            } elseif ($max === $b) {
                 $h = ($r - $g) / $chroma + 4;
             }
 

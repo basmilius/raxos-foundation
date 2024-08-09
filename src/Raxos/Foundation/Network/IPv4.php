@@ -10,6 +10,4 @@ namespace Raxos\Foundation\Network;
  * @package Raxos\Foundation\Network
  * @since 1.0.0
  */
-class IPv4 extends IP
-{
-}
+class IPv4 extends IP {}

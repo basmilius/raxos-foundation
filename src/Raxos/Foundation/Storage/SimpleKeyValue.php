@@ -36,9 +36,7 @@ class SimpleKeyValue implements ArrayAccess, Countable, Iterator
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(private array $data = [])
-    {
-    }
+    public function __construct(private array $data = []) {}
 
     /**
      * Gets all the data as an array.

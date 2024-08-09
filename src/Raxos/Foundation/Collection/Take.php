@@ -42,7 +42,7 @@ final class Take
                 }
 
                 $result[$entry] = $object[$entry];
-            } else if (is_array($entry) && isset($entry[1])) {
+            } elseif (is_array($entry) && isset($entry[1])) {
                 [$key, $keys] = $entry;
 
                 if ($isStrict && !isset($object[$key])) {
