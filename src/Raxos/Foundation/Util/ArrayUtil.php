@@ -9,6 +9,7 @@ use Traversable;
 use function array_flip;
 use function array_intersect_key;
 use function array_key_first;
+use function array_push;
 use function array_reverse;
 use function array_values;
 use function is_array;
@@ -47,7 +48,7 @@ final class ArrayUtil
         }
 
         if ($items instanceof Traversable) {
-            $items = iterator_to_array($items);
+            $items = iterator_to_array($items, false);
         }
 
         return $items;
@@ -85,7 +86,6 @@ final class ArrayUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    #[Pure]
     public static function flatten(array $arr, int $depth = 25): array
     {
         $result = [];

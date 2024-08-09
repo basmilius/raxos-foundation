@@ -117,7 +117,7 @@ class Jwt
             $key = array_shift($keys);
         }
 
-        if (!static::verify(sprintf('%s.%s', $header64, $payload64), $signature, $key, $header['alg'])) {
+        if (!self::verify(sprintf('%s.%s', $header64, $payload64), $signature, $key, $header['alg'])) {
             throw new JwtException('Invalid signature.', JwtException::ERR_INVALID_SIGNATURE);
         }
 
@@ -298,7 +298,7 @@ class Jwt
             $json = json_encode($data, JSON_THROW_ON_ERROR);
 
             if (($errorCode = json_last_error()) !== JSON_ERROR_NONE) {
-                static::onJSONError($errorCode);
+                self::onJSONError($errorCode);
             }
 
             if ($json === 'null' && $data !== null) {
