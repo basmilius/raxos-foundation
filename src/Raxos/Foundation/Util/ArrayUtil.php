@@ -7,6 +7,7 @@ use JetBrains\PhpStorm\Pure;
 use Raxos\Foundation\Collection\{Arrayable, ArrayList};
 use Traversable;
 use function array_flip;
+use function array_intersect;
 use function array_intersect_key;
 use function array_key_first;
 use function array_reverse;
@@ -125,6 +126,27 @@ final class ArrayUtil
         }
 
         return array_values($result);
+    }
+
+    /**
+     * Returns TRUE if any or all of the given items is in the given array.
+     *
+     * @param array $arr
+     * @param array $items
+     * @param bool $all
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 15-08-2024
+     */
+    #[Pure]
+    public static function in(array $arr, array $items, bool $all = false): bool
+    {
+        if ($all) {
+            return empty(array_intersect($items, $arr));
+        }
+        
+        return !empty(array_intersect($items, $arr));
     }
 
     /**

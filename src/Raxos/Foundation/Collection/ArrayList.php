@@ -312,10 +312,12 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
         $result = [];
 
         foreach ($this->items as $item) {
-            $result[$predicate($item)][] = $item;
+            $key = $predicate($item);
+            $result[$key] ??= new static;
+            $result[$key]->add($item);
         }
 
-        return new static(array_values($result));
+        return new static($result);
     }
 
     /**
