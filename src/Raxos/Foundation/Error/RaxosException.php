@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Error;
 
+use BackedEnum;
 use Exception;
-use IntBackedEnum;
 use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 use Throwable;
@@ -22,7 +22,7 @@ abstract class RaxosException extends Exception implements JsonSerializable
     /**
      * RaxosException constructor.
      *
-     * @param ExceptionId|IntBackedEnum $id
+     * @param ExceptionId|BackedEnum $id
      * @param string $error
      * @param string $errorDescription
      * @param Throwable|null $previous
@@ -31,7 +31,7 @@ abstract class RaxosException extends Exception implements JsonSerializable
      * @since 1.0.17
      */
     public function __construct(
-        public readonly ExceptionId|IntBackedEnum $id,
+        public readonly ExceptionId|BackedEnum $id,
         public readonly string $error,
         public readonly string $errorDescription,
         public readonly ?Throwable $previous = null
