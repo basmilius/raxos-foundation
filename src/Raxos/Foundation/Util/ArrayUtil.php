@@ -88,6 +88,7 @@ final class ArrayUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     public static function flatten(array $arr, int $depth = 25): array
     {
         $result = [];

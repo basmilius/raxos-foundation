@@ -155,11 +155,7 @@ final class ColorUtil
      */
     public static function lightOrDark(array $color, array $dark = [0, 0, 0], array $light = [255, 255, 255], float $delta = 0.5): array
     {
-        if (self::luminance(...$color) < $delta) {
-            return $light;
-        }
-
-        return $dark;
+        return self::luminance(...$color) < $delta ? $light : $dark;
     }
 
     /**
@@ -372,7 +368,7 @@ final class ColorUtil
     }
 
     /**
-     * Converts a RGB value to int.
+     * Converts an RGB value to int.
      *
      * @param int $r
      * @param int $g
