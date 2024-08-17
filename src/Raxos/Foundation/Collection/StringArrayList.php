@@ -6,7 +6,6 @@ namespace Raxos\Foundation\Collection;
 use function implode;
 use function is_string;
 use function preg_replace;
-use function sprintf;
 
 /**
  * Class StringArrayList
@@ -17,7 +16,7 @@ use function sprintf;
  * @package Raxos\Foundation\Collection
  * @since 1.0.0
  */
-class StringArrayList extends ArrayList
+class StringArrayList extends ArrayList implements ValidatedArrayListInterface
 {
 
     /**
@@ -52,10 +51,10 @@ class StringArrayList extends ArrayList
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected static function validateItem(mixed $item): void
+    public static function validateItem(mixed $item): void
     {
         if (!is_string($item)) {
-            throw new CollectionException(sprintf('%s only accepts strings.', static::class), CollectionException::ERR_INVALID_TYPE);
+            throw CollectionException::invalidType(static::class, 'string');
         }
     }
 

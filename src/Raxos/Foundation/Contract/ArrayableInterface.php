@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Foundation\Collection;
+namespace Raxos\Foundation\Contract;
 
 /**
- * Interface Arrayable
+ * Interface ArrayableInterface
  *
  * @template TKey of array-key
  * @template TValue
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Foundation\Collection
- * @since 1.0.0
+ * @package Raxos\Foundation\Contract
+ * @since 1.0.17
  */
-interface Arrayable
+interface ArrayableInterface
 {
 
     /**
@@ -21,7 +21,7 @@ interface Arrayable
      *
      * @return array<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.0.17
      */
     public function toArray(): array;
 

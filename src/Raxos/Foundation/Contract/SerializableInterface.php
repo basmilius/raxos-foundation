@@ -1,37 +1,35 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Foundation\PHP\MagicMethods;
+namespace Raxos\Foundation\Contract;
 
 /**
  * Interface SerializableInterface
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Foundation\PHP\MagicMethods
- * @since 1.0.0
+ * @package Raxos\Foundation\Contract
+ * @since 1.0.17
  */
 interface SerializableInterface
 {
 
     /**
-     * Returns the data of the current instance that should
-     * be serialized.
+     * Serializes the object.
      *
      * @return array
-     *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.0.17
      */
     public function __serialize(): array;
 
     /**
-     * Constructs the current instance based on the given
-     * data that was serialized.
+     * Unserializes the given array of data.
      *
      * @param array $data
      *
+     * @return void
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.0.17
      */
     public function __unserialize(array $data): void;
 

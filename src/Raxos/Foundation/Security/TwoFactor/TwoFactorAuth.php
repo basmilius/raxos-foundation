@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Security\TwoFactor;
 
-use JetBrains\PhpStorm\ExpectedValues;
 use Random\RandomException;
-use RuntimeException;
 use function array_search;
 use function bindec;
 use function ceil;
@@ -17,14 +15,12 @@ use function floor;
 use function hash_equals;
 use function hash_hmac;
 use function implode;
-use function in_array;
 use function ord;
 use function pack;
 use function preg_match;
 use function preg_quote;
 use function random_bytes;
 use function rawurlencode;
-use function sprintf;
 use function str_pad;
 use function str_split;
 use function strlen;
@@ -43,11 +39,10 @@ use const STR_PAD_LEFT;
  * @package Raxos\Foundation\Security\TwoFactor
  * @since 1.0.0
  */
-class TwoFactorAuth
+readonly class TwoFactorAuth
 {
 
-    private const array BASE32 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5', '6', '7', '='];
-    private const array SUPPORTED_ALGORITHMS = ['sha1', 'sha256', 'sha512', 'md5'];
+    public const array BASE32 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5', '6', '7', '='];
 
     /**
      * TwoFactorAuth constructor.
@@ -55,31 +50,25 @@ class TwoFactorAuth
      * @param string|null $issuer
      * @param int $digits
      * @param int $period
-     * @param string $algorithm
+     * @param TwoFactorAuthAlgorithm $algorithm
      *
      * @throws TwoFactorAuthException
-     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     public function __construct(
-        protected ?string $issuer = null,
-        protected int $digits = 6,
-        protected int $period = 30,
-        #[ExpectedValues(values: self::SUPPORTED_ALGORITHMS)]
-        protected string $algorithm = 'sha1'
+        public ?string $issuer = null,
+        public int $digits = 6,
+        public int $period = 30,
+        public TwoFactorAuthAlgorithm $algorithm = TwoFactorAuthAlgorithm::SHA1
     )
     {
         if ($this->digits <= 0) {
-            throw new TwoFactorAuthException('The amount of digits must be a positive integer.', TwoFactorAuthException::ERR_INVALID_ARGUMENT);
+            throw TwoFactorAuthException::invalidArgument('The amount of digits must be a positive integer.');
         }
 
         if ($this->period <= 0) {
-            throw new TwoFactorAuthException('The period must be a positive integer.', TwoFactorAuthException::ERR_INVALID_ARGUMENT);
-        }
-
-        if (!in_array($this->algorithm, self::SUPPORTED_ALGORITHMS)) {
-            throw new TwoFactorAuthException(sprintf('The algorithm must be one of %s.', implode(', ', self::SUPPORTED_ALGORITHMS)), TwoFactorAuthException::ERR_INVALID_ARGUMENT);
+            throw TwoFactorAuthException::invalidArgument('The period must be a positive integer.');
         }
     }
 
@@ -89,6 +78,7 @@ class TwoFactorAuth
      * @param int $bits
      *
      * @return string
+     * @throws TwoFactorAuthException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -105,7 +95,7 @@ class TwoFactorAuth
 
             return $secret;
         } catch (RandomException $err) {
-            throw new RuntimeException($err->getMessage(), $err->getCode(), $err);
+            throw TwoFactorAuthException::randomError($err);
         }
     }
 
@@ -126,7 +116,7 @@ class TwoFactorAuth
 
         $secretKey = $this->base32Decode($secret);
         $timestamp = "\0\0\0\0" . pack('N*', $this->getTimeSlice($time));
-        $hashHmac = hash_hmac($this->algorithm, $timestamp, $secretKey, true);
+        $hashHmac = hash_hmac($this->algorithm->value, $timestamp, $secretKey, true);
         $hashPart = substr($hashHmac, ord(substr($hashHmac, -1)) & 0x0F, 4);
         $value = unpack('N', $hashPart);
         $value = $value[1] & 0x7FFFFFFF;
@@ -151,7 +141,7 @@ class TwoFactorAuth
             rawurlencode($secret),
             rawurlencode($this->issuer),
             $this->period,
-            rawurlencode(strtoupper($this->algorithm)),
+            rawurlencode(strtoupper($this->algorithm->value)),
             $this->digits
         ]);
     }
@@ -199,7 +189,7 @@ class TwoFactorAuth
         }
 
         if (preg_match('/[^' . preg_quote(implode('', self::BASE32)) . ']/', $value) !== 0) {
-            throw new TwoFactorAuthException('The given value is an invalid base32 string.', TwoFactorAuthException::ERR_INVALID_BASE32);
+            throw TwoFactorAuthException::invalidData('The given value is an invalid base32 string.');
         }
 
         $buffer = '';

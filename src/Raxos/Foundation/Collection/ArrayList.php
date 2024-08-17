@@ -9,7 +9,7 @@ use Countable;
 use IteratorAggregate;
 use JsonSerializable;
 use Raxos\Database\Orm\Model;
-use Raxos\Foundation\PHP\MagicMethods\{DebugInfoInterface, SerializableInterface};
+use Raxos\Foundation\Contract\{ArrayableInterface, DebuggableInterface, SerializableInterface};
 use Raxos\Foundation\Util\ArrayUtil;
 use Traversable;
 use function array_chunk;
@@ -46,7 +46,7 @@ use function usort;
  * @template TValue
  * @extends array<TKey, TValue>
  * @implements iterable<TKey, TValue>
- * @implements Arrayable<TKey, TValue>
+ * @implements ArrayableInterface<TKey, TValue>
  * @implements ArrayAccess<TKey, TValue>
  * @implements IteratorAggregate<TKey, TValue>
  *
@@ -54,7 +54,7 @@ use function usort;
  * @package Raxos\Foundation\Collection
  * @since 1.0.0
  */
-class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface, IteratorAggregate, JsonSerializable, SerializableInterface
+class ArrayList implements ArrayableInterface, ArrayAccess, Countable, DebuggableInterface, IteratorAggregate, JsonSerializable, SerializableInterface
 {
 
     /**
@@ -113,7 +113,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     /**
      * If possible, converts the collection to another implementation.
      *
-     * @template TList of ArrayList
+     * @template TList of self
      *
      * @param class-string<TList> $implementation
      *
@@ -124,10 +124,6 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      */
     public function as(string $implementation): mixed
     {
-        if (!is_subclass_of($implementation, self::class)) {
-            throw new CollectionException('The given implementation is not an array list.', CollectionException::ERR_NON_COLLECTION);
-        }
-
         return $implementation::of($this->items);
     }
 
@@ -233,7 +229,7 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     /**
      * Diffs the ArrayList.
      *
-     * @param ArrayList|Arrayable|Traversable|array $items
+     * @param ArrayList|ArrayableInterface|Traversable|array $items
      *
      * @return static<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
@@ -416,13 +412,13 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
     /**
      * Merges the ArrayList with the given iterable.
      *
-     * @param self|Arrayable|iterable $items
+     * @param self|ArrayableInterface|iterable $items
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function merge(self|Arrayable|iterable $items): static
+    public function merge(self|ArrayableInterface|iterable $items): static
     {
         return new static(array_merge($this->items, ArrayUtil::ensureArray($items)));
     }
@@ -777,31 +773,21 @@ class ArrayList implements Arrayable, ArrayAccess, Countable, DebugInfoInterface
      */
     public static function of(iterable $items): static
     {
+        $implementation = static::class;
+
         if ($items instanceof self) {
             $items = $items->items;
         } elseif ($items instanceof Traversable) {
             $items = iterator_to_array($items, false);
         }
 
-        foreach ($items as $item) {
-            static::validateItem($item);
+        if (is_subclass_of($implementation, ValidatedArrayListInterface::class)) {
+            foreach ($items as $item) {
+                $implementation::validateItem($item);
+            }
         }
 
         return new static($items);
     }
-
-    /**
-     * Validates the given item.
-     *
-     * @param mixed $item
-     *
-     * @throws CollectionException
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     * @see ArrayList::of()
-     *
-     * @noinspection PhpDocRedundantThrowsInspection
-     */
-    protected static function validateItem(mixed $item): void {}
 
 }

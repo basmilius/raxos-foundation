@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Util;
 
 use JetBrains\PhpStorm\Pure;
-use Raxos\Foundation\Collection\{Arrayable, ArrayList};
+use Raxos\Foundation\Collection\ArrayList;
+use Raxos\Foundation\Contract\ArrayableInterface;
 use Traversable;
 use function array_flip;
 use function array_intersect;
@@ -29,21 +30,22 @@ final class ArrayUtil
     /**
      * Ensures an array.
      *
-     * @template T
+     * @template TKey
+     * @template TValue
      *
-     * @param iterable|Arrayable<T>|ArrayList<T> $items
+     * @param iterable|ArrayableInterface<TKey, TValue>|ArrayList<TKey, TValue> $items
      *
-     * @return array<T>
+     * @return array<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function ensureArray(ArrayList|Arrayable|iterable $items): array
+    public static function ensureArray(ArrayList|ArrayableInterface|iterable $items): array
     {
         if ($items instanceof ArrayList) {
             return $items->all();
         }
 
-        if ($items instanceof Arrayable) {
+        if ($items instanceof ArrayableInterface) {
             return $items->toArray();
         }
 
@@ -137,7 +139,7 @@ final class ArrayUtil
      *
      * @return bool
      * @author Bas Milius <bas@mili.us>
-     * @since 15-08-2024
+     * @since 1.0.17
      */
     #[Pure]
     public static function in(array $arr, array $items, bool $all = false): bool
@@ -145,7 +147,7 @@ final class ArrayUtil
         if ($all) {
             return empty(array_intersect($items, $arr));
         }
-        
+
         return !empty(array_intersect($items, $arr));
     }
 

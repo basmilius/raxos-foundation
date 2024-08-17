@@ -6,7 +6,6 @@ namespace Raxos\Foundation\Collection;
 use function array_sum;
 use function is_float;
 use function is_int;
-use function sprintf;
 
 /**
  * Class NumberArrayList
@@ -17,7 +16,7 @@ use function sprintf;
  * @package Raxos\Foundation\Collection
  * @since 1.0.0
  */
-class NumberArrayList extends ArrayList
+class NumberArrayList extends ArrayList implements ValidatedArrayListInterface
 {
 
     /**
@@ -37,10 +36,10 @@ class NumberArrayList extends ArrayList
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected static function validateItem(mixed $item): void
+    public static function validateItem(mixed $item): void
     {
         if (!is_int($item) && !is_float($item)) {
-            throw new CollectionException(sprintf('%s only accepts integers.', static::class), CollectionException::ERR_INVALID_TYPE);
+            throw CollectionException::invalidType(static::class, 'number');
         }
     }
 
