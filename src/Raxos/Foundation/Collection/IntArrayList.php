@@ -19,7 +19,7 @@ class IntArrayList extends ArrayList implements ValidatedArrayListInterface
 {
 
     /**
-     * Sums the items of the ArrayList.
+     * Sums the items of the array list.
      *
      * @return int
      * @author Bas Milius <bas@mili.us>
@@ -27,7 +27,7 @@ class IntArrayList extends ArrayList implements ValidatedArrayListInterface
      */
     public function sum(): int
     {
-        return (int)array_sum($this->items);
+        return (int)array_sum($this->data);
     }
 
     /**

@@ -41,10 +41,6 @@ final class ArrayUtil
      */
     public static function ensureArray(ArrayList|ArrayableInterface|iterable $items): array
     {
-        if ($items instanceof ArrayList) {
-            return $items->all();
-        }
-
         if ($items instanceof ArrayableInterface) {
             return $items->toArray();
         }

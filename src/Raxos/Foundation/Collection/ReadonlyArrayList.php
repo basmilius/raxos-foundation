@@ -6,10 +6,6 @@ namespace Raxos\Foundation\Collection;
 use JsonSerializable;
 use Raxos\Foundation\Contract\{DebuggableInterface, SerializableInterface};
 use Traversable;
-use function array_is_list;
-use function array_pop;
-use function array_shift;
-use function array_values;
 use function is_subclass_of;
 use function iterator_to_array;
 
@@ -19,13 +15,12 @@ use function iterator_to_array;
  * @template TKey of array-key
  * @template TValue
  * @implements ArrayListInterface<TKey, TValue>
- * @implements MutableArrayListInterface<TKey, TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection
  * @since 1.1.0
  */
-class ArrayList implements ArrayListInterface, MutableArrayListInterface, DebuggableInterface, JsonSerializable, SerializableInterface
+readonly class ReadonlyArrayList implements ArrayListInterface, DebuggableInterface, JsonSerializable, SerializableInterface
 {
 
     use ArrayListable;
@@ -42,46 +37,6 @@ class ArrayList implements ArrayListInterface, MutableArrayListInterface, Debugg
     public final function __construct(
         protected array $data = []
     ) {}
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
-     */
-    public function append(mixed $item): static
-    {
-        return new static([...$this->data, $item]);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
-     */
-    public function pop(): mixed
-    {
-        return array_pop($this->data);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
-     */
-    public function prepend(mixed $item): static
-    {
-        return new static([$item, ...$this->data]);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
-     */
-    public function shift(): mixed
-    {
-        return array_shift($this->data);
-    }
 
     /**
      * {@inheritdoc}
@@ -133,11 +88,7 @@ class ArrayList implements ArrayListInterface, MutableArrayListInterface, Debugg
         if ($items instanceof self) {
             $items = $items->data;
         } elseif ($items instanceof Traversable) {
-            $items = iterator_to_array($items);
-        }
-
-        if (array_is_list($items)) {
-            $items = array_values($items);
+            $items = iterator_to_array($items, false);
         }
 
         if (is_subclass_of($implementation, ValidatedArrayListInterface::class)) {

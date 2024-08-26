@@ -17,6 +17,22 @@ final class CollectionException extends RaxosException
 {
 
     /**
+     * Returns an immutable exception.
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.1.0
+     */
+    public static function immutable(): self
+    {
+        return new self(
+            ExceptionId::for(__METHOD__),
+            'collection_immutable',
+            'The collection is immutable.'
+        );
+    }
+
+    /**
      * Returns an invalid type exception.
      *
      * @param class-string<ArrayList> $class

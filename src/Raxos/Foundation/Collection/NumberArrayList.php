@@ -20,7 +20,7 @@ class NumberArrayList extends ArrayList implements ValidatedArrayListInterface
 {
 
     /**
-     * Sums the items of the ArrayList.
+     * Sums the items of the array list.
      *
      * @return float|int
      * @author Bas Milius <bas@mili.us>
@@ -28,7 +28,7 @@ class NumberArrayList extends ArrayList implements ValidatedArrayListInterface
      */
     public function sum(): float|int
     {
-        return array_sum($this->items);
+        return array_sum($this->data);
     }
 
     /**

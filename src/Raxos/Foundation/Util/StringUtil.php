@@ -211,6 +211,20 @@ final class StringUtil
     }
 
     /**
+     * Returns the short version of the given class name.
+     *
+     * @param string $className
+     *
+     * @return string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.1.0
+     */
+    public static function shortClassName(string $className): string
+    {
+        return substr(strrchr($className, '\\'), 1);
+    }
+
+    /**
      * Slugifies a string.
      *
      * @param string $str

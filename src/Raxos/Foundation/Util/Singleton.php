@@ -18,11 +18,11 @@ final class Singleton
     /**
      * Gets or instantiates a singleton.
      *
-     * @template T
+     * @template TInstance
      *
-     * @param class-string<T> $class
+     * @param class-string<TInstance> $class
      *
-     * @return T
+     * @return TInstance
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -34,7 +34,7 @@ final class Singleton
     /**
      * Returns TRUE if the given class is instantiated by the {@see Singleton} class.
      *
-     * @param string $class
+     * @param class-string $class
      *
      * @return bool
      * @author Bas Milius <bas@mili.us>
@@ -48,18 +48,34 @@ final class Singleton
     /**
      * Instantiates a new singleton.
      *
-     * @template T
+     * @template TInstance
      *
-     * @param class-string<T> $class
-     * @param array $parameters
+     * @param class-string<TInstance> $class
      *
-     * @return T
+     * @return TInstance
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function make(string $class, array $parameters = []): object
+    public static function make(string $class): object
     {
-        return self::$instances[$class] = new $class(...$parameters);
+        return self::$instances[$class] = new $class();
+    }
+
+    /**
+     * Registers the given class.
+     *
+     * @template TInstance
+     *
+     * @param class-string<TInstance> $class
+     * @param callable():TInstance $setup
+     *
+     * @return TInstance
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.1.0
+     */
+    public static function register(string $class, callable $setup): object
+    {
+        return self::$instances[$class] ??= $setup();
     }
 
 }

@@ -37,6 +37,7 @@ trait ObjectAccessible
      * @param mixed $offset
      *
      * @return bool
+     * @throws Exception
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal

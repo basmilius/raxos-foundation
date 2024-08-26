@@ -21,6 +21,7 @@ trait ArrayAccessible
      * @param mixed $offset
      *
      * @return bool
+     * @throws Exception
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal
@@ -52,6 +53,7 @@ trait ArrayAccessible
      * @param mixed $offset
      * @param mixed $value
      *
+     * @throws Exception
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal
@@ -66,6 +68,7 @@ trait ArrayAccessible
      *
      * @param mixed $offset
      *
+     * @throws Exception
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal

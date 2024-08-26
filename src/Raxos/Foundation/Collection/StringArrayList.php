@@ -29,7 +29,7 @@ class StringArrayList extends ArrayList implements ValidatedArrayListInterface
      */
     public function commaCommaAnd(): string
     {
-        return preg_replace('/(.*),/', '$1 &', implode(', ', $this->items));
+        return preg_replace('/(.*),/', '$1 &', implode(', ', $this->data));
     }
 
     /**
@@ -43,7 +43,7 @@ class StringArrayList extends ArrayList implements ValidatedArrayListInterface
      */
     public function join(string $glue = ', '): string
     {
-        return implode($glue, $this->items);
+        return implode($glue, $this->data);
     }
 
     /**
