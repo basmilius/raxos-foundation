@@ -12,6 +12,9 @@
         }
     ],
     "autoload": {
+        "files": [
+            "src/Raxos/Foundation/functions.php"
+        ],
         "psr-4": {
             "Raxos\\Foundation\\": "src/Raxos/Foundation"
         }
