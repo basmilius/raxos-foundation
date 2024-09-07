@@ -5,6 +5,7 @@ namespace Raxos\Foundation\Collection;
 
 use ArrayIterator;
 use JsonSerializable;
+use Raxos\Foundation\Contract\DebuggableInterface;
 use Raxos\Foundation\Contract\SerializableInterface;
 use Traversable;
 use function array_key_exists;
@@ -22,7 +23,7 @@ use function count;
  * @package Raxos\Foundation\Collection
  * @since 1.1.0
  */
-class Map implements MapInterface, MutableMapInterface, JsonSerializable, SerializableInterface
+class Map implements DebuggableInterface, MapInterface, MutableMapInterface, JsonSerializable, SerializableInterface
 {
 
     /**
@@ -125,6 +126,16 @@ class Map implements MapInterface, MutableMapInterface, JsonSerializable, Serial
      * @since 1.1.0
      */
     public function toArray(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.1.0
+     */
+    public function __debugInfo(): array
     {
         return $this->data;
     }
