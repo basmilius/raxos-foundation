@@ -18,6 +18,14 @@ use Raxos\Foundation\Util\Singleton;
 abstract readonly class Option implements OptionInterface
 {
 
+    /**
+     * Option constructor.
+     *
+     * @param bool $isEmpty
+     *
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.1.0
+     */
     public function __construct(
         public bool $isEmpty
     ) {}
