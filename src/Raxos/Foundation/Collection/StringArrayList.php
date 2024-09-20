@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Collection;
 
+use Raxos\Foundation\Contract\ValidatedArrayListInterface;
 use function implode;
 use function is_string;
 use function preg_replace;

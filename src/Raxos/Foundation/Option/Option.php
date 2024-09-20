@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Option;
 
+use Raxos\Foundation\Contract\OptionInterface;
 use Raxos\Foundation\Util\Singleton;
 
 /**
@@ -31,7 +32,7 @@ abstract readonly class Option implements OptionInterface
     ) {}
 
     /**
-     * Returns an option from a callable.
+     * Returns an option based on the given callable.
      *
      * @param callable():TValue $fn
      * @param mixed|null $none

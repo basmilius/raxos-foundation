@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Collection;
 
 use JsonSerializable;
-use Raxos\Foundation\Contract\{DebuggableInterface, SerializableInterface};
+use Raxos\Foundation\Contract\{ArrayListInterface, DebuggableInterface, MutableArrayListInterface, SerializableInterface, ValidatedArrayListInterface};
 use Traversable;
 use function array_is_list;
 use function array_pop;
@@ -20,6 +20,8 @@ use function iterator_to_array;
  * @template TValue
  * @implements ArrayListInterface<TKey, TValue>
  * @implements MutableArrayListInterface<TKey, TValue>
+ * @mixin ArrayListable<TKey, TValue>
+ * @mixin ArrayListAccessible<TKey, TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection

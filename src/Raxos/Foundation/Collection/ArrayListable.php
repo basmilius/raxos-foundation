@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Collection;
 
 use Raxos\Database\Orm\Model;
-use Raxos\Foundation\Contract\ArrayableInterface;
+use Raxos\Foundation\Contract\{ArrayableInterface, ArrayListInterface};
 use Raxos\Foundation\Util\ArrayUtil;
 use function array_chunk;
 use function array_column;
@@ -32,6 +32,10 @@ use const ARRAY_FILTER_USE_BOTH;
 
 /**
  * Trait ArrayListable
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @implements ArrayListInterface<TKey, TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection

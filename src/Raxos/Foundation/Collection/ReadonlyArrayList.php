@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Collection;
 
 use JsonSerializable;
-use Raxos\Foundation\Contract\{DebuggableInterface, SerializableInterface};
+use Raxos\Foundation\Contract\{ArrayListInterface, DebuggableInterface, SerializableInterface, ValidatedArrayListInterface};
 use Traversable;
 use function is_subclass_of;
 use function iterator_to_array;
@@ -15,6 +15,8 @@ use function iterator_to_array;
  * @template TKey of array-key
  * @template TValue
  * @implements ArrayListInterface<TKey, TValue>
+ * @mixin ArrayListable<TKey, TValue>
+ * @mixin ArrayListAccessible<TKey, TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection

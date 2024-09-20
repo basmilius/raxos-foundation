@@ -73,7 +73,7 @@ readonly class TwoFactorAuth
     }
 
     /**
-     * Generates a new secret with the given amount of bits.
+     * Generates a new secret with the given number of bits.
      *
      * @param int $bits
      *
@@ -212,7 +212,7 @@ readonly class TwoFactorAuth
     }
 
     /**
-     * Gets a time slice with optional offset.
+     * Gets the time slice with an optional offset.
      *
      * @param int $time
      *

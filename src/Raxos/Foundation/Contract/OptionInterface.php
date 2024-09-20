@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Foundation\Option;
+namespace Raxos\Foundation\Contract;
 
+use Raxos\Foundation\Option\{Option, OptionException};
 use Throwable;
 
 /**
@@ -11,7 +12,7 @@ use Throwable;
  * @template TValue
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Foundation\Option
+ * @package Raxos\Foundation\Contract
  * @since 1.1.0
  */
 interface OptionInterface

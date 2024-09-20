@@ -1,11 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Foundation\Collection;
+namespace Raxos\Foundation\Contract;
 
 use Countable;
 use IteratorAggregate;
-use Raxos\Foundation\Contract\ArrayableInterface;
 
 /**
  * Interface MapInterface
@@ -13,7 +12,7 @@ use Raxos\Foundation\Contract\ArrayableInterface;
  * @template TValue
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Foundation\Collection
+ * @package Raxos\Foundation\Contract
  * @since 1.1.0
  */
 interface MapInterface extends ArrayableInterface, Countable, IteratorAggregate

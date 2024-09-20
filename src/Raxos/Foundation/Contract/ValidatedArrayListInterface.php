@@ -1,13 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Foundation\Collection;
+namespace Raxos\Foundation\Contract;
+
+use Raxos\Foundation\Collection\CollectionException;
 
 /**
  * Interface ValidatedArrayListInterface
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Foundation\Collection
+ * @package Raxos\Foundation\Contract
  * @since 1.0.17
  */
 interface ValidatedArrayListInterface

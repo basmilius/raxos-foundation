@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Collection;
 
+use Raxos\Foundation\Contract\ValidatedArrayListInterface;
 use function array_sum;
 use function is_float;
 use function is_int;

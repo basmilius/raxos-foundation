@@ -1,12 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Foundation\Collection;
+namespace Raxos\Foundation\Contract;
 
 use ArrayAccess;
 use Countable;
 use IteratorAggregate;
-use Raxos\Foundation\Contract\ArrayableInterface;
 
 /**
  * Interface ArrayListInterface
@@ -18,7 +17,7 @@ use Raxos\Foundation\Contract\ArrayableInterface;
  * @extends IteratorAggregate<TKey, TValue>
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Foundation\Collection
+ * @package Raxos\Foundation\Contract
  * @since 1.1.0
  */
 interface ArrayListInterface extends ArrayAccess, ArrayableInterface, Countable, IteratorAggregate
@@ -86,7 +85,7 @@ interface ArrayListInterface extends ArrayAccess, ArrayableInterface, Countable,
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function convertTo(string $implementation): self;
+    public function convertTo(string $implementation): mixed;
 
     /**
      * Returns the diff of the array list and the given items.
@@ -300,7 +299,7 @@ interface ArrayListInterface extends ArrayAccess, ArrayableInterface, Countable,
     public function slice(int $offset, ?int $length = null): static;
 
     /**
-     * Returns TRUE if some the items in the array list match the
+     * Returns TRUE if some items in the array list match the
      * given predicate function.
      *
      * @param callable(TValue, TKey):bool $predicate

@@ -5,8 +5,7 @@ namespace Raxos\Foundation\Collection;
 
 use ArrayIterator;
 use JsonSerializable;
-use Raxos\Foundation\Contract\DebuggableInterface;
-use Raxos\Foundation\Contract\SerializableInterface;
+use Raxos\Foundation\Contract\{DebuggableInterface, MapInterface, MutableMapInterface, SerializableInterface};
 use Traversable;
 use function array_key_exists;
 use function array_merge;

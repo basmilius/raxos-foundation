@@ -239,7 +239,7 @@ final class ColorUtil
     public static function hslToRgb(float $h, float $s, float $l): array
     {
         if ($s === 0.0) {
-            return [$l, $l, $l]; // Color is grey, only lightness is relevant.
+            return [$l, $l, $l]; // Color is gray, only lightness is relevant.
         }
 
         $chroma = (1 - abs(2 * $l - 1)) * $s;

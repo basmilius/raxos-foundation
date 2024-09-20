@@ -3,12 +3,17 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Collection;
 
+use ArrayAccess;
 use ArrayIterator;
 use Traversable;
 use function count;
 
 /**
  * Trait ArrayListAccessible
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @implements ArrayAccess<TKey, TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Collection
