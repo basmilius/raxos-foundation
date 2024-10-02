@@ -53,7 +53,7 @@ trait ArrayListable
     {
         $chunks = array_chunk($this->data, $size);
 
-        return new static(array_map(fn(array $chunk) => new static($chunk), $chunks));
+        return new static(array_map(static fn(array $chunk) => new static($chunk), $chunks));
     }
 
     /**
@@ -210,7 +210,7 @@ trait ArrayListable
             }
         }
 
-        return new static(array_map(fn(array $group) => new static($group), $groups));
+        return new static(array_map(static fn(array $group) => new static($group), $groups));
     }
 
     /**

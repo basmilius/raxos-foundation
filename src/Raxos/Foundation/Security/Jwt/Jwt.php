@@ -43,8 +43,8 @@ class Jwt
      * @author Bas Milius <bas@mili.us>
      * @since 1.5.0
      *
-     * @uses JWT::jsonDecode()
-     * @uses JWT::urlsafeB64Decode()
+     * @see Jwt::jsonDecode()
+     * @see Jwt::urlsafeB64Decode()
      */
     public static function decode(string $jwt, array $keys, array $allowedAlgorithms = []): array
     {
@@ -131,8 +131,8 @@ class Jwt
      * @author Bas Milius <bas@mili.us>
      * @since 1.5.0
      *
-     * @uses JWT::jsonEncode()
-     * @uses JWT::urlsafeB64Encode()
+     * @see Jwt::jsonEncode()
+     * @see Jwt::urlsafeB64Encode()
      */
     public static function encode(array $payload, string $key, JwtAlgorithm $algorithm = JwtAlgorithm::HS256, $keyId = null, array $headers = []): string
     {

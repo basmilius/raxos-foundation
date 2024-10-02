@@ -23,6 +23,7 @@ use function str_contains;
 use function str_shuffle;
 use function str_split;
 use function strlen;
+use function strrchr;
 use function strtolower;
 use function substr;
 use function transliterator_transliterate;
@@ -221,7 +222,13 @@ final class StringUtil
      */
     public static function shortClassName(string $className): string
     {
-        return substr(strrchr($className, '\\'), 1);
+        $str = strrchr($className, '\\');
+
+        if ($str === false) {
+            return $className;
+        }
+
+        return substr($str, 1);
     }
 
     /**
