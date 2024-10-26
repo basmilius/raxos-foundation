@@ -50,9 +50,9 @@ class ArrayList implements ArrayListInterface, MutableArrayListInterface, Debugg
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function append(mixed $item): static
+    public function append(mixed $item): void
     {
-        return new static([...$this->data, $item]);
+        $this->data[] = $item;
     }
 
     /**
@@ -70,9 +70,9 @@ class ArrayList implements ArrayListInterface, MutableArrayListInterface, Debugg
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function prepend(mixed $item): static
+    public function prepend(mixed $item): void
     {
-        return new static([$item, ...$this->data]);
+        $this->data = [$item, ...$this->data];
     }
 
     /**

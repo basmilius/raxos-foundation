@@ -27,11 +27,11 @@ interface MutableArrayListInterface
      *
      * @param TValue $item
      *
-     * @return static<TKey, TValue>
+     * @return void
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function append(mixed $item): static;
+    public function append(mixed $item): void;
 
     /**
      * Pops an item of the array list.
@@ -47,11 +47,11 @@ interface MutableArrayListInterface
      *
      * @param TValue $item
      *
-     * @return static<TKey, TValue>
+     * @return void
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function prepend(mixed $item): static;
+    public function prepend(mixed $item): void;
 
     /**
      * Returns and removes the first item of the array list.
