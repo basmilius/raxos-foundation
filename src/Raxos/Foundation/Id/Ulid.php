@@ -5,7 +5,6 @@ namespace Raxos\Foundation\Id;
 
 use Random\RandomException;
 use Stringable;
-use Vossil\Security\UlidException;
 use function microtime;
 use function pow;
 use function preg_match;
