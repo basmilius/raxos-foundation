@@ -6,6 +6,8 @@ namespace Raxos\Foundation\Collection;
 use Raxos\Database\Orm\Model;
 use Raxos\Foundation\Contract\{ArrayableInterface, ArrayListInterface};
 use Raxos\Foundation\Util\ArrayUtil;
+use function array_all;
+use function array_any;
 use function array_chunk;
 use function array_column;
 use function array_diff;
@@ -163,7 +165,7 @@ trait ArrayListable
      */
     public function every(callable $predicate): bool
     {
-        return ArrayUtil::every($this->data, $predicate);
+        return array_all($this->data, $predicate);
     }
 
     /**
@@ -360,7 +362,7 @@ trait ArrayListable
      */
     public function some(callable $predicate): bool
     {
-        return ArrayUtil::some($this->data, $predicate);
+        return array_any($this->data, $predicate);
     }
 
     /**

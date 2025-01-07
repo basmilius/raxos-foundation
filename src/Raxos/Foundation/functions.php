@@ -7,6 +7,7 @@ use Raxos\Foundation\Util\Singleton;
 use function getenv;
 use function is_bool;
 use function is_int;
+use const PHP_SAPI;
 
 /**
  * Returns the value of an environment variable or the given default.
@@ -35,6 +36,30 @@ function env(string $variable, string|bool|int|null $defaultValue = null): strin
     }
 
     return $result;
+}
+
+/**
+ * Returns TRUE if PHP is running with its built-in webserver.
+ *
+ * @return bool
+ * @author Bas Milius <bas@mili.us>
+ * @since 1.4.0
+ */
+function isBuiltInServer(): bool
+{
+    return PHP_SAPI === 'cli-server';
+}
+
+/**
+ * Returns TRUE if PHP is running on the command line.
+ *
+ * @return bool
+ * @author Bas Milius <bas@mili.us>
+ * @since 1.4.0
+ */
+function isCommandLineInterface(): bool
+{
+    return PHP_SAPI === 'cli';
 }
 
 /**

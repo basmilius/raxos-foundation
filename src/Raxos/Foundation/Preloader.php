@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation;
 
+use function array_any;
 use function basename;
 use function closedir;
 use function get_included_files;
@@ -179,13 +180,7 @@ class Preloader
             return true;
         }
 
-        foreach ($this->ignore as $ignore) {
-            if (str_starts_with($path, $ignore)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->ignore, static fn(string $ignore) => str_starts_with($path, $ignore));
     }
 
 }

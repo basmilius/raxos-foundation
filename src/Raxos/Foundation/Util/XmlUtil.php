@@ -35,7 +35,7 @@ final class XmlUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function arrayToXml(array $arr, SimpleXMLElement &$xml = null, ?string $parentName = null): void
+    public static function arrayToXml(array $arr, ?SimpleXMLElement &$xml = null, ?string $parentName = null): void
     {
         $xml ??= new SimpleXMLElement('<root></root>');
 

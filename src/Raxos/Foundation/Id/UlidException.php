@@ -11,7 +11,7 @@ use function sprintf;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Id
- * @since 31-10-2024
+ * @since 1.3.1
  */
 final class UlidException extends RaxosException
 {
@@ -23,7 +23,7 @@ final class UlidException extends RaxosException
      *
      * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 26-09-2024
+     * @since 1.3.1
      */
     public static function invalidLength(string $value): self
     {
@@ -39,7 +39,7 @@ final class UlidException extends RaxosException
      *
      * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 26-09-2024
+     * @since 1.3.1
      */
     public static function timestampTooLarge(): self
     {
@@ -57,7 +57,7 @@ final class UlidException extends RaxosException
      *
      * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 26-09-2024
+     * @since 1.3.1
      */
     public static function wrongCharacters(string $value): self
     {

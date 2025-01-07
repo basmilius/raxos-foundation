@@ -17,18 +17,22 @@ use const FILTER_VALIDATE_IP;
  * @package Raxos\Foundation\Network
  * @since 1.0.0
  */
-abstract class IP implements JsonSerializable, Stringable
+final readonly class IP implements JsonSerializable, Stringable
 {
 
     /**
      * IP constructor.
      *
      * @param string $value
+     * @param IPVersion $version
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(public readonly string $value) {}
+    public function __construct(
+        public string $value,
+        public IPVersion $version
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -97,21 +101,21 @@ abstract class IP implements JsonSerializable, Stringable
      *
      * @param string $ip
      *
-     * @return IPv4|IPv6|null
+     * @return self|null
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function parse(string $ip): IPv4|IPv6|null
+    public static function parse(string $ip): ?self
     {
         if (!self::isValid($ip)) {
             return null;
         }
 
         if (self::isV4($ip)) {
-            return new IPv4($ip);
+            return new self($ip, IPVersion::V4);
         }
 
-        return new IPv6($ip);
+        return new self($ip, IPVersion::V6);
     }
 
 }

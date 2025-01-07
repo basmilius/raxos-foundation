@@ -53,28 +53,6 @@ final class ArrayUtil
     }
 
     /**
-     * Finds the index of the first array element that matches the predicate.
-     *
-     * @param array $arr
-     * @param callable $predicate
-     *
-     * @return string|int|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    #[Pure]
-    public static function findIndex(array $arr, callable $predicate): string|int|null
-    {
-        foreach ($arr as $index => $elm) {
-            if ($predicate($elm)) {
-                return $index;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Flattens the given array.
      *
      * @param array $arr
@@ -179,7 +157,7 @@ final class ArrayUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function first(array $items, callable $predicate = null, mixed $defaultValue = null): mixed
+    public static function first(array $items, ?callable $predicate = null, mixed $defaultValue = null): mixed
     {
         if (is_null($predicate)) {
             if (empty($items)) {
@@ -219,63 +197,11 @@ final class ArrayUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function last(array $items, callable $predicate = null, mixed $defaultValue = null): mixed
+    public static function last(array $items, ?callable $predicate = null, mixed $defaultValue = null): mixed
     {
         $items = array_reverse($items);
 
         return self::first($items, $predicate, $defaultValue);
-    }
-
-    /**
-     * Returns TRUE if every item of the given $iterable match
-     * the given predicate.
-     *
-     * @template TKey of array-key
-     * @template TValue
-     *
-     * @param iterable<TKey, TValue> $iterable
-     * @param callable(TValue, TKey):bool $predicate
-     *
-     * @return bool
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.16
-     */
-    #[Pure]
-    public static function every(iterable $iterable, callable $predicate): bool
-    {
-        foreach ($iterable as $key => $value) {
-            if (!$predicate($value, $key)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Returns TRUE if some of the items in the given $iterable match
-     * the given predicate.
-     *
-     * @template TKey of array-key
-     * @template TValue
-     *
-     * @param iterable<TKey, TValue> $iterable
-     * @param callable(TValue, TKey):bool $predicate
-     *
-     * @return bool
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.16
-     */
-    #[Pure]
-    public static function some(iterable $iterable, callable $predicate): bool
-    {
-        foreach ($iterable as $key => $value) {
-            if ($predicate($value, $key)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
 }

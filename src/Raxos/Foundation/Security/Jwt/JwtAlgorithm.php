@@ -65,8 +65,8 @@ enum JwtAlgorithm: string
     }
 
     /**
-     * Verifies the message with the given signature, key and algorithm. Not all
-     * methods are symmetric, so we must have a separate verify and sign method.
+     * Verifies the message with the given signature, key, and algorithm.
+     * Not all methods are symmetric, so we must have a separate verify and sign method.
      *
      * @param string $key
      * @param string $signature

@@ -16,9 +16,9 @@ use function hrtime;
 final class Stopwatch
 {
 
-    private StopwatchState $state = StopwatchState::IDLE;
-    private float $startTime = 0.0;
-    private float $stopTime = 0.0;
+    public private(set) StopwatchState $state = StopwatchState::IDLE;
+    public private(set) float $startTime = 0.0;
+    public private(set) float $stopTime = 0.0;
 
     /**
      * Stopwatch constructor.

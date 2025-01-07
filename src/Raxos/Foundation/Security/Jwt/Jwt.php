@@ -41,7 +41,7 @@ class Jwt
      * @return array
      * @throws JwtException
      * @author Bas Milius <bas@mili.us>
-     * @since 1.5.0
+     * @since 1.0.0
      *
      * @see Jwt::jsonDecode()
      * @see Jwt::urlsafeB64Decode()
@@ -129,7 +129,7 @@ class Jwt
      * @return string
      * @throws JwtException
      * @author Bas Milius <bas@mili.us>
-     * @since 1.5.0
+     * @since 1.0.0
      *
      * @see Jwt::jsonEncode()
      * @see Jwt::urlsafeB64Encode()
@@ -163,7 +163,7 @@ class Jwt
      * @return mixed
      * @throws JwtException
      * @author Bas Milius <bas@mili.us>
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private static function jsonDecode(string $input): mixed
     {
@@ -188,7 +188,7 @@ class Jwt
      * @return string
      * @throws JwtException
      * @author Bas Milius <bas@mili.us>
-     * @since 1.5.0
+     * @since 1.0.0
      */
     private static function jsonEncode(mixed $data): string
     {

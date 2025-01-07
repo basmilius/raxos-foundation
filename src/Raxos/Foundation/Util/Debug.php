@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
-use Raxos\Foundation\Environment;
 use function count;
 use function headers_list;
 use function memory_get_peak_usage;
 use function memory_get_usage;
+use function Raxos\Foundation\isCommandLineInterface;
 use function sprintf;
 use function str_contains;
 use function strtolower;
@@ -116,7 +116,7 @@ final class Debug
      */
     private static function rawPrint(callable $fn, mixed ...$data): void
     {
-        $isPlaintext = Environment::isCommandLineInterface();
+        $isPlaintext = isCommandLineInterface();
 
         if (!$isPlaintext) {
             $headers = headers_list();

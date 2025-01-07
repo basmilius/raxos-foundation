@@ -4,10 +4,14 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Network;
 
 /**
- * Class IPv4
+ * Enum IPVersion
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Network
- * @since 1.0.0
+ * @since 1.4.0
  */
-class IPv4 extends IP {}
+enum IPVersion: string
+{
+    case V4 = 'IPv4';
+    case V6 = 'IPv6';
+}
