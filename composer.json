@@ -3,7 +3,7 @@
     "description": "Base stuff for all Raxos libraries.",
     "license": "mit",
     "minimum-stability": "dev",
-    "prefer-stable" : true,
+    "prefer-stable": true,
     "type": "library",
     "authors": [
         {
@@ -22,6 +22,9 @@
     "config": {
         "platform": {
             "php": "8.4"
+        },
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     },
     "repositories": [
@@ -35,9 +38,12 @@
         "ext-dom": "*",
         "ext-intl": "*",
         "ext-json": "*",
-        "ext-mbstring" : "*",
-        "ext-openssl" : "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
         "ext-simplexml": "*",
         "jetbrains/phpstorm-attributes": "^1.2"
+    },
+    "require-dev": {
+        "pestphp/pest": "v3.7.1"
     }
 }

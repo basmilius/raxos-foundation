@@ -7,6 +7,7 @@ use JetBrains\PhpStorm\Pure;
 use Raxos\Foundation\Collection\ArrayList;
 use Raxos\Foundation\Contract\ArrayableInterface;
 use Traversable;
+use function array_diff;
 use function array_flip;
 use function array_intersect;
 use function array_intersect_key;
@@ -120,7 +121,7 @@ final class ArrayUtil
     public static function in(array $arr, array $items, bool $all = false): bool
     {
         if ($all) {
-            return empty(array_intersect($items, $arr));
+            return empty(array_diff($items, $arr));
         }
 
         return !empty(array_intersect($items, $arr));

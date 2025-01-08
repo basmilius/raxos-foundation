@@ -13,6 +13,7 @@ use function floor;
 use function implode;
 use function mb_strtolower;
 use function mb_substr;
+use function mb_trim;
 use function preg_match;
 use function preg_match_all;
 use function preg_replace;
@@ -22,9 +23,11 @@ use function sqrt;
 use function str_contains;
 use function str_shuffle;
 use function str_split;
+use function strip_tags;
 use function strlen;
 use function strrchr;
 use function strtolower;
+use function strtr;
 use function substr;
 use function transliterator_transliterate;
 use function trim;
@@ -264,7 +267,7 @@ final class StringUtil
     #[Pure]
     public static function splitSentences(string $str): array
     {
-        return preg_split('/(?<!\.\.\.)(?<!Dr\.)(?<=[.?!]|\.\)|\.")\s+(?=[a-zA-Z"(])/', $str);
+        return preg_split('/(?<!\.\.\.)(?<!Dr\.)(?<=[.?!]|\.\)|\.")\s+(?=[a-zA-Z"(])/', $str, flags: PREG_SPLIT_NO_EMPTY);
     }
 
     /**
@@ -294,6 +297,8 @@ final class StringUtil
      */
     public static function toSnakeCase(string $str): string
     {
+        $str = strtr($str, ['-' => '_']);
+
         return strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $str));
     }
 
@@ -308,16 +313,19 @@ final class StringUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function truncateText(string $text, int $wordCount = 20, string $ending = '&hellip;'): string
+    public static function truncateText(string $text, int $wordCount = 20, string $ending = '...'): string
     {
         $excerpt = $text;
         $excerpt = preg_replace("/<h2>.+?<\/h2>/is", "", $excerpt);
         $excerpt = preg_replace("/<h3>.+?<\/h3>/is", "", $excerpt);
+        $excerpt = strip_tags($excerpt);
+        $excerpt = mb_trim($excerpt);
         $words = explode(' ', $excerpt, $wordCount + 1);
 
         if (count($words) > $wordCount) {
             array_pop($words);
             $excerpt = implode(' ', $words);
+            $excerpt = mb_trim($excerpt, "!,.-");
             $excerpt .= $ending;
         }
 

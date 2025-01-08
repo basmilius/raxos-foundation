@@ -44,12 +44,12 @@ final class MathUtil
      * @param float|int $value
      * @param float|int $step
      *
-     * @return float|int
+     * @return float
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     #[Pure]
-    public static function ceilStep(float|int $value, float|int $step = 1): float|int
+    public static function ceilStep(float|int $value, float|int $step = 1): float
     {
         return ceil($value / $step) * $step;
     }
@@ -60,12 +60,12 @@ final class MathUtil
      * @param float|int $value
      * @param float|int $step
      *
-     * @return float|int
+     * @return float
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     #[Pure]
-    public static function floorStep(float|int $value, float|int $step = 1): float|int
+    public static function floorStep(float|int $value, float|int $step = 1): float
     {
         return floor($value / $step) * $step;
     }
@@ -76,12 +76,12 @@ final class MathUtil
      * @param float|int $value
      * @param float|int $step
      *
-     * @return float|int
+     * @return float
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     #[Pure]
-    public static function roundStep(float|int $value, float|int $step = 1): float|int
+    public static function roundStep(float|int $value, float|int $step = 1): float
     {
         return round($value / $step) * $step;
     }
