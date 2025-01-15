@@ -22,9 +22,6 @@
     "config": {
         "platform": {
             "php": "8.4"
-        },
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
         }
     },
     "repositories": [
@@ -42,8 +39,5 @@
         "ext-openssl": "*",
         "ext-simplexml": "*",
         "jetbrains/phpstorm-attributes": "^1.2"
-    },
-    "require-dev": {
-        "pestphp/pest": "v3.7.1"
     }
 }
