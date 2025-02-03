@@ -180,5 +180,5 @@ final class Ulid implements Stringable
     {
         return ($value = $this->time . $this->randomness) && $this->lowercase ? strtolower($value) : strtoupper($value);
     }
-    
+
 }
