@@ -5,6 +5,7 @@ namespace Raxos\Foundation\Util;
 
 use function count;
 use function headers_list;
+use function htmlspecialchars;
 use function memory_get_peak_usage;
 use function memory_get_usage;
 use function Raxos\Foundation\isCommandLineInterface;
@@ -142,7 +143,7 @@ final class Debug
 
         if (!$isPlaintext) {
             echo '<pre>';
-            $fn($data);
+            echo htmlspecialchars($fn($data, true));
             echo '</pre>';
         } else {
             $fn($data);

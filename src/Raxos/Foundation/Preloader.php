@@ -14,6 +14,7 @@ use function pathinfo;
 use function readdir;
 use function realpath;
 use function rtrim;
+use function str_ends_with;
 use function str_starts_with;
 use const PATHINFO_EXTENSION;
 
@@ -176,7 +177,7 @@ class Preloader
 
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
-        if ($extension !== 'php' || str_ends_with($path, '.html.php')) {
+        if ($extension !== 'php' || str_ends_with($path, '.phpstorm.meta.php') || str_ends_with($path, '.html.php')) {
             return true;
         }
 
