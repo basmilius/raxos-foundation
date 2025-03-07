@@ -8,7 +8,6 @@ use JsonSerializable;
 use Raxos\Foundation\Contract\{DebuggableInterface, MapInterface, MutableMapInterface, SerializableInterface};
 use Traversable;
 use function array_key_exists;
-use function array_merge;
 use function count;
 
 /**
@@ -84,7 +83,11 @@ class Map implements DebuggableInterface, MapInterface, MutableMapInterface, Jso
      */
     public function merge(MapInterface|array $other): static
     {
-        $this->data = array_merge($this->data, $other instanceof MapInterface ? $other->toArray() : $other);
+        if ($other instanceof MapInterface) {
+            $other = $other->toArray();
+        }
+
+        $this->data += $other;
 
         return $this;
     }

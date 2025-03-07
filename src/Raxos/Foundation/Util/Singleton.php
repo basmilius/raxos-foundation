@@ -32,6 +32,22 @@ final class Singleton
     }
 
     /**
+     * Gets or returns null a singleton.
+     *
+     * @template TInstance
+     *
+     * @param class-string<TInstance> $class
+     *
+     * @return TInstance|null
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.5.0
+     */
+    public static function getOrNull(string $class): ?object
+    {
+        return self::$instances[$class] ?? null;
+    }
+
+    /**
      * Returns TRUE if the given class is instantiated by the {@see Singleton} class.
      *
      * @param class-string $class

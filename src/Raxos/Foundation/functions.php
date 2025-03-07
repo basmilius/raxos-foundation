@@ -77,13 +77,5 @@ function isCommandLineInterface(): bool
  */
 function singleton(string $className, ?callable $setup = null): object
 {
-    if (Singleton::has($className)) {
-        return Singleton::get($className);
-    }
-
-    if ($setup === null) {
-        return Singleton::make($className);
-    }
-
-    return Singleton::register($className, $setup);
+    return Singleton::getOrNull($className) ?? ($setup === null ? Singleton::make($className) : Singleton::register($className, $setup));
 }
