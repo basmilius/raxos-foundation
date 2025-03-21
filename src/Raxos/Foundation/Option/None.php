@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Option;
 
+use Raxos\Foundation\Contract\DebuggableInterface;
 use Throwable;
 use function is_callable;
 
@@ -16,7 +17,7 @@ use function is_callable;
  * @package Raxos\Foundation\Option
  * @since 1.1.0
  */
-final readonly class None extends Option
+final readonly class None extends Option implements DebuggableInterface
 {
 
     /**
@@ -148,6 +149,16 @@ final readonly class None extends Option
     public function reject(mixed $value): Option
     {
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.6.0
+     */
+    public function __debugInfo(): ?array
+    {
+        return null;
     }
 
 }

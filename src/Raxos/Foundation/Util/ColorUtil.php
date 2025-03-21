@@ -385,7 +385,7 @@ final class ColorUtil
     }
 
     /**
-     * Converts a RGB value to HSL.
+     * Converts an RGB value to HSL.
      *
      * @param int $r
      * @param int $g

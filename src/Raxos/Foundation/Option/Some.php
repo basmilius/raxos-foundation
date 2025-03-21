@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Option;
 
+use Raxos\Foundation\Contract\DebuggableInterface;
 use Throwable;
 
 /**
@@ -15,7 +16,7 @@ use Throwable;
  * @package Raxos\Foundation\Option
  * @since 1.1.0
  */
-final readonly class Some extends Option
+final readonly class Some extends Option implements DebuggableInterface
 {
 
     /**
@@ -145,6 +146,18 @@ final readonly class Some extends Option
         }
 
         return self::none();
+    }
+
+    /**
+     * {@inheritdoc}
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.6.0
+     */
+    public function __debugInfo(): ?array
+    {
+        return [
+            'value' => $this->value
+        ];
     }
 
 }
