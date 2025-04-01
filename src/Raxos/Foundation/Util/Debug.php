@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Util;
 
 use function count;
+use function header;
 use function headers_list;
+use function headers_sent;
 use function htmlspecialchars;
 use function memory_get_peak_usage;
 use function memory_get_usage;
@@ -120,6 +122,10 @@ final class Debug
         $isPlaintext = isCommandLineInterface();
 
         if (!$isPlaintext) {
+            if (!headers_sent()) {
+                header('Content-Type: text/plain');
+            }
+
             $headers = headers_list();
 
             foreach ($headers as $header) {
