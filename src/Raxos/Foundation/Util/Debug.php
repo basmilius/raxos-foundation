@@ -3,17 +3,24 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
+use JsonException;
 use function count;
 use function header;
 use function headers_list;
 use function headers_sent;
 use function htmlspecialchars;
+use function json_encode;
 use function memory_get_peak_usage;
 use function memory_get_usage;
 use function Raxos\Foundation\isCommandLineInterface;
 use function sprintf;
 use function str_contains;
 use function strtolower;
+use const JSON_HEX_AMP;
+use const JSON_HEX_APOS;
+use const JSON_HEX_QUOT;
+use const JSON_HEX_TAG;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Class Debug
@@ -49,6 +56,47 @@ final class Debug
     public static function dumpDie(mixed ...$data): never
     {
         self::rawPrint(var_dump(...), ...$data);
+        die(1);
+    }
+
+    /**
+     * Prints the given data as JSON.
+     *
+     * @param mixed ...$data
+     *
+     * @return void
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.7.0
+     */
+    public static function json(mixed ...$data): void
+    {
+        if (!headers_sent()) {
+            header('Content-Type: application/json');
+        }
+
+        if (count($data) === 1) {
+            $data = $data[0];
+        }
+
+        try {
+            echo json_encode($data, JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_THROW_ON_ERROR);
+        } catch (JsonException $err) {
+            Debug::print($err);
+        }
+    }
+
+    /**
+     * Prints the given data as JSON and stops executing.
+     *
+     * @param mixed ...$data
+     *
+     * @return never
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.7.0
+     */
+    public static function jsonDie(mixed ...$data): never
+    {
+        self::json(...$data);
         die(1);
     }
 
