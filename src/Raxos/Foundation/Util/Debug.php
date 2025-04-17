@@ -171,7 +171,8 @@ final class Debug
 
         if (!$isPlaintext) {
             if (!headers_sent()) {
-                header('Content-Type: text/plain');
+                header('access-control-allow-origin: *');
+                header('content-type: text/plain');
             }
 
             $headers = headers_list();

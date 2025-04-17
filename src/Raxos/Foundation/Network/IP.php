@@ -107,15 +107,21 @@ final readonly class IP implements JsonSerializable, Stringable
      */
     public static function parse(string $ip): ?self
     {
+        static $cache = [];
+
+        if (isset($cache[$ip])) {
+            return $cache[$ip];
+        }
+
         if (!self::isValid($ip)) {
-            return null;
+            return $cache[$ip] = null;
         }
 
         if (self::isV4($ip)) {
-            return new self($ip, IPVersion::V4);
+            return $cache[$ip] = new self($ip, IPVersion::V4);
         }
 
-        return new self($ip, IPVersion::V6);
+        return $cache[$ip] = new self($ip, IPVersion::V6);
     }
 
 }

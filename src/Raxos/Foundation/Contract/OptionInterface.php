@@ -75,7 +75,7 @@ interface OptionInterface
      *
      * @template TException
      *
-     * @param TException|callable():TException $err
+     * @param (TException&Throwable)|callable():TException $err
      *
      * @return TValue
      * @throws TException
@@ -116,7 +116,7 @@ interface OptionInterface
      *
      * @template TException
      *
-     * @param TException|callable():TException $err
+     * @param (TException&Throwable)|callable():TException $err
      *
      * @return Option<TValue>
      * @throws TException
