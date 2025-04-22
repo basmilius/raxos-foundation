@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Option;
 
+use Raxos\Foundation\Contract\OptionInterface;
 use Raxos\Foundation\Error\{ExceptionId, RaxosException};
 use function sprintf;
 
@@ -28,7 +29,7 @@ final class OptionException extends RaxosException
         return new self(
             ExceptionId::for(__METHOD__),
             'option_not_an_option',
-            sprintf('Expected a value of type "%s" or "%s".', Some::class, None::class)
+            sprintf('Expected a value of type "%s".', OptionInterface::class)
         );
     }
 

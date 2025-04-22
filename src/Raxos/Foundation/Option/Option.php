@@ -37,11 +37,11 @@ abstract readonly class Option implements OptionInterface
      * @param callable():TValue $fn
      * @param mixed|null $none
      *
-     * @return Option<TValue>
+     * @return OptionInterface<TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public static function fromCallable(callable $fn, mixed $none = null): self
+    public static function fromCallable(callable $fn, mixed $none = null): OptionInterface
     {
         return self::fromValue($fn(), $none);
     }
@@ -52,11 +52,11 @@ abstract readonly class Option implements OptionInterface
      * @param TValue $value
      * @param mixed $none
      *
-     * @return Option<TValue>
+     * @return OptionInterface<TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public static function fromValue(mixed $value, mixed $none = null): self
+    public static function fromValue(mixed $value, mixed $none = null): OptionInterface
     {
         if ($value instanceof self) {
             return $value;
@@ -72,11 +72,11 @@ abstract readonly class Option implements OptionInterface
     /**
      * Returns none.
      *
-     * @return None<TValue>
+     * @return OptionInterface<TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public static function none(): None
+    public static function none(): OptionInterface
     {
         return Singleton::get(None::class);
     }
@@ -86,11 +86,11 @@ abstract readonly class Option implements OptionInterface
      *
      * @param TValue $value
      *
-     * @return Some<TValue>
+     * @return OptionInterface<TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public static function some(mixed $value): Some
+    public static function some(mixed $value): OptionInterface
     {
         return new Some($value);
     }

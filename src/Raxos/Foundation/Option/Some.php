@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Option;
 
-use Raxos\Foundation\Contract\DebuggableInterface;
+use Raxos\Foundation\Contract\{DebuggableInterface, OptionInterface};
 use Throwable;
 
 /**
@@ -11,6 +11,7 @@ use Throwable;
  *
  * @template TValue
  * @extends Option<TValue>
+ * @implements OptionInterface<TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Option
@@ -41,7 +42,7 @@ final readonly class Some extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function filter(callable $predicate): Option
+    public function filter(callable $predicate): OptionInterface
     {
         if ($predicate($this->value) === true) {
             return $this;
@@ -105,7 +106,7 @@ final readonly class Some extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function orElse(callable|Option $fallback): Option
+    public function orElse(OptionInterface|callable $fallback): OptionInterface
     {
         return $this;
     }
@@ -115,7 +116,7 @@ final readonly class Some extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function orThrow(callable|Throwable $err): Option
+    public function orThrow(Throwable|callable $err): OptionInterface
     {
         return $this;
     }
@@ -125,7 +126,7 @@ final readonly class Some extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function accept(mixed $value): Option
+    public function accept(mixed $value): OptionInterface
     {
         if ($this->value === $value) {
             return $this;
@@ -139,7 +140,7 @@ final readonly class Some extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function reject(mixed $value): Option
+    public function reject(mixed $value): OptionInterface
     {
         if ($this->value !== $value) {
             return $this;

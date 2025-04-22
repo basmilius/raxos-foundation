@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Option;
 
-use Raxos\Foundation\Contract\DebuggableInterface;
+use Raxos\Foundation\Contract\{DebuggableInterface, OptionInterface};
 use Throwable;
 use function is_callable;
 
@@ -12,6 +12,7 @@ use function is_callable;
  *
  * @template TValue
  * @extends Option<TValue>
+ * @implements OptionInterface<TValue>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Option
@@ -38,7 +39,7 @@ final readonly class None extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function filter(callable $predicate): Option
+    public function filter(callable $predicate): OptionInterface
     {
         return $this;
     }
@@ -92,7 +93,7 @@ final readonly class None extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function map(callable $map): Option
+    public function map(callable $map): OptionInterface
     {
         return $this;
     }
@@ -102,15 +103,15 @@ final readonly class None extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function orElse(callable|Option $fallback): Option
+    public function orElse(OptionInterface|callable $fallback): OptionInterface
     {
-        if ($fallback instanceof Option) {
+        if ($fallback instanceof OptionInterface) {
             return $fallback;
         }
 
         $option = $fallback();
 
-        if ($option instanceof Option) {
+        if ($option instanceof OptionInterface) {
             return $option;
         }
 
@@ -122,7 +123,7 @@ final readonly class None extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function orThrow(callable|Throwable $err): Option
+    public function orThrow(Throwable|callable $err): OptionInterface
     {
         if (is_callable($err)) {
             throw $err();
@@ -136,7 +137,7 @@ final readonly class None extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function accept(mixed $value): Option
+    public function accept(mixed $value): OptionInterface
     {
         return $this;
     }
@@ -146,7 +147,7 @@ final readonly class None extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function reject(mixed $value): Option
+    public function reject(mixed $value): OptionInterface
     {
         return $this;
     }

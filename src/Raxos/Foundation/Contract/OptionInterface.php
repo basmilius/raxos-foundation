@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Contract;
 
-use Raxos\Foundation\Option\{Option, OptionException};
+use Raxos\Foundation\Option\OptionException;
 use Throwable;
 
 /**
@@ -24,11 +24,11 @@ interface OptionInterface
      *
      * @param callable(TValue):bool $predicate
      *
-     * @return Option<TValue>
+     * @return OptionInterface<TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function filter(callable $predicate): Option;
+    public function filter(callable $predicate): OptionInterface;
 
     /**
      * Returns the value of the option or throws an exception
@@ -91,25 +91,25 @@ interface OptionInterface
      *
      * @param callable(TValue):TNewValue $map
      *
-     * @return Option<TNewValue>
+     * @return OptionInterface<TNewValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function map(callable $map): Option;
+    public function map(callable $map): OptionInterface;
 
     /**
      * Returns the option or the fallback option.
      *
      * @template TFallbackValue
      *
-     * @param Option<TFallbackValue>|callable():TFallbackValue $fallback
+     * @param OptionInterface<TFallbackValue>|callable():TFallbackValue $fallback
      *
-     * @return Option<TFallbackValue|TValue>
+     * @return OptionInterface<TFallbackValue|TValue>
      * @throws OptionException
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function orElse(Option|callable $fallback): Option;
+    public function orElse(OptionInterface|callable $fallback): OptionInterface;
 
     /**
      * Returns the option or throws the given exception.
@@ -118,33 +118,33 @@ interface OptionInterface
      *
      * @param (TException&Throwable)|callable():TException $err
      *
-     * @return Option<TValue>
+     * @return OptionInterface<TValue>
      * @throws TException
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function orThrow(Throwable|callable $err): Option;
+    public function orThrow(Throwable|callable $err): OptionInterface;
 
     /**
      * Accepts only the given value.
      *
      * @param TValue $value
      *
-     * @return Option<TValue>
+     * @return OptionInterface<TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function accept(mixed $value): Option;
+    public function accept(mixed $value): OptionInterface;
 
     /**
      * Rejects the given value.
      *
      * @param TValue $value
      *
-     * @return Option<TValue>
+     * @return OptionInterface<TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function reject(mixed $value): Option;
+    public function reject(mixed $value): OptionInterface;
 
 }
