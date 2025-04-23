@@ -22,7 +22,7 @@ abstract class RaxosException extends Exception implements JsonSerializable
     /**
      * RaxosException constructor.
      *
-     * @param BackedEnum|ExceptionId $id
+     * @param BackedEnum|ExceptionId $code
      * @param string $error
      * @param string $errorDescription
      * @param Throwable|null $previous
@@ -31,13 +31,13 @@ abstract class RaxosException extends Exception implements JsonSerializable
      * @since 1.0.17
      */
     public function __construct(
-        public readonly BackedEnum|ExceptionId $id,
+        BackedEnum|ExceptionId $code,
         public readonly string $error,
         public readonly string $errorDescription,
         public readonly ?Throwable $previous = null
     )
     {
-        parent::__construct($this->errorDescription, $id->value, $previous);
+        parent::__construct($this->errorDescription, $code->value, $previous);
     }
 
     /**
@@ -53,7 +53,7 @@ abstract class RaxosException extends Exception implements JsonSerializable
     public function jsonSerialize(): array
     {
         $result = [
-            'code' => $this->id->value,
+            'code' => $this->code,
             'error' => $this->error,
             'error_description' => $this->errorDescription
         ];
