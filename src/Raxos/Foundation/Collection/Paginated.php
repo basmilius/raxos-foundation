@@ -26,7 +26,7 @@ readonly class Paginated implements JsonSerializable
      * @param int $page
      * @param int $pageSize
      * @param int $pages
-     * @param int $totalItems
+     * @param int $total
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.3.1
@@ -36,7 +36,7 @@ readonly class Paginated implements JsonSerializable
         public int $page,
         public int $pageSize,
         public int $pages,
-        public int $totalItems
+        public int $total
     ) {}
 
     /**
@@ -49,7 +49,7 @@ readonly class Paginated implements JsonSerializable
         'page' => 'int',
         'page_size' => 'int',
         'pages' => 'int',
-        'total_items' => 'int'
+        'total' => 'int'
     ])]
     public function jsonSerialize(): array
     {
@@ -58,7 +58,7 @@ readonly class Paginated implements JsonSerializable
             'page' => $this->page,
             'page_size' => $this->pageSize,
             'pages' => $this->pages,
-            'total_items' => $this->totalItems
+            'total' => $this->total
         ];
     }
 
