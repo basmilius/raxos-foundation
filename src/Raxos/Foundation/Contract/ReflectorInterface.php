@@ -4,22 +4,22 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Contract;
 
 /**
- * Interface DebuggableInterface
+ * Interface ReflectorInterface
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Contract
- * @since 1.0.17
+ * @since 2.0.0
  */
-interface DebuggableInterface
+interface ReflectorInterface
 {
 
     /**
-     * Returns debug information for the object.
+     * Returns a name for the reflected type.
      *
-     * @return array
+     * @return string
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.17
+     * @since 2.0.0
      */
-    public function __debugInfo(): array;
+    public function getName(): string;
 
 }

@@ -45,7 +45,7 @@ readonly class ReadonlyArrayList implements ArrayListInterface, DebuggableInterf
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public function __debugInfo(): ?array
+    public function __debugInfo(): array
     {
         return $this->data;
     }

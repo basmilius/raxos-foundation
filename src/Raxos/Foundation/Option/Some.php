@@ -154,9 +154,10 @@ final readonly class Some extends Option implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.6.0
      */
-    public function __debugInfo(): ?array
+    public function __debugInfo(): array
     {
         return [
+            'type' => self::class,
             'value' => $this->value
         ];
     }

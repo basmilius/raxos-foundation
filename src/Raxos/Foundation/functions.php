@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation;
 
+use Raxos\Foundation\Reflection\ClassReflector;
 use Raxos\Foundation\Util\Singleton;
+use ReflectionException;
 use function getenv;
 use function is_bool;
 use function is_int;
@@ -63,10 +65,27 @@ function isCommandLineInterface(): bool
 }
 
 /**
+ * Returns a new class reflector for the given class.
+ *
+ * @template TClass of object
+ *
+ * @param class-string<TClass> $class
+ *
+ * @return ClassReflector<TClass>
+ * @throws ReflectionException
+ * @author Bas Milius <bas@mili.us>
+ * @since 2.0.0
+ */
+function reflect(string $class): ClassReflector
+{
+    return new ClassReflector($class);
+}
+
+/**
  * Returns an instance of the given class and makes sure
  * that there is only one instance of it.
  *
- * @template TInstance
+ * @template TInstance of object
  *
  * @param class-string<TInstance> $className
  * @param callable():TInstance|null $setup
