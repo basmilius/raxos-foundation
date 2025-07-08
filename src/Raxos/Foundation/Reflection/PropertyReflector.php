@@ -60,7 +60,7 @@ final readonly class PropertyReflector implements ReflectorInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public function get(object $instance, mixed $default = null): mixed
+    public function getValue(object $instance, mixed $default = null): mixed
     {
         try {
             return $this->reflection->getValue($instance) ?? $default;
@@ -79,7 +79,7 @@ final readonly class PropertyReflector implements ReflectorInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public function set(object $instance, mixed $value): void
+    public function setValue(object $instance, mixed $value): void
     {
         $this->reflection->setValue($instance, $value);
     }
@@ -93,7 +93,7 @@ final readonly class PropertyReflector implements ReflectorInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public function unset(object $instance): void
+    public function unsetValue(object $instance): void
     {
         unset($instance->{$this->getName()});
     }
@@ -149,6 +149,18 @@ final readonly class PropertyReflector implements ReflectorInterface
     }
 
     /**
+     * Returns the default value of the parameter.
+     *
+     * @return mixed
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public function getDefaultValue(): mixed
+    {
+        return $this->reflection->getDefaultValue();
+    }
+
+    /**
      * Returns TRUE if the property has a default value.
      *
      * @return bool
@@ -180,6 +192,18 @@ final readonly class PropertyReflector implements ReflectorInterface
         }
 
         return false;
+    }
+
+    /**
+     * Returns TRUE if the property has a type.
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public function hasType(): bool
+    {
+        return $this->reflection->hasType();
     }
 
     /**
@@ -265,7 +289,7 @@ final readonly class PropertyReflector implements ReflectorInterface
      */
     public function isReadonly(): bool
     {
-        return $this->reflection->isReadonly();
+        return $this->reflection->isReadOnly();
     }
 
     /**

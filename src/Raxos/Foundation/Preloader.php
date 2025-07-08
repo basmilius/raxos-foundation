@@ -14,8 +14,10 @@ use function pathinfo;
 use function readdir;
 use function realpath;
 use function rtrim;
+use function str_contains;
 use function str_ends_with;
 use function str_starts_with;
+use function strtolower;
 use const PATHINFO_EXTENSION;
 
 /**
@@ -55,7 +57,7 @@ class Preloader
      */
     public function ignore(string $path): void
     {
-        $this->ignore[] = $path;
+        $this->ignore[] = strtolower($path);
     }
 
     /**
@@ -169,6 +171,7 @@ class Preloader
      */
     private function ignored(string $path): bool
     {
+        $path = strtolower($path);
         $basename = basename($path);
 
         if (str_starts_with($basename, '.')) {
@@ -177,7 +180,11 @@ class Preloader
 
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
-        if ($extension !== 'php' || str_ends_with($path, '.phpstorm.meta.php') || str_ends_with($path, '.html.php')) {
+        if (str_ends_with($path, 'autoload.php') || str_contains($path, '/test/') || str_contains($path, '/tests/')) {
+            return true;
+        }
+
+        if ($extension !== 'php' || str_ends_with($path, '.phpstorm.meta.php') || str_ends_with($path, '.html.php') || str_ends_with($path, '.json.php')) {
             return true;
         }
 

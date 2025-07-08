@@ -5,6 +5,8 @@ namespace Raxos\Foundation\Reflection;
 
 use Raxos\Foundation\Contract\ReflectorInterface;
 use ReflectionException;
+use ReflectionFunction;
+use ReflectionMethod;
 use ReflectionParameter;
 
 /**
@@ -30,6 +32,44 @@ final readonly class ParameterReflector implements ReflectorInterface
     public function __construct(ReflectionParameter $parameter)
     {
         $this->reflection = $parameter;
+    }
+
+    /**
+     * Returns the declaring class reflector.
+     *
+     * @return ClassReflector|null
+     * @throws ReflectionException
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public function getClass(): ?ClassReflector
+    {
+        $class = $this->reflection->getDeclaringClass();
+
+        if ($class !== null) {
+            return new ClassReflector($class);
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the declaring function reflector.
+     *
+     * @return FunctionReflector|MethodReflector
+     * @throws ReflectionException
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public function getFunction(): FunctionReflector|MethodReflector
+    {
+        $function = $this->reflection->getDeclaringFunction();
+
+        return match (true) {
+            $function instanceof ReflectionMethod => new MethodReflector($function),
+            $function instanceof ReflectionFunction => new FunctionReflector($function),
+            default => throw new ReflectionException('Unknown function type.'),
+        };
     }
 
     /**
@@ -90,6 +130,18 @@ final readonly class ParameterReflector implements ReflectorInterface
     public function hasDefaultValue(): bool
     {
         return $this->reflection->isDefaultValueAvailable();
+    }
+
+    /**
+     * Returns TRUE if the parameter has a type.
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public function hasType(): bool
+    {
+        return $this->reflection->hasType();
     }
 
     /**

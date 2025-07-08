@@ -86,14 +86,15 @@ trait Attributable
      * Returns TRUE if the given attribute is present.
      *
      * @param class-string $name
+     * @param bool $instanceOf
      *
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public function hasAttribute(string $name): bool
+    public function hasAttribute(string $name, bool $instanceOf = false): bool
     {
-        return !empty($this->reflection->getAttributes($name));
+        return !empty($this->reflection->getAttributes($name, $instanceOf ? ReflectionAttribute::IS_INSTANCEOF : 0));
     }
 
 }
