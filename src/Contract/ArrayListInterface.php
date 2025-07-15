@@ -245,7 +245,7 @@ interface ArrayListInterface extends ArrayAccess, ArrayableInterface, Countable,
     /**
      * Reduce the array list to a single value using the given function.
      *
-     * @template TResult
+     * @template TResult of mixed
      *
      * @param callable(TResult, TValue, TKey):TResult $fn
      * @param TResult|null $initial

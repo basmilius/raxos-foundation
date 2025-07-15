@@ -9,7 +9,7 @@ use Throwable;
 /**
  * Interface OptionInterface
  *
- * @template TValue
+ * @template TValue of mixed
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Contract

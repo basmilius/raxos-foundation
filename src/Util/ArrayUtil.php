@@ -147,7 +147,7 @@ final class ArrayUtil
      * Returns the first element of the given array. If a predicate is provided,
      * it's used as a truth check.
      *
-     * @template T
+     * @template T of mixed
      *
      * @param array<T> $items
      * @param callable|null $predicate
@@ -187,7 +187,7 @@ final class ArrayUtil
      * Returns the last element of the given array. If a predicate is provided,
      * it's used as a truth check.
      *
-     * @template T
+     * @template T of mixed
      *
      * @param array<T> $items
      * @param callable|null $predicate

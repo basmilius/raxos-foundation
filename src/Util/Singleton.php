@@ -18,7 +18,7 @@ final class Singleton
     /**
      * Gets or instantiates a singleton.
      *
-     * @template TInstance
+     * @template TInstance of object
      *
      * @param class-string<TInstance> $class
      *
@@ -34,7 +34,7 @@ final class Singleton
     /**
      * Gets or returns null a singleton.
      *
-     * @template TInstance
+     * @template TInstance of object
      *
      * @param class-string<TInstance> $class
      *
@@ -64,7 +64,7 @@ final class Singleton
     /**
      * Instantiates a new singleton.
      *
-     * @template TInstance
+     * @template TInstance of object
      *
      * @param class-string<TInstance> $class
      *
@@ -80,7 +80,7 @@ final class Singleton
     /**
      * Registers the given class.
      *
-     * @template TInstance
+     * @template TInstance of object
      *
      * @param class-string<TInstance> $class
      * @param callable():TInstance $setup

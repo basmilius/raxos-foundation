@@ -87,7 +87,7 @@ final class Stopwatch
     /**
      * Runs the given function.
      *
-     * @template TResult
+     * @template TResult of mixed
      *
      * @param callable():TResult $fn
      *
@@ -133,7 +133,7 @@ final class Stopwatch
     /**
      * Measures the given function.
      *
-     * @template TResult
+     * @template TResult of mixed
      *
      * @param float $runningTime
      * @param callable():TResult $fn

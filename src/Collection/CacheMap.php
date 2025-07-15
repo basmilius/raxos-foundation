@@ -16,7 +16,7 @@ final class CacheMap extends Map
     /**
      * Remembers the result of the callable.
      *
-     * @template TResult
+     * @template TResult of mixed
      *
      * @param string $key
      * @param callable():TResult $fn
