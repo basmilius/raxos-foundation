@@ -9,6 +9,7 @@ use Raxos\Foundation\Contract\SerializableInterface;
 use ReflectionException;
 use ReflectionMethod;
 use function implode;
+use function Raxos\Foundation\reflect;
 
 /**
  * Class MethodReflector
@@ -79,7 +80,7 @@ final readonly class MethodReflector implements ReflectorInterface, Serializable
      */
     public function getClass(): ClassReflector
     {
-        return new ClassReflector($this->reflection->getDeclaringClass());
+        return reflect($this->reflection->getDeclaringClass());
     }
 
     /**

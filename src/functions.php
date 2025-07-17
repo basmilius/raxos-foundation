@@ -5,6 +5,7 @@ namespace Raxos\Foundation;
 
 use Raxos\Foundation\Reflection\ClassReflector;
 use Raxos\Foundation\Util\Singleton;
+use ReflectionClass;
 use ReflectionException;
 use function getenv;
 use function is_bool;
@@ -69,14 +70,14 @@ function isCommandLineInterface(): bool
  *
  * @template TClass of object
  *
- * @param class-string<TClass> $class
+ * @param class-string<TClass>|ReflectionClass<TClass> $class
  *
  * @return ClassReflector<TClass>
  * @throws ReflectionException
  * @author Bas Milius <bas@mili.us>
  * @since 2.0.0
  */
-function reflect(string $class): ClassReflector
+function reflect(string|ReflectionClass $class): ClassReflector
 {
     return new ClassReflector($class);
 }

@@ -39,7 +39,7 @@ trait Attributable
      */
     public function getAttribute(string $name, bool $recursive = false): ?object
     {
-        $attribute = $this->reflection->getAttributes($name, ReflectionAttribute::IS_INSTANCEOF)[0] ?? null;
+        $attribute = $this->getRawAttribute($name);
         $instance = $attribute?->newInstance();
 
         if ($instance || !$recursive) {
@@ -80,6 +80,38 @@ trait Attributable
             static fn(ReflectionAttribute $attribute) => $attribute->newInstance(),
             $this->reflection->getAttributes($name, ReflectionAttribute::IS_INSTANCEOF)
         );
+    }
+
+    /**
+     * Returns a raw attribute.
+     *
+     * @template TAttribute of object
+     *
+     * @param class-string<TAttribute> $name
+     *
+     * @return ReflectionAttribute<TAttribute>|null
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public function getRawAttribute(string $name): ?ReflectionAttribute
+    {
+        return $this->reflection->getAttributes($name, ReflectionAttribute::IS_INSTANCEOF)[0] ?? null;
+    }
+
+    /**
+     * Returns raw attributes.
+     *
+     * @template TAttribute of object
+     *
+     * @param class-string<TAttribute> $name
+     *
+     * @return ReflectionAttribute<TAttribute>[]
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public function getRawAttributes(string $name): array
+    {
+        return $this->reflection->getAttributes($name, ReflectionAttribute::IS_INSTANCEOF);
     }
 
     /**
