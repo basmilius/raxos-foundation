@@ -97,7 +97,7 @@ class ArrayList implements ArrayListInterface, MutableArrayListInterface, Debugg
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
     public function __serialize(): array
@@ -107,7 +107,7 @@ class ArrayList implements ArrayListInterface, MutableArrayListInterface, Debugg
 
     /**
      * {@inheritdoc}
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
     public function __unserialize(array $data): void

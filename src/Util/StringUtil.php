@@ -160,7 +160,7 @@ final class StringUtil
      * @param string $sets
      *
      * @return string
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
     public static function random(int $length = 9, bool $dashes = false, string $sets = 'luds'): string

@@ -28,7 +28,7 @@ final class ReflectionUtil
      * @param ReflectionFunctionAbstract $ref
      *
      * @return ReflectionParameter[]
-     * @author Bas Milius <bas@glybe.nl>
+     * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
     public static function getParameters(ReflectionFunctionAbstract $ref): array
