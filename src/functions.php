@@ -66,6 +66,18 @@ function isCommandLineInterface(): bool
 }
 
 /**
+ * Returns TRUE if we're running in testing mode.
+ *
+ * @return bool
+ * @author Bas Milius <bas@mili.us>
+ * @since 2.0.0
+ */
+function isTesting(): bool
+{
+    return env('TESTING', false);
+}
+
+/**
  * Returns a new class reflector for the given class.
  *
  * @template TClass of object
