@@ -28,7 +28,7 @@ final readonly class ClassReflector implements ReflectorInterface
     /**
      * ClassReflector constructor.
      *
-     * @param class-string<TClass>|TClass|ReflectionClass<TClass> $class
+     * @param class-string<TClass>|TClass $class
      *
      * @throws ReflectionException
      * @author Bas Milius <bas@mili.us>
