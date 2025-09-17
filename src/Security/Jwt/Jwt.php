@@ -123,7 +123,7 @@ class Jwt
      * @param array $payload
      * @param string $key
      * @param JwtAlgorithm $algorithm
-     * @param null $keyId
+     * @param string|null $keyId
      * @param array $headers
      *
      * @return string
@@ -134,7 +134,7 @@ class Jwt
      * @see Jwt::jsonEncode()
      * @see Jwt::urlsafeB64Encode()
      */
-    public static function encode(array $payload, string $key, JwtAlgorithm $algorithm = JwtAlgorithm::HS256, $keyId = null, array $headers = []): string
+    public static function encode(array $payload, string $key, JwtAlgorithm $algorithm = JwtAlgorithm::HS256, ?string $keyId = null, array $headers = []): string
     {
         $headers['typ'] = 'JWT';
         $headers['alg'] = $algorithm->value;

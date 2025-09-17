@@ -58,10 +58,9 @@ enum JwtAlgorithm: string
                 }
 
                 return $signature;
-
-            default:
-                throw JwtException::unsupported('Algorithm not supported.');
         }
+
+        throw JwtException::unsupported('Algorithm not supported.');
     }
 
     /**
@@ -101,10 +100,9 @@ enum JwtAlgorithm: string
                 }
 
                 return $result === 1;
-
-            default:
-                throw JwtException::unsupported('Algorithm not supported.');
         }
+
+        throw JwtException::unsupported('Algorithm not supported.');
     }
 
 }
