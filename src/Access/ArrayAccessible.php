@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Access;
 
-use Exception;
+use Throwable;
 
 /**
  * Trait ArrayAccessible
@@ -21,7 +21,7 @@ trait ArrayAccessible
      * @param mixed $offset
      *
      * @return bool
-     * @throws Exception
+     * @throws Throwable
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal
@@ -37,7 +37,7 @@ trait ArrayAccessible
      * @param mixed $offset
      *
      * @return mixed
-     * @throws Exception
+     * @throws Throwable
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal
@@ -53,7 +53,7 @@ trait ArrayAccessible
      * @param mixed $offset
      * @param mixed $value
      *
-     * @throws Exception
+     * @throws Throwable
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal
@@ -68,7 +68,7 @@ trait ArrayAccessible
      *
      * @param mixed $offset
      *
-     * @throws Exception
+     * @throws Throwable
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      * @internal

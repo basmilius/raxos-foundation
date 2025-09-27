@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Util;
 
 use JetBrains\PhpStorm\Pure;
-use Raxos\Foundation\Collection\ArrayList;
-use Raxos\Foundation\Contract\ArrayableInterface;
+use Raxos\Contract\Collection\{ArrayableInterface, ArrayListInterface};
 use Traversable;
 use function array_diff;
 use function array_flip;
@@ -34,13 +33,13 @@ final class ArrayUtil
      * @template TKey
      * @template TValue
      *
-     * @param iterable|ArrayableInterface<TKey, TValue>|ArrayList<TKey, TValue> $items
+     * @param iterable|ArrayableInterface<TKey, TValue>|ArrayListInterface<TKey, TValue> $items
      *
      * @return array<TKey, TValue>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function ensureArray(ArrayList|ArrayableInterface|iterable $items): array
+    public static function ensureArray(ArrayListInterface|ArrayableInterface|iterable $items): array
     {
         if ($items instanceof ArrayableInterface) {
             return $items->toArray();

@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Option;
 
-use Raxos\Foundation\Contract\{DebuggableInterface, OptionInterface};
+use Raxos\Contract\DebuggableInterface;
+use Raxos\Foundation\Contract\OptionInterface;
 use Throwable;
 use function is_callable;
 

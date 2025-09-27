@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation;
 
-use Raxos\Foundation\Reflection\ClassReflector;
 use Raxos\Foundation\Util\Singleton;
+use Raxos\Reflection\ClassReflector;
 use ReflectionClass;
 use ReflectionException;
 use function getenv;
