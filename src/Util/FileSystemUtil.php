@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Foundation\Util;
 
-use Raxos\Foundation\Error\FileSystemException;
+use Raxos\Foundation\Error\TemporaryFileFailedException;
 
 /**
  * Class FileSystemUtil
@@ -19,26 +19,26 @@ final class FileSystemUtil
      * Returns a new temporary file path.
      *
      * @return string
-     * @throws FileSystemException
+     * @throws TemporaryFileFailedException
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
     public static function temporaryFile(): string
     {
-        return tempnam(sys_get_temp_dir(), 'rx') ?: throw FileSystemException::temporaryFileFailed();
+        return tempnam(sys_get_temp_dir(), 'rx') ?: throw new TemporaryFileFailedException();
     }
 
     /**
      * Returns a new temporary file stream.
      *
      * @return mixed
-     * @throws FileSystemException
+     * @throws TemporaryFileFailedException
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
     public static function temporaryFileStream(): mixed
     {
-        return tmpfile() ?: throw FileSystemException::temporaryFileFailed();
+        return tmpfile() ?: throw new TemporaryFileFailedException();
     }
 
 }
