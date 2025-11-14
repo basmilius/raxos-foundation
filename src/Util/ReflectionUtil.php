@@ -70,26 +70,27 @@ final class ReflectionUtil
      * Returns all the types within the given type.
      *
      * @param ReflectionType $type
+     * @param bool $skipNull
      *
      * @return Generator<string>
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    public static function types(ReflectionType $type): Generator
+    public static function types(ReflectionType $type, bool $skipNull = false): Generator
     {
         if ($type instanceof ReflectionIntersectionType) {
             foreach ($type->getTypes() as $subType) {
-                yield from self::types($subType);
+                yield from self::types($subType, skipNull: true);
             }
         } elseif ($type instanceof ReflectionNamedType) {
             yield $type->getName();
         } elseif ($type instanceof ReflectionUnionType) {
             foreach ($type->getTypes() as $subType) {
-                yield from self::types($subType);
+                yield from self::types($subType, skipNull: true);
             }
         }
 
-        if ($type->allowsNull()) {
+        if (!$skipNull && $type->allowsNull()) {
             yield 'null';
         }
     }
