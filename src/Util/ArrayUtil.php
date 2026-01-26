@@ -7,14 +7,14 @@ use JetBrains\PhpStorm\Pure;
 use Raxos\Contract\Collection\{ArrayableInterface, ArrayListInterface};
 use Traversable;
 use function array_diff;
+use function array_first;
 use function array_flip;
 use function array_intersect;
 use function array_intersect_key;
-use function array_key_first;
+use function array_last;
 use function array_reverse;
 use function array_values;
 use function is_array;
-use function is_null;
 use function iterator_to_array;
 
 /**
@@ -159,18 +159,8 @@ final class ArrayUtil
     #[Pure]
     public static function first(array $items, ?callable $predicate = null, mixed $defaultValue = null): mixed
     {
-        if (is_null($predicate)) {
-            if (empty($items)) {
-                return $defaultValue;
-            }
-
-            $key = array_key_first($items);
-
-            if ($key === null) {
-                return $defaultValue;
-            }
-
-            return $items[$key];
+        if ($predicate === null) {
+            return array_first($items) ?? $defaultValue;
         }
 
         foreach ($items as $key => $value) {
@@ -199,9 +189,19 @@ final class ArrayUtil
     #[Pure]
     public static function last(array $items, ?callable $predicate = null, mixed $defaultValue = null): mixed
     {
+        if ($predicate === null) {
+            return array_last($items) ?? $defaultValue;
+        }
+
         $items = array_reverse($items);
 
-        return self::first($items, $predicate, $defaultValue);
+        foreach ($items as $key => $value) {
+            if ($predicate($value, $key)) {
+                return $value;
+            }
+        }
+
+        return $defaultValue;
     }
 
 }
