@@ -20,11 +20,11 @@ interface StringParsableInterface extends Stringable
      *
      * @param string $input
      *
-     * @return self
+     * @return static
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public static function fromString(string $input): self;
+    public static function fromString(string $input): static;
 
     /**
      * Returns the regex representation of the object.

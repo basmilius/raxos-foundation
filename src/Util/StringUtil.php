@@ -16,6 +16,7 @@ use function mb_substr;
 use function mb_trim;
 use function preg_match;
 use function preg_match_all;
+use function preg_quote;
 use function preg_replace;
 use function preg_split;
 use function round;
@@ -115,7 +116,7 @@ final class StringUtil
             case 'C' :
             case 'O' :
             case 's' :
-                if (preg_match("/^{$badions[1]}:\d+:.*[;}]\$/s", $data)) {
+                if (preg_match("/^" . preg_quote($badions[1], '/') . ":\d+:.*[;}]\$/s", $data)) {
                     return true;
                 }
                 break;
@@ -123,7 +124,7 @@ final class StringUtil
             case 'b' :
             case 'i' :
             case 'd' :
-                if (preg_match("/^{$badions[1]}:[\d.E-]+;\$/", $data)) {
+                if (preg_match("/^" . preg_quote($badions[1], '/') . ":[\d.E-]+;\$/", $data)) {
                     return true;
                 }
                 break;
@@ -315,11 +316,12 @@ final class StringUtil
      */
     public static function truncateText(string $text, int $wordCount = 20, string $ending = '...'): string
     {
-        $excerpt = $text;
-        $excerpt = preg_replace("/<h2>.+?<\/h2>/is", "", $excerpt);
-        $excerpt = preg_replace("/<h3>.+?<\/h3>/is", "", $excerpt);
-        $excerpt = strip_tags($excerpt);
-        $excerpt = mb_trim($excerpt);
+        $excerpt = $text
+                |> (fn($x) => preg_replace("/<h2>.+?<\/h2>/is", "", $x))
+                |> (fn($x) => preg_replace("/<h3>.+?<\/h3>/is", "", $x))
+                |> strip_tags(...)
+                |> mb_trim(...);
+
         $words = explode(' ', $excerpt, $wordCount + 1);
 
         if (count($words) > $wordCount) {

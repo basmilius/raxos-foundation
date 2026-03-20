@@ -238,7 +238,7 @@ final class ColorUtil
     #[Pure]
     public static function hslToRgb(float $h, float $s, float $l): array
     {
-        if ($s === 0.0) {
+        if ($s < PHP_FLOAT_EPSILON) {
             return [$l, $l, $l]; // Color is gray, only lightness is relevant.
         }
 

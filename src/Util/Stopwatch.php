@@ -52,9 +52,9 @@ final class Stopwatch
 
         return match ($unit) {
             StopwatchUnit::NANOSECONDS => $time,
-            StopwatchUnit::MICROSECONDS => $time * 1e-3,
-            StopwatchUnit::MILLISECONDS => $time * 1e-6,
-            StopwatchUnit::SECONDS => $time * 1e-9
+            StopwatchUnit::MICROSECONDS => $time / 1e3,
+            StopwatchUnit::MILLISECONDS => $time / 1e6,
+            StopwatchUnit::SECONDS => $time / 1e9
         };
     }
 

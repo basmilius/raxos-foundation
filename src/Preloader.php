@@ -122,6 +122,10 @@ class Preloader
     {
         $handle = opendir($path);
 
+        if ($handle === false) {
+            return;
+        }
+
         while ($file = readdir($handle)) {
             if ($file === '.' || $file === '..') {
                 continue;

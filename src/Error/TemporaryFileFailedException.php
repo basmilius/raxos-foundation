@@ -10,7 +10,7 @@ use Raxos\Error\Exception;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Foundation\Error
- * @since 2.0.º
+ * @since 2.0.0
  */
 final class TemporaryFileFailedException extends Exception
 {
@@ -19,7 +19,7 @@ final class TemporaryFileFailedException extends Exception
      * TemporaryFileFailedException constructor.
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 2.0.º
+     * @since 2.0.0
      */
     public function __construct()
     {

@@ -71,7 +71,7 @@ final class ArrayUtil
             if (!is_array($item)) {
                 $result[] = $item;
             } else {
-                $values = $depth === 1 ? array_values($item) : self::flatten($item, --$depth);
+                $values = $depth === 1 ? array_values($item) : self::flatten($item, $depth - 1);
 
                 foreach ($values as $value) {
                     $result[] = $value;
