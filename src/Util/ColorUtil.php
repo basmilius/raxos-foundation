@@ -188,9 +188,7 @@ final class ColorUtil
         $hex = trim($hex);
         $hex = ltrim($hex, '#');
 
-        if (strlen($hex) === 8) {
-            preg_match('#([\da-f]{2})([\da-f]{2})([\da-f]{2})([\da-f]{2})#i', $hex, $matches);
-
+        if (strlen($hex) === 8 && preg_match('#([\da-f]{2})([\da-f]{2})([\da-f]{2})([\da-f]{2})#i', $hex, $matches)) {
             array_shift($matches);
             $matches = array_map(hexdec(...), $matches);
 
@@ -199,9 +197,7 @@ final class ColorUtil
             return [$r, $g, $b, $a / 255];
         }
 
-        if (strlen($hex) === 6) {
-            preg_match('#([\da-f]{2})([\da-f]{2})([\da-f]{2})#i', $hex, $matches);
-
+        if (strlen($hex) === 6 && preg_match('#([\da-f]{2})([\da-f]{2})([\da-f]{2})#i', $hex, $matches)) {
             array_shift($matches);
             $matches = array_map(hexdec(...), $matches);
 
@@ -210,9 +206,7 @@ final class ColorUtil
             return [$r, $g, $b, 1];
         }
 
-        if (strlen($hex) === 3) {
-            preg_match('#([\da-f])([\da-f])([\da-f])#i', $hex, $matches);
-
+        if (strlen($hex) === 3 && preg_match('#([\da-f])([\da-f])([\da-f])#i', $hex, $matches)) {
             array_shift($matches);
             $matches = array_map(hexdec(...), $matches);
 
