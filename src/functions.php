@@ -5,8 +5,10 @@ namespace Raxos\Foundation;
 
 use Raxos\Foundation\Util\Singleton;
 use function getenv;
+use function in_array;
 use function is_bool;
 use function is_int;
+use function strtolower;
 use const PHP_SAPI;
 
 /**
@@ -32,7 +34,7 @@ function env(string $variable, string|bool|int|null $defaultValue = null): strin
     }
 
     if (is_bool($defaultValue)) {
-        return $result === '1';
+        return in_array(strtolower($result), ['1', 'true', 'yes', 'on'], true);
     }
 
     return $result;

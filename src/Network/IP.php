@@ -5,6 +5,8 @@ namespace Raxos\Foundation\Network;
 
 use JsonSerializable;
 use Stringable;
+use function array_slice;
+use function count;
 use function filter_var;
 use const FILTER_FLAG_IPV4;
 use const FILTER_FLAG_IPV6;
@@ -111,6 +113,10 @@ final readonly class IP implements JsonSerializable, Stringable
 
         if (isset($cache[$ip])) {
             return $cache[$ip];
+        }
+
+        if (count($cache) >= 1000) {
+            $cache = array_slice($cache, -500, preserve_keys: true);
         }
 
         if (!self::isValid($ip)) {
