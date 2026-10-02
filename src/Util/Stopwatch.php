@@ -98,10 +98,11 @@ final class Stopwatch
     public function run(callable $fn): mixed
     {
         $this->start();
-        $result = $fn();
-        $this->stop();
-
-        return $result;
+        try {
+            return $fn();
+        } finally {
+            $this->stop();
+        }
     }
 
     /**
@@ -146,7 +147,7 @@ final class Stopwatch
      */
     public static function measure(float &$runningTime, callable $fn, StopwatchUnit $unit, ?string $description = null): mixed
     {
-        $stopwatch = new self($description);
+        $stopwatch = new self($description ?? 'Stopwatch');
         $result = $stopwatch->run($fn);
         $runningTime = $stopwatch->as($unit) ?? 0.0;
 

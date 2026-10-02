@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace Raxos\Foundation\Util;
 
 use JetBrains\PhpStorm\Pure;
+use Raxos\Error\InvalidArgumentException;
 use function array_map;
 use function array_pop;
 use function array_rand;
+use function array_slice;
 use function count;
 use function explode;
 use function floor;
@@ -166,6 +168,10 @@ final class StringUtil
      */
     public static function random(int $length = 9, bool $dashes = false, string $sets = 'luds'): string
     {
+        if ($length < 1) {
+            throw new InvalidArgumentException('The length must be positive.');
+        }
+
         $usedSets = [];
 
         if (str_contains($sets, 'l')) {
@@ -184,6 +190,11 @@ final class StringUtil
             $usedSets[] = '!@#$%&*?';
         }
 
+        if ($usedSets === []) {
+            throw new InvalidArgumentException('At least one character set is required.');
+        }
+
+        $usedSets = array_slice($usedSets, 0, $length);
         $all = '';
         $str = '';
 
@@ -317,8 +328,8 @@ final class StringUtil
     public static function truncateText(string $text, int $wordCount = 20, string $ending = '...'): string
     {
         $excerpt = $text
-                |> (fn($x) => preg_replace("/<h2>.+?<\/h2>/is", "", $x))
-                |> (fn($x) => preg_replace("/<h3>.+?<\/h3>/is", "", $x))
+                |> (fn(string $x) => preg_replace("/<h2>.+?<\/h2>/is", "", $x))
+                |> (fn(string $x) => preg_replace("/<h3>.+?<\/h3>/is", "", $x))
                 |> strip_tags(...)
                 |> mb_trim(...);
 

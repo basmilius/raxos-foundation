@@ -6,6 +6,7 @@ namespace Raxos\Foundation\Util;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use function abs;
+use function array_fill;
 use function array_map;
 use function array_shift;
 use function array_walk;
@@ -233,7 +234,7 @@ final class ColorUtil
     public static function hslToRgb(float $h, float $s, float $l): array
     {
         if ($s < PHP_FLOAT_EPSILON) {
-            return [$l, $l, $l]; // Color is gray, only lightness is relevant.
+            return array_fill(0, 3, round($l * 255));
         }
 
         $chroma = (1 - abs(2 * $l - 1)) * $s;
@@ -337,7 +338,7 @@ final class ColorUtil
             str_pad(dechex($r), 2, '0', STR_PAD_LEFT) .
             str_pad(dechex($g), 2, '0', STR_PAD_LEFT) .
             str_pad(dechex($b), 2, '0', STR_PAD_LEFT) .
-            str_pad(dechex((int)$a * 255), 2, '0', STR_PAD_LEFT);
+            str_pad(dechex((int)round($a * 255)), 2, '0', STR_PAD_LEFT);
     }
 
     /**
