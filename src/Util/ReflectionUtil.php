@@ -74,7 +74,7 @@ final class ReflectionUtil
      *
      * @return Generator<string>
      * @author Bas Milius <bas@mili.us>
-     * @since 1.7.0
+     * @since 3.2.0
      */
     public static function types(ReflectionType $type, bool $skipNull = false): Generator
     {
@@ -83,14 +83,16 @@ final class ReflectionUtil
                 yield from self::types($subType, skipNull: true);
             }
         } elseif ($type instanceof ReflectionNamedType) {
-            yield $type->getName();
+            if (!$skipNull || $type->getName() !== 'null') {
+                yield $type->getName();
+            }
         } elseif ($type instanceof ReflectionUnionType) {
             foreach ($type->getTypes() as $subType) {
                 yield from self::types($subType, skipNull: true);
             }
         }
 
-        if (!$skipNull && $type->allowsNull()) {
+        if (!$skipNull && $type->allowsNull() && !($type instanceof ReflectionNamedType && $type->getName() === 'null')) {
             yield 'null';
         }
     }
