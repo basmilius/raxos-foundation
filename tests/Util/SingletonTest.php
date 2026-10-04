@@ -6,9 +6,7 @@ use Raxos\Foundation\Util\Singleton;
 covers(Singleton::class);
 
 it('creates, caches and explicitly replaces one instance per class', function (): void {
-    $class = new class
-    {
-    }::class;
+    $class = new class {}::class;
     expect(Singleton::has($class))->toBeFalse()->and(Singleton::getOrNull($class))->toBeNull();
     $first = Singleton::get($class);
     expect(Singleton::get($class))->toBe($first)->and(Singleton::has($class))->toBeTrue()
@@ -18,12 +16,11 @@ it('creates, caches and explicitly replaces one instance per class', function ()
 });
 
 it('evaluates a registered factory only once', function (): void {
-    $class = new class
-    {
-    }::class;
+    $class = new class {}::class;
     $calls = 0;
     $factory = function () use (&$calls): object {
         $calls++;
+
         return new stdClass();
     };
     $value = Singleton::register($class, $factory);

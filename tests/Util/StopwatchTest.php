@@ -19,10 +19,10 @@ it('exposes durations only after stopping and converts every unit', function ():
 
 it('returns results and stops even when the measured callback fails', function (): void {
     $watch = new Stopwatch();
-    expect($watch->run(static fn (): int => 42))->toBe(42)->and($watch->state)->toBe(StopwatchState::STOPPED);
-    expect(fn () => $watch->run(static fn (): never => throw new RuntimeException('unit')))->toThrow(RuntimeException::class)
+    expect($watch->run(static fn(): int => 42))->toBe(42)->and($watch->state)->toBe(StopwatchState::STOPPED);
+    expect(fn() => $watch->run(static fn(): never => throw new RuntimeException('unit')))->toThrow(RuntimeException::class)
         ->and($watch->state)->toBe(StopwatchState::STOPPED)->and($watch->as(StopwatchUnit::SECONDS))->toBeGreaterThanOrEqual(0);
     $duration = 0.0;
-    expect(Stopwatch::measure($duration, static fn (): string => 'unit', StopwatchUnit::SECONDS, 'test'))->toBe('unit')
+    expect(Stopwatch::measure($duration, static fn(): string => 'unit', StopwatchUnit::SECONDS, 'test'))->toBe('unit')
         ->and($duration)->toBeGreaterThanOrEqual(0);
 });

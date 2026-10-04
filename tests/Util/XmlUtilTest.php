@@ -6,8 +6,7 @@ use Raxos\Foundation\Util\XmlUtil;
 covers(XmlUtil::class);
 
 it('escapes text and preserves booleans, nested values, lists and CDATA', function (): void {
-    $serializable = new class implements JsonSerializable
-    {
+    $serializable = new class implements JsonSerializable {
         public function jsonSerialize(): array
         {
             return ['value' => 'unit'];

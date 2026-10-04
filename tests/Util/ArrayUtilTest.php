@@ -7,8 +7,7 @@ use Raxos\Foundation\Util\ArrayUtil;
 covers(ArrayUtil::class);
 
 it('normalizes arrays, collection values and keyed iterators', function (): void {
-    $arrayable = new class implements ArrayableInterface
-    {
+    $arrayable = new class implements ArrayableInterface {
         public function toArray(): array
         {
             return ['a' => 1];
@@ -41,8 +40,8 @@ it('checks any and all membership including empty candidate lists', function ():
 it('finds first and last matching values with their original keys', function (): void {
     $values = ['a' => 0, 'b' => false, 'c' => 3];
     expect(ArrayUtil::first($values))->toBe(0)->and(ArrayUtil::last($values))->toBe(3)
-        ->and(ArrayUtil::first($values, static fn (mixed $value, string $key): bool => $key === 'b'))->toBeFalse()
-        ->and(ArrayUtil::last($values, static fn (mixed $value, string $key): bool => $key === 'a'))->toBe(0)
+        ->and(ArrayUtil::first($values, static fn(mixed $value, string $key): bool => $key === 'b'))->toBeFalse()
+        ->and(ArrayUtil::last($values, static fn(mixed $value, string $key): bool => $key === 'a'))->toBe(0)
         ->and(ArrayUtil::first([], defaultValue: 'empty'))->toBe('empty')
-        ->and(ArrayUtil::last($values, static fn (): bool => false, 'missing'))->toBe('missing');
+        ->and(ArrayUtil::last($values, static fn(): bool => false, 'missing'))->toBe('missing');
 });

@@ -10,7 +10,7 @@ it('converts hex formats including shorthand and alpha', function (string $hex, 
 })->with([['#ff0000', [255, 0, 0, 1]], [' Ff00FF80 ', [255, 0, 255, 128 / 255]], ['#0f8', [0, 255, 136, 1]]]);
 
 it('rejects invalid hex values', function (string $value): void {
-    expect(fn () => ColorUtil::hexToRgba($value))->toThrow(InvalidArgumentException::class);
+    expect(fn() => ColorUtil::hexToRgba($value))->toThrow(InvalidArgumentException::class);
 })->with(['', '#12', '#abcd', '#gggggg', '#123456789']);
 
 it('converts integers, hex values and alpha channels', function (): void {

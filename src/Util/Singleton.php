@@ -107,6 +107,7 @@ final class Singleton
      * Forgets one explicitly selected instance.
      *
      * @param class-string $class
+     *
      * @return void
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0

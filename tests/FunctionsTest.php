@@ -20,14 +20,10 @@ it('uses defaults for missing environment variables and identifies the CLI', fun
 });
 
 it('returns the same singleton with and without a factory', function (): void {
-    $class = new class
-    {
-    }::class;
+    $class = new class {}::class;
     $value = singleton($class);
-    expect(singleton($class, static fn (): never => throw new LogicException('Already exists')))->toBe($value);
-    $other = new class
-    {
-    }::class;
+    expect(singleton($class, static fn(): never => throw new LogicException('Already exists')))->toBe($value);
+    $other = new class {}::class;
     $expected = new stdClass();
-    expect(singleton($other, static fn () => $expected))->toBe($expected)->and(singleton($other))->toBe($expected);
+    expect(singleton($other, static fn() => $expected))->toBe($expected)->and(singleton($other))->toBe($expected);
 });
