@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use Raxos\Foundation\Network\IP;
-use Raxos\Foundation\Network\IPVersion;
+use Raxos\Error\InvalidArgumentException;
+use Raxos\Foundation\Network\{IP, IPVersion};
 use Raxos\Foundation\Util\{ArrayUtil, MathUtil, StringUtil};
 
 it('classifies IPv4 and IPv6 without accepting malformed addresses', function (string $address, ?IPVersion $version): void {
@@ -47,5 +47,5 @@ it('handles Unicode in slugging, replacements and word truncation', function ():
 });
 
 it('rejects random strings without a positive length or an alphabet', function (int $length, string $sets): void {
-    expect(fn(): string => StringUtil::random($length, sets: $sets))->toThrow(Raxos\Error\InvalidArgumentException::class);
+    expect(fn(): string => StringUtil::random($length, sets: $sets))->toThrow(InvalidArgumentException::class);
 })->with([[0, 'l'], [-1, 'l'], [4, ''], [4, 'xyz']]);

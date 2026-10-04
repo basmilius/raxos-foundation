@@ -8,6 +8,7 @@ use Raxos\Foundation\Access\{ArrayAccessible, ObjectAccessible};
 
 final class AccessStore implements ArrayAccess
 {
+
     use ArrayAccessible;
     use ObjectAccessible;
 
@@ -32,4 +33,5 @@ final class AccessStore implements ArrayAccess
     {
         unset($this->values[$key]);
     }
+
 }

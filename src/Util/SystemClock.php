@@ -18,6 +18,7 @@ use Psr\Clock\ClockInterface;
  */
 final readonly class SystemClock implements ClockInterface
 {
+
     /**
      * Returns the current UTC instant without relying on the process default timezone.
      *
@@ -29,4 +30,5 @@ final readonly class SystemClock implements ClockInterface
     {
         return new DateTimeImmutable('now', new DateTimeZone('UTC'));
     }
+
 }

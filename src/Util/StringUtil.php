@@ -348,8 +348,8 @@ final class StringUtil
     ): string
     {
         $excerpt = $text
-                |> (fn(string $x) => preg_replace("/<h2>.+?<\/h2>/is", "", $x))
-                |> (fn(string $x) => preg_replace("/<h3>.+?<\/h3>/is", "", $x))
+                |> (static fn(string $x) => preg_replace("/<h2>.+?<\/h2>/is", "", $x))
+                |> (static fn(string $x) => preg_replace("/<h3>.+?<\/h3>/is", "", $x))
                 |> strip_tags(...)
                 |> mb_trim(...);
 
@@ -364,4 +364,5 @@ final class StringUtil
 
         return trim($excerpt);
     }
+
 }

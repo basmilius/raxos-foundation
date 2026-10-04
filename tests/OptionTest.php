@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use Raxos\Foundation\Option\Option;
-use Raxos\Foundation\Option\OptionException;
+use Raxos\Foundation\Contract\OptionInterface;
+use Raxos\Foundation\Option\{Option, OptionException};
 
 it('keeps falsey values as Some while recognizing the configured None sentinel', function (mixed $value): void {
     $option = Option::fromValue($value);
@@ -38,7 +38,7 @@ it('only invokes fallbacks for None and validates option fallbacks', function ()
         ->and($some->orElse($fail))->toBe($some)
         ->and($none->getOrElse('fallback'))->toBe('fallback')
         ->and($none->getOrInvoke(static fn(): string => 'fallback'))->toBe('fallback')
-        ->and($none->orElse(static fn(): Raxos\Foundation\Contract\OptionInterface => $some))->toBe($some)
+        ->and($none->orElse(static fn(): OptionInterface => $some))->toBe($some)
         ->and(fn(): mixed => $none->orElse(static fn(): int => 3))->toThrow(OptionException::class)
         ->and(fn(): mixed => $none->getOrThrow(new RuntimeException('missing')))->toThrow(RuntimeException::class, 'missing')
         ->and(fn(): mixed => $none->orThrow(static fn(): RuntimeException => new RuntimeException('missing')))->toThrow(RuntimeException::class);

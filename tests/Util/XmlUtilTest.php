@@ -7,10 +7,12 @@ covers(XmlUtil::class);
 
 it('escapes text and preserves booleans, nested values, lists and CDATA', function (): void {
     $serializable = new class implements JsonSerializable {
+
         public function jsonSerialize(): array
         {
             return ['value' => 'unit'];
         }
+
     };
     $xml = null;
     XmlUtil::arrayToXml(['text' => 'A & B', 'yes' => true, 'no' => false, 'html' => '<p>unit</p>', 'items' => ['a', 'b'], 'entry_list' => [1], 'values_without_suffix' => [2], 'object' => $serializable], $xml);

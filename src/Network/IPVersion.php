@@ -12,6 +12,8 @@ namespace Raxos\Foundation\Network;
  */
 enum IPVersion: string
 {
+
     case V4 = 'IPv4';
     case V6 = 'IPv6';
+
 }

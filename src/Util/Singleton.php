@@ -12,6 +12,7 @@ namespace Raxos\Foundation\Util;
  */
 final class Singleton
 {
+
     /**
      * Retains shared instances until their owning cache or scope releases them.
      *
@@ -128,4 +129,5 @@ final class Singleton
     {
         self::$instances = [];
     }
+
 }

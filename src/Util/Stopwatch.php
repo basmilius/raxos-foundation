@@ -15,6 +15,7 @@ use function hrtime;
  */
 final class Stopwatch
 {
+
     /**
      * Prevents elapsed-time reads from using an invalid stopwatch lifecycle.
      *
@@ -181,4 +182,5 @@ final class Stopwatch
 
         return $result;
     }
+
 }

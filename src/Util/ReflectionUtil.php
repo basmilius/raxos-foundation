@@ -20,6 +20,7 @@ use ReflectionUnionType;
  */
 final class ReflectionUtil
 {
+
     /**
      * Gets the parameters of the given method or function reflection instance
      * as an associative array.
@@ -98,4 +99,5 @@ final class ReflectionUtil
             yield 'null';
         }
     }
+
 }

@@ -12,8 +12,10 @@ namespace Raxos\Foundation\Util;
  */
 enum StopwatchUnit
 {
+
     case NANOSECONDS;
     case MICROSECONDS;
     case MILLISECONDS;
     case SECONDS;
+
 }

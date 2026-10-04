@@ -12,7 +12,9 @@ namespace Raxos\Foundation\Util;
  */
 enum StopwatchState
 {
+
     case IDLE;
     case RUNNING;
     case STOPPED;
+
 }

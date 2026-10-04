@@ -31,6 +31,7 @@ use const STR_PAD_LEFT;
  */
 final class ColorUtil
 {
+
     /**
      * Blends {@see $color1} with {@see $color2} with {@see $weight}.
      *
@@ -476,4 +477,5 @@ final class ColorUtil
             round($l, 3)
         ];
     }
+
 }

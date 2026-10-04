@@ -38,6 +38,7 @@ final readonly class IP implements JsonSerializable, Stringable
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -48,6 +49,7 @@ final readonly class IP implements JsonSerializable, Stringable
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */

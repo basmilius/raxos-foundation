@@ -8,10 +8,12 @@ covers(ArrayUtil::class);
 
 it('normalizes arrays, collection values and keyed iterators', function (): void {
     $arrayable = new class implements ArrayableInterface {
+
         public function toArray(): array
         {
             return ['a' => 1];
         }
+
     };
 
     expect(ArrayUtil::ensureArray(['a' => 1]))->toBe(['a' => 1])
