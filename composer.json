@@ -43,8 +43,9 @@
         "ext-simplexml": "*",
         "jetbrains/phpstorm-attributes": "^1.2",
         "php": ">=8.5",
-        "raxos/contract": "*",
-        "raxos/error": "*"
+        "psr/clock": "^1.0",
+        "raxos/contract": "^3.2",
+        "raxos/error": "^3.2"
     },
     "require-dev": {
         "pestphp/pest": "^5.0"
@@ -56,5 +57,10 @@
     },
     "scripts": {
         "test": "pest --compact"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.3.x-dev"
+        }
     }
 }

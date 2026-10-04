@@ -20,7 +20,7 @@ Shared value objects, access traits and utility functions used throughout Raxos.
 Requires PHP 8.5 or later. Enable the `dom`, `intl`, `json`, `mbstring`, `openssl`, `simplexml` PHP extensions. Composer checks the remaining package and extension dependencies declared in [composer.json](composer.json).
 
 ```sh
-composer require "raxos/foundation:^3.2"
+composer require "raxos/foundation:^3.3"
 ```
 
 ## Usage

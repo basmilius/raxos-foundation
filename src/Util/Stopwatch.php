@@ -15,9 +15,31 @@ use function hrtime;
  */
 final class Stopwatch
 {
-
+    /**
+     * Prevents elapsed-time reads from using an invalid stopwatch lifecycle.
+     *
+     * @var StopwatchState
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
     public private(set) StopwatchState $state = StopwatchState::IDLE;
+
+    /**
+     * Captures a monotonic timestamp when measurement begins.
+     *
+     * @var float
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
     public private(set) float $startTime = 0.0;
+
+    /**
+     * Captures the monotonic timestamp used for a completed measurement.
+     *
+     * @var float
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
     public private(set) float $stopTime = 0.0;
 
     /**
@@ -30,7 +52,9 @@ final class Stopwatch
      */
     public function __construct(
         public readonly string $description = 'Stopwatch'
-    ) {}
+    )
+    {
+    }
 
     /**
      * Returns the running time in the given unit.
@@ -98,6 +122,7 @@ final class Stopwatch
     public function run(callable $fn): mixed
     {
         $this->start();
+
         try {
             return $fn();
         } finally {
@@ -145,7 +170,12 @@ final class Stopwatch
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.16
      */
-    public static function measure(float &$runningTime, callable $fn, StopwatchUnit $unit, ?string $description = null): mixed
+    public static function measure(
+        float &$runningTime,
+        callable $fn,
+        StopwatchUnit $unit,
+        ?string $description = null
+    ): mixed
     {
         $stopwatch = new self($description ?? 'Stopwatch');
         $result = $stopwatch->run($fn);
@@ -153,5 +183,4 @@ final class Stopwatch
 
         return $result;
     }
-
 }

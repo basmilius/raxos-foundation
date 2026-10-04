@@ -12,7 +12,13 @@ namespace Raxos\Foundation\Util;
  */
 final class Singleton
 {
-
+    /**
+     * Retains shared instances until their owning cache or scope releases them.
+     *
+     * @var array
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     private static array $instances = [];
 
     /**
@@ -89,9 +95,36 @@ final class Singleton
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
      */
-    public static function register(string $class, callable $setup): object
+    public static function register(
+        string $class,
+        callable $setup
+    ): object
     {
         return self::$instances[$class] ??= $setup();
     }
 
+    /**
+     * Forgets one explicitly selected instance.
+     *
+     * @param class-string $class
+     * @return void
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.3.0
+     */
+    public static function forget(string $class): void
+    {
+        unset(self::$instances[$class]);
+    }
+
+    /**
+     * Clears the registry at an application-owned lifecycle boundary.
+     *
+     * @return void
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.3.0
+     */
+    public static function reset(): void
+    {
+        self::$instances = [];
+    }
 }

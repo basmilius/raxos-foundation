@@ -20,7 +20,6 @@ use ReflectionUnionType;
  */
 final class ReflectionUtil
 {
-
     /**
      * Gets the parameters of the given method or function reflection instance
      * as an associative array.
@@ -74,9 +73,12 @@ final class ReflectionUtil
      *
      * @return Generator<string>
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.7.0
      */
-    public static function types(ReflectionType $type, bool $skipNull = false): Generator
+    public static function types(
+        ReflectionType $type,
+        bool $skipNull = false
+    ): Generator
     {
         if ($type instanceof ReflectionIntersectionType) {
             foreach ($type->getTypes() as $subType) {
@@ -96,5 +98,4 @@ final class ReflectionUtil
             yield 'null';
         }
     }
-
 }

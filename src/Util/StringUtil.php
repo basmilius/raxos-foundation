@@ -77,7 +77,12 @@ final class StringUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function formatBytes(int $value, int $decimals = 2, bool $siMode = true, bool $bits = false): string
+    public static function formatBytes(
+        int $value,
+        int $decimals = 2,
+        bool $siMode = true,
+        bool $bits = false
+    ): string
     {
         $suffixes = $siMode ? self::FORMAT_BYTES_SI : self::FORMAT_BYTES_IEC;
 
@@ -121,6 +126,7 @@ final class StringUtil
                 if (preg_match("/^" . preg_quote($badions[1], '/') . ":\d+:.*[;}]\$/s", $data)) {
                     return true;
                 }
+
                 break;
 
             case 'b' :
@@ -129,6 +135,7 @@ final class StringUtil
                 if (preg_match("/^" . preg_quote($badions[1], '/') . ":[\d.E-]+;\$/", $data)) {
                     return true;
                 }
+
                 break;
         }
 
@@ -147,7 +154,12 @@ final class StringUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function multiByteSubstringReplace(string $str, string $replacement, int $start, ?int $length = null): string
+    public static function multiByteSubstringReplace(
+        string $str,
+        string $replacement,
+        int $start,
+        ?int $length = null
+    ): string
     {
         $before = mb_substr($str, 0, $start);
         $after = mb_substr($str, $start + ($length ?? 0));
@@ -166,7 +178,11 @@ final class StringUtil
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public static function random(int $length = 9, bool $dashes = false, string $sets = 'luds'): string
+    public static function random(
+        int $length = 9,
+        bool $dashes = false,
+        string $sets = 'luds'
+    ): string
     {
         if ($length < 1) {
             throw new InvalidArgumentException('The length must be positive.');
@@ -325,7 +341,11 @@ final class StringUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function truncateText(string $text, int $wordCount = 20, string $ending = '...'): string
+    public static function truncateText(
+        string $text,
+        int $wordCount = 20,
+        string $ending = '...'
+    ): string
     {
         $excerpt = $text
                 |> (fn(string $x) => preg_replace("/<h2>.+?<\/h2>/is", "", $x))
@@ -344,5 +364,4 @@ final class StringUtil
 
         return trim($excerpt);
     }
-
 }

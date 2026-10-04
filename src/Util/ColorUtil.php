@@ -31,7 +31,6 @@ use const STR_PAD_LEFT;
  */
 final class ColorUtil
 {
-
     /**
      * Blends {@see $color1} with {@see $color2} with {@see $weight}.
      *
@@ -44,7 +43,11 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function blend(array $color1, array $color2, int $weight = 0): array
+    public static function blend(
+        array $color1,
+        array $color2,
+        int $weight = 0
+    ): array
     {
         $weight = (int)MathUtil::clamp($weight, 0, 100);
 
@@ -74,7 +77,10 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function shade(array $color, int $weight = 0): array
+    public static function shade(
+        array $color,
+        int $weight = 0
+    ): array
     {
         return self::blend([0, 0, 0], $color, $weight);
     }
@@ -90,7 +96,10 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function tint(array $color, int $weight = 0): array
+    public static function tint(
+        array $color,
+        int $weight = 0
+    ): array
     {
         return self::blend([255, 255, 255], $color, $weight);
     }
@@ -106,7 +115,11 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function luminance(int $r, int $g, int $b): float
+    public static function luminance(
+        int $r,
+        int $g,
+        int $b
+    ): float
     {
         $rgb = [$r, $g, $b];
 
@@ -137,7 +150,11 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function yiq(int $r, int $g, int $b): float
+    public static function yiq(
+        int $r,
+        int $g,
+        int $b
+    ): float
     {
         return (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
     }
@@ -154,7 +171,12 @@ final class ColorUtil
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public static function lightOrDark(array $color, array $dark = [0, 0, 0], array $light = [255, 255, 255], float $delta = 0.5): array
+    public static function lightOrDark(
+        array $color,
+        array $dark = [0, 0, 0],
+        array $light = [255, 255, 255],
+        float $delta = 0.5
+    ): array
     {
         return self::luminance(...$color) < $delta ? $light : $dark;
     }
@@ -231,7 +253,11 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function hslToRgb(float $h, float $s, float $l): array
+    public static function hslToRgb(
+        float $h,
+        float $s,
+        float $l
+    ): array
     {
         if ($s < PHP_FLOAT_EPSILON) {
             return array_fill(0, 3, round($l * 255));
@@ -332,7 +358,13 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function rgbaToHex(int $r, int $g, int $b, float $a, bool $includeHashtag = false): string
+    public static function rgbaToHex(
+        int $r,
+        int $g,
+        int $b,
+        float $a,
+        bool $includeHashtag = false
+    ): string
     {
         return ($includeHashtag ? '#' : '') .
             str_pad(dechex($r), 2, '0', STR_PAD_LEFT) .
@@ -354,7 +386,12 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function rgbToHex(int $r, int $g, int $b, bool $includeHashtag = false): string
+    public static function rgbToHex(
+        int $r,
+        int $g,
+        int $b,
+        bool $includeHashtag = false
+    ): string
     {
         return ($includeHashtag ? '#' : '') .
             str_pad(dechex($r), 2, '0', STR_PAD_LEFT) .
@@ -374,7 +411,11 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function rgbToInt(int $r, int $g, int $b): int
+    public static function rgbToInt(
+        int $r,
+        int $g,
+        int $b
+    ): int
     {
         return ($r << 16) | ($g << 8) | ($b << 0);
     }
@@ -391,7 +432,11 @@ final class ColorUtil
      * @since 1.0.0
      */
     #[Pure]
-    public static function rgbToHsl(int $r, int $g, int $b): array
+    public static function rgbToHsl(
+        int $r,
+        int $g,
+        int $b
+    ): array
     {
         $r /= 255;
         $g /= 255;
@@ -431,5 +476,4 @@ final class ColorUtil
             round($l, 3)
         ];
     }
-
 }
